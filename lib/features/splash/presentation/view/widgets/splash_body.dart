@@ -105,7 +105,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
   void futureNavigate(){
 
     Future.delayed(const Duration(seconds: 5), () {
-      context.push(RoutersCLass.homePage);
+      context.push(RoutersCLass.loginPage);
     });
   }
 }

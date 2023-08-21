@@ -21,7 +21,9 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
 
-          textTheme: GoogleFonts.abelTextTheme(),
+
+          textTheme: GoogleFonts.abelTextTheme(ThemeData.light().textTheme),
+          colorScheme: ColorScheme.fromSeed(primary: Colors.white, seedColor: Colors.blue),
           useMaterial3: true,
         ),
         routerConfig: RoutersCLass.router,
