@@ -4,6 +4,7 @@ import 'package:fun_adventure/features/authentication/presentation/view/widgets/
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/welcome.dart';
 
 import 'custom_button.dart';
+import 'dart:io';
 
 class LoginBody extends StatefulWidget {
   const LoginBody({super.key});
@@ -39,6 +40,15 @@ class _LoginBodyState extends State<LoginBody> {
       )),
       child: Scaffold(
         backgroundColor: Colors.transparent,
+
+        floatingActionButton: FloatingActionButton(
+
+          onPressed: ()async{
+
+
+          },
+          child: const Icon(Icons.accessible_rounded),
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
           child: Column(
