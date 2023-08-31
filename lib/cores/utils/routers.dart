@@ -6,8 +6,7 @@ import '../../features/authentication/presentation/view/login.dart';
 import '../../features/authentication/presentation/view/register.dart';
 import '../../features/home/presentation/view/home_page.dart';
 
-class RoutersCLass{
-
+class RoutersCLass {
   static String splashPage = '/';
   static String homePage = '/homePage';
   static String loginPage = '/loginPage';
@@ -21,7 +20,6 @@ class RoutersCLass{
           return const SplashPage();
         },
       ),
-
       GoRoute(
         path: homePage,
         builder: (BuildContext context, GoRouterState state) {
@@ -42,5 +40,4 @@ class RoutersCLass{
       )
     ],
   );
-
 }

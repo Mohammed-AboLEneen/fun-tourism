@@ -20,6 +20,7 @@ class CustomTextField extends StatelessWidget {
     return TextFormField(
         textInputAction: TextInputAction.next,
         textAlignVertical: TextAlignVertical.top,
+        cursorColor: Colors.grey,
         validator: (value) {
           if (value!.isEmpty) {
             return 'This Field Is Required';
@@ -29,11 +30,11 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
 
         style: TextStyle(
-            color: Colors.black.withOpacity(.8), fontSize: 20.sp),
+            color: Colors.white.withOpacity(.9), fontSize: 20.sp, ),
         decoration: InputDecoration(
 
             hintText: hint,
-            hintStyle: TextStyle(color: Colors.black.withOpacity(.5), fontSize: 20.sp),
+            hintStyle: TextStyle(color: Colors.white.withOpacity(.9), fontSize: 20.sp),
             suffixIcon: icon,
             contentPadding: padding,
         )

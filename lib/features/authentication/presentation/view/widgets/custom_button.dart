@@ -16,7 +16,7 @@ class CustomIcon extends StatelessWidget {
     return Material(
 
       borderRadius: BorderRadius.circular(70),
-      color: Colors.teal,
+      color: Colors.transparent,
       clipBehavior: Clip.antiAliasWithSaveLayer,
 
       child: InkWell(

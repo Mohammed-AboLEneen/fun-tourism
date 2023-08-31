@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fun_adventure/cores/utils/routers.dart';
+import 'package:fun_adventure/features/splash/presentation/view/splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -17,16 +17,15 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) => MaterialApp.router(
+      builder: (context, child) => MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-
-
-          textTheme: GoogleFonts.abelTextTheme(ThemeData.light().textTheme),
-          colorScheme: ColorScheme.fromSeed(primary: Colors.white, seedColor: Colors.blue),
-          useMaterial3: true,
-        ),
-        routerConfig: RoutersCLass.router,
+            textTheme: GoogleFonts.abelTextTheme(ThemeData.light().textTheme),
+            colorScheme: ColorScheme.fromSeed(
+                primary: Colors.white, seedColor: Colors.blue),
+            useMaterial3: true,
+            scaffoldBackgroundColor: Colors.transparent),
+        home: const SplashPage(),
         debugShowCheckedModeBanner: false,
       ),
     );
