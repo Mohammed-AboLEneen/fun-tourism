@@ -17,17 +17,19 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) => MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
+      builder: (context, child) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
             textTheme: GoogleFonts.abelTextTheme(ThemeData.light().textTheme),
             colorScheme: ColorScheme.fromSeed(
                 primary: Colors.white, seedColor: Colors.blue),
             useMaterial3: true,
-            scaffoldBackgroundColor: Colors.transparent),
-        home: const SplashPage(),
-        debugShowCheckedModeBanner: false,
-      ),
+          ),
+          home: const SplashPage(),
+          debugShowCheckedModeBanner: false,
+        );
+      },
     );
   }
 }

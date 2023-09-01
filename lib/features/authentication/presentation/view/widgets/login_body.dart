@@ -34,71 +34,81 @@ class _LoginBodyState extends State<LoginBody> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
-    return SingleChildScrollView(
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Image.asset(
-            ImagesClass.welcomeImage,
-            fit: BoxFit.fill,
-            height: h,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
-            child: Column(
-              children: [
-                Stack(
+    return CustomScrollView(
+      slivers: [
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Image.asset(
+                ImagesClass.welcomeImage,
+                fit: BoxFit.fill,
+                height: h,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
+                child: Column(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.blue.withOpacity(.3),
-                      ),
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height * .4 +
-                            progress * 140,
-                        child: PageView(
-                          controller: _pageController,
-                          children: const [WelcomePage(), SignInPage()],
+                    const Spacer(),
+                    Stack(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.blue.withOpacity(.3),
+                          ),
+                          child: SizedBox(
+                            height: h < 550.0
+                                ? (h * .46) + (progress * (h * .3))
+                                : (h * .4) + (progress * (h * .24)),
+                            child: PageView(
+                              controller: _pageController,
+                              children: [
+                                const WelcomePage(),
+                                SignInPage(h: h * .4 + progress * 140)
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Positioned(
-                      right: MediaQuery.of(context).size.width * .02,
-                      bottom: (MediaQuery.of(context).size.height * .02) +
-                          progress * 150,
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * .38 -
-                            progress * 50,
-                        height: 50,
-                        child: CustomIcon(
-                          tap: () {
-                            _pageController.nextPage(
-                                duration: const Duration(milliseconds: 700),
-                                curve: Curves.easeInQuint);
-                          },
-                          widget: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 4),
-                            child: Opacity(
-                              opacity: progress < .6 ? 1 - progress : progress,
-                              child: Text(
-                                progress < .6 ? 'Get Started >' : 'Sign in',
-                                style: TextStyle(
-                                    fontSize: 20.sp, color: Colors.white),
+                        Positioned(
+                          right: w * .02,
+                          bottom: h < 600
+                              ? ((h * .03) + (progress * (h * .3)))
+                              : (h * .03) + progress * h * .27,
+                          child: SizedBox(
+                            width: w * .35 - progress * 50,
+                            height: h * .065,
+                            child: CustomIcon(
+                              tap: () {
+                                _pageController.nextPage(
+                                    duration: const Duration(milliseconds: 700),
+                                    curve: Curves.easeInQuint);
+                              },
+                              widget: Center(
+                                child: Opacity(
+                                  opacity:
+                                      progress < .6 ? 1 - progress : progress,
+                                  child: Text(
+                                    progress < .6 ? 'Get Started >' : 'Sign in',
+                                    style: TextStyle(
+                                        fontSize: 20.sp, color: Colors.white),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
+                      ],
+                    )
                   ],
-                )
-              ],
-            ),
-          )
-        ],
-      ),
+                ),
+              )
+            ],
+          ),
+        )
+      ],
     );
   }
 }
