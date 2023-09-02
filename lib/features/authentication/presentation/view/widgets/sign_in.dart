@@ -4,18 +4,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'custom_textformfield.dart';
 
 class SignInPage extends StatefulWidget {
-  final double h;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-  const SignInPage({super.key, required this.h});
+  SignInPage({
+    super.key,
+  });
 
   @override
   State<SignInPage> createState() => _SignInPageState();
 }
 
 class _SignInPageState extends State<SignInPage> {
-  TextEditingController emailController = TextEditingController(text: '');
-  TextEditingController passwordController = TextEditingController(text: '');
-
   @override
   void initState() {
     // TODO: implement initState
@@ -33,14 +33,14 @@ class _SignInPageState extends State<SignInPage> {
               child: Column(
                 children: [
                   Text(
-                    'Welcome',
+                    'Sign In',
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         color: Colors.white.withOpacity(1)),
                   ),
                   CustomTextField(
-                    controller: emailController,
+                    controller: widget.emailController,
                     hint: 'Email',
                     padding: const EdgeInsets.only(left: 10, top: 10),
                     icon: Icon(Icons.alternate_email,
@@ -50,7 +50,7 @@ class _SignInPageState extends State<SignInPage> {
                     height: 30,
                   ),
                   CustomTextField(
-                    controller: passwordController,
+                    controller: widget.passwordController,
                     hint: 'Password',
                     padding: const EdgeInsets.only(left: 10, top: 10),
                     icon: Icon(Icons.lock, color: Colors.white.withOpacity(.9)),

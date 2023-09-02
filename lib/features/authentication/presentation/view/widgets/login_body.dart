@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
+import 'package:fun_adventure/features/authentication/presentation/view/methods/auth_container_size.dart';
+import 'package:fun_adventure/features/authentication/presentation/view/widgets/icon_position.dart';
+import 'package:fun_adventure/features/authentication/presentation/view/widgets/register_body.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/sign_in.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/welcome.dart';
 
@@ -45,6 +48,7 @@ class _LoginBodyState extends State<LoginBody> {
                 ImagesClass.welcomeImage,
                 fit: BoxFit.fill,
                 height: h,
+                width: w,
               ),
               Padding(
                 padding:
@@ -60,25 +64,26 @@ class _LoginBodyState extends State<LoginBody> {
                             color: Colors.blue.withOpacity(.3),
                           ),
                           child: SizedBox(
-                            height: h < 550.0
-                                ? (h * .46) + (progress * (h * .3))
-                                : (h * .4) + (progress * (h * .24)),
+                            height: getPageViewContainerSize(
+                                h: h, pageView: progress),
                             child: PageView(
                               controller: _pageController,
                               children: [
                                 const WelcomePage(),
-                                SignInPage(h: h * .4 + progress * 140)
+                                SignInPage(),
+                                RegisterBody(),
                               ],
                             ),
                           ),
                         ),
                         Positioned(
-                          right: w * .02,
-                          bottom: h < 600
-                              ? ((h * .03) + (progress * (h * .3)))
-                              : (h * .03) + progress * h * .27,
+                          right: AuthIconInfo.getIconLeftWidth(
+                              w: w, pageValue: progress),
+                          bottom: AuthIconInfo.getIconBottomHeight(
+                              h: h, pageValue: progress),
                           child: SizedBox(
-                            width: w * .35 - progress * 50,
+                            width: AuthIconInfo.getIconWidth(
+                                w: w, pageView: progress),
                             height: h * .065,
                             child: CustomIcon(
                               tap: () {
@@ -87,19 +92,15 @@ class _LoginBodyState extends State<LoginBody> {
                                     curve: Curves.easeInQuint);
                               },
                               widget: Center(
-                                child: Opacity(
-                                  opacity:
-                                      progress < .6 ? 1 - progress : progress,
-                                  child: Text(
-                                    progress < .6 ? 'Get Started >' : 'Sign in',
-                                    style: TextStyle(
-                                        fontSize: 20.sp, color: Colors.white),
-                                  ),
+                                child: Text(
+                                  AuthIconInfo.getIconTitle(pageView: progress),
+                                  style: TextStyle(
+                                      fontSize: 20.sp, color: Colors.white),
                                 ),
                               ),
                             ),
                           ),
-                        ),
+                        )
                       ],
                     )
                   ],
