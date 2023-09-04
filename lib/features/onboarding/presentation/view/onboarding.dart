@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
+import 'package:fun_adventure/features/onboarding/presentation/view/widgets/custom_button.dart';
+import 'package:fun_adventure/features/onboarding/presentation/view/widgets/smooth_dots.dart';
+
+import '../../../../cores/methods/navigate_pageview.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
@@ -49,7 +53,7 @@ class _OnBoardingPageState extends State<OnBoardingPage>
         body: Stack(
           children: [
             Positioned(
-              bottom: h * .2,
+              bottom: h * .22,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: w * .15),
                 child: Container(
@@ -88,7 +92,7 @@ class _OnBoardingPageState extends State<OnBoardingPage>
               controller: _pageController,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(bottom: h * .3),
+                  padding: EdgeInsets.only(bottom: h * .27),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
@@ -139,6 +143,24 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                 ),
               ],
             ),
+            Positioned(
+                bottom: h * .17,
+                left: w * .37,
+                child: SmoothPageDots(
+                  pageController: _pageController,
+                )),
+            Positioned(
+                bottom: h * .03,
+                right: w * .04,
+                child: OnBoardingCustomIcon(
+                  widget: const Icon(Icons.arrow_forward_ios_outlined),
+                  height: h * .04,
+                  width: w * .2,
+                  tap: () {
+                    navigatePageView(pageController: _pageController);
+                  },
+                  color: Color.lerp(beginColor, endColor, progress),
+                ))
           ],
         ),
       ),
