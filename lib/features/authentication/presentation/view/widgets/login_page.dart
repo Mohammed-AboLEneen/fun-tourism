@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_adventure/cores/methods/navigate_pageview.dart';
 
 import 'custom_textformfield.dart';
 
-class SignInPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  SignInPage({
+  final PageController pageController;
+
+  LoginPage({
     super.key,
+    required this.pageController,
   });
-
-  @override
-  State<SignInPage> createState() => _SignInPageState();
-}
-
-class _SignInPageState extends State<SignInPage> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +33,7 @@ class _SignInPageState extends State<SignInPage> {
                         color: Colors.white.withOpacity(1)),
                   ),
                   CustomTextField(
-                    controller: widget.emailController,
+                    controller: emailController,
                     hint: 'Email',
                     padding: const EdgeInsets.only(left: 10, top: 10),
                     icon: Icon(Icons.alternate_email,
@@ -50,7 +43,7 @@ class _SignInPageState extends State<SignInPage> {
                     height: 30,
                   ),
                   CustomTextField(
-                    controller: widget.passwordController,
+                    controller: passwordController,
                     hint: 'Password',
                     padding: const EdgeInsets.only(left: 10, top: 10),
                     icon: Icon(Icons.lock, color: Colors.white.withOpacity(.9)),
@@ -68,7 +61,9 @@ class _SignInPageState extends State<SignInPage> {
                       SizedBox(
                         height: 35,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            navigatePageView(pageController: pageController);
+                          },
                           style: ButtonStyle(
                             padding:
                                 MaterialStateProperty.all<EdgeInsetsGeometry>(

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'custom_textformfield.dart';
 
-class RegisterBody extends StatefulWidget {
-  RegisterBody({super.key});
+class RegisterPage extends StatelessWidget {
+  RegisterPage({super.key});
 
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
@@ -11,11 +11,6 @@ class RegisterBody extends StatefulWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  @override
-  State<RegisterBody> createState() => _RegisterBodyState();
-}
-
-class _RegisterBodyState extends State<RegisterBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,7 +29,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                         color: Colors.white.withOpacity(1)),
                   ),
                   CustomTextField(
-                    controller: widget.firstNameController,
+                    controller: firstNameController,
                     hint: 'First Name',
                     padding: const EdgeInsets.only(left: 10, top: 10),
                     icon: Icon(Icons.alternate_email,
@@ -44,7 +39,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                     height: 15,
                   ),
                   CustomTextField(
-                    controller: widget.lastNameController,
+                    controller: lastNameController,
                     hint: 'Last Mame',
                     padding: const EdgeInsets.only(left: 10, top: 10),
                     icon: Icon(Icons.lock, color: Colors.white.withOpacity(.9)),
@@ -53,7 +48,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                     height: 15,
                   ),
                   CustomTextField(
-                    controller: widget.phoneController,
+                    controller: phoneController,
                     hint: 'Phone',
                     padding: const EdgeInsets.only(left: 10, top: 10),
                     icon: Icon(Icons.alternate_email,
@@ -63,7 +58,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                     height: 15,
                   ),
                   CustomTextField(
-                    controller: widget.emailController,
+                    controller: emailController,
                     hint: 'Email',
                     padding: const EdgeInsets.only(left: 10, top: 10),
                     icon: Icon(Icons.lock, color: Colors.white.withOpacity(.9)),
@@ -72,7 +67,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                     height: 15,
                   ),
                   CustomTextField(
-                    controller: widget.passwordController,
+                    controller: passwordController,
                     hint: 'Password',
                     padding: const EdgeInsets.only(left: 10, top: 10),
                     icon: Icon(Icons.alternate_email,

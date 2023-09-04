@@ -1,5 +1,5 @@
 class AuthIconInfo {
-  static double getIconBottomHeight(
+  static double getAuthIconBottomHeight(
       {required double h, required double pageValue}) {
     if (h < 600) {
       if (pageValue <= 1) {
@@ -16,7 +16,7 @@ class AuthIconInfo {
     }
   }
 
-  static double getIconLeftWidth(
+  static double getAuthIconLeftWidth(
       {required double w, required double pageValue}) {
     if (pageValue <= 1) {
       return w * .02;
@@ -25,7 +25,8 @@ class AuthIconInfo {
     }
   }
 
-  static double getIconWidth({required double w, required double pageView}) {
+  static double getAuthIconWidth(
+      {required double w, required double pageView}) {
     if (pageView <= 1) {
       return w * .35 - pageView * 50;
     } else {
@@ -33,13 +34,28 @@ class AuthIconInfo {
     }
   }
 
-  static String getIconTitle({required double pageView}) {
+  static String getAuthIconTitle({required double pageView}) {
     if (pageView <= .5) {
       return 'Get Started >';
     } else if (pageView > .5 && pageView <= 1.6) {
       return 'Sign In';
     } else {
       return 'Sign Up';
+    }
+  }
+
+  static double getAuthIconTitleOpacity({required double pageView}) {
+    if (pageView <= .5 && pageView > 0) {
+      return pageView * 1;
+    } else if (pageView > .5 && pageView <= 1.6) {
+      if (pageView <= 1) {
+        return pageView * 1;
+      } else {
+        print(((pageView) * .3));
+        return (1 - ((pageView) * .3));
+      }
+    } else {
+      return 1;
     }
   }
 }
