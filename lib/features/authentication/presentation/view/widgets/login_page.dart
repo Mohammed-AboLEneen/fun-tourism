@@ -4,16 +4,22 @@ import 'package:fun_adventure/cores/methods/navigate_pageview.dart';
 
 import 'custom_textformfield.dart';
 
-class LoginPage extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
+class LoginPage extends StatefulWidget {
   final PageController pageController;
 
-  LoginPage({
+  const LoginPage({
     super.key,
     required this.pageController,
   });
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +68,8 @@ class LoginPage extends StatelessWidget {
                         height: 35,
                         child: TextButton(
                           onPressed: () {
-                            navigatePageView(pageController: pageController);
+                            navigatePageView(
+                                pageController: widget.pageController);
                           },
                           style: ButtonStyle(
                             padding:

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fun_adventure/features/onboarding/presentation/view/onboarding.dart';
 
 import '../../../../../cores/utils/images.dart';
-import '../../../../authentication/presentation/view/authentcation.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -70,7 +70,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
     Future.delayed(const Duration(seconds: 5), () {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const AuthenticationScreen()),
+          MaterialPageRoute(builder: (context) => const OnBoardingPage()),
           (route) => false);
     });
   }
