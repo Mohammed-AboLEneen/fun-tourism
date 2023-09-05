@@ -19,8 +19,8 @@ class _OnBoardingPageState extends State<OnBoardingPage>
   late PageController _pageController;
   double progress = 0;
 
-  Color? beginColor = const Color(0xffdad4c8);
-  Color? endColor = const Color(0xffffe5de);
+  Color? beginColor = const Color(0xffDAD4C8);
+  Color? endColor = const Color(0xffFFE5DE);
 
   @override
   void initState() {
@@ -33,8 +33,8 @@ class _OnBoardingPageState extends State<OnBoardingPage>
           progress = _pageController.page ?? 0;
 
           if (progress > 1) {
-            beginColor = const Color(0xffffe5de);
-            endColor = const Color(0xffdbf6e5).withOpacity(.9);
+            beginColor = const Color(0xffFFE5DE);
+            endColor = const Color(0xffDBF6E5).withOpacity(.9);
           }
         });
       });
@@ -53,7 +53,7 @@ class _OnBoardingPageState extends State<OnBoardingPage>
         body: Stack(
           children: [
             Positioned(
-              bottom: h * .22,
+              top: h * .58,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: w * .15),
                 child: Container(
@@ -61,7 +61,7 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  constraints: BoxConstraints(maxWidth: w * .73),
+                  constraints: BoxConstraints(maxWidth: w * .74),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -74,7 +74,7 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                               color: Colors.black.withOpacity(.8)),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 15,
                         ),
                         Text(
                           'You Can Create Your Own Journey And Your Friends',
@@ -92,9 +92,9 @@ class _OnBoardingPageState extends State<OnBoardingPage>
               controller: _pageController,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(bottom: h * .27),
+                  padding: EdgeInsets.only(top: h * .15),
                   child: Stack(
-                    alignment: Alignment.center,
+                    alignment: Alignment.topCenter,
                     children: [
                       CircleAvatar(
                           radius: h * .17,
@@ -144,7 +144,7 @@ class _OnBoardingPageState extends State<OnBoardingPage>
               ],
             ),
             Positioned(
-                bottom: h * .17,
+                top: h * .85,
                 left: w * .37,
                 child: SmoothPageDots(
                   pageController: _pageController,

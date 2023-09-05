@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class OnBoardingCustomIcon extends StatelessWidget {
@@ -24,26 +26,29 @@ class OnBoardingCustomIcon extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: tap,
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [
-                  Colors.blue,
-                  color ?? Colors.white,
-                ], // Define your gradient colors
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    Colors.transparent,
+                    color ?? Colors.white,
+                  ], // Define your gradient colors
 
-                stops: const [
-                  0,
-                  .9,
-                ]),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(5),
-            child: SizedBox(
-              width: width,
-              height: height,
-              child: widget,
+                  stops: const [
+                    0,
+                    .9,
+                  ]),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: SizedBox(
+                width: width,
+                height: height,
+                child: widget,
+              ),
             ),
           ),
         ),
