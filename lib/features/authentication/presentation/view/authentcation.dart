@@ -40,6 +40,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.transparent,
       body: CustomScrollView(
         slivers: [
           SliverFillRemaining(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
+import 'package:fun_adventure/features/authentication/presentation/view/authentcation.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/widgets/custom_button.dart';
+import 'package:fun_adventure/features/onboarding/presentation/view/widgets/pageview_item.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/widgets/smooth_dots.dart';
 
 import '../../../../cores/methods/navigate_pageview.dart';
@@ -17,27 +18,32 @@ class OnBoardingPage extends StatefulWidget {
 class _OnBoardingPageState extends State<OnBoardingPage>
     with SingleTickerProviderStateMixin {
   late PageController _pageController;
-  double progress = 0;
 
-  Color? beginColor = const Color(0xffDAD4C8);
-  Color? endColor = const Color(0xffFFE5DE);
+  List<String> pageViewTitles = [
+    'Enjoy with your friends',
+    'Ability to book online',
+    'Go on interesting trips',
+  ];
+  List<String> pageViewSubtitles = [
+    'You Can Create Your Own Journey And Your Friends',
+    'book after discussing the trip with others',
+    'Experience various trips in new places',
+  ];
+
+  double progress = 0;
+  late Color beginColor;
+  late Color endColor;
+  late String title;
+  late String subtitle;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    _pageController = PageController()
-      ..addListener(() {
-        setState(() {
-          progress = _pageController.page ?? 0;
-
-          if (progress > 1) {
-            beginColor = const Color(0xffFFE5DE);
-            endColor = const Color(0xffDBF6E5).withOpacity(.9);
-          }
-        });
-      });
+    getPageViewTitleAndSubtitle();
+    getPageViewBackgroundColor();
+    initialPageViewController();
   }
 
   @override
@@ -56,33 +62,37 @@ class _OnBoardingPageState extends State<OnBoardingPage>
               top: h * .58,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: w * .15),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  constraints: BoxConstraints(maxWidth: w * .74),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Travel With Your Friends',
-                          style: TextStyle(
-                              fontSize: 25.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black.withOpacity(.8)),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          'You Can Create Your Own Journey And Your Friends',
-                          style: TextStyle(
-                              fontSize: 25.sp,
-                              color: Colors.black.withOpacity(.6)),
-                        ),
-                      ],
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 200),
+                  opacity: getPageViewContainerOpacity(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    constraints: BoxConstraints(maxWidth: w * .74),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            title,
+                            style: TextStyle(
+                                fontSize: 25.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black.withOpacity(.8)),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            subtitle,
+                            style: TextStyle(
+                                fontSize: 25.sp,
+                                color: Colors.black.withOpacity(.6)),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -91,55 +101,20 @@ class _OnBoardingPageState extends State<OnBoardingPage>
             PageView(
               controller: _pageController,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(top: h * .15),
-                  child: Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      CircleAvatar(
-                          radius: h * .17,
-                          backgroundColor: Colors.white.withOpacity(.5)),
-                      SvgPicture.asset(
-                        ImagesClass.travelsImage,
-                        width: w * .9,
-                        fit: BoxFit.cover,
-                      )
-                    ],
-                  ),
+                PageViewItem(
+                  height: h,
+                  width: w,
+                  imagePath: ImagesClass.travelsImage,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: h * .3),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: h * .17,
-                        backgroundColor: Colors.white.withOpacity(.4),
-                      ),
-                      SvgPicture.asset(
-                        ImagesClass.travelsImage,
-                        width: w * .9,
-                        fit: BoxFit.cover,
-                      )
-                    ],
-                  ),
+                PageViewItem(
+                  height: h,
+                  width: w,
+                  imagePath: ImagesClass.travelBookingImage,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: h * .3),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: h * .17,
-                        backgroundColor: Colors.white.withOpacity(.5),
-                      ),
-                      SvgPicture.asset(
-                        ImagesClass.travelsImage,
-                        width: w * .9,
-                        fit: BoxFit.cover,
-                      )
-                    ],
-                  ),
+                PageViewItem(
+                  height: h,
+                  width: w,
+                  imagePath: ImagesClass.throughDesertImage,
                 ),
               ],
             ),
@@ -157,7 +132,31 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                   height: h * .04,
                   width: w * .2,
                   tap: () {
-                    navigatePageView(pageController: _pageController);
+                    if (progress < 2) {
+                      navigatePageView(pageController: _pageController);
+                    } else {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, _, __) =>
+                              const AuthenticationScreen(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            const begin = Offset(0.0, 1.0);
+                            const end = Offset.zero;
+                            const curve = Curves.linear;
+
+                            var tween = Tween(begin: begin, end: end)
+                                .chain(CurveTween(curve: curve));
+
+                            return SlideTransition(
+                              position: animation.drive(tween),
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
+                    }
                   },
                   color: Color.lerp(beginColor, endColor, progress),
                 ))
@@ -165,5 +164,53 @@ class _OnBoardingPageState extends State<OnBoardingPage>
         ),
       ),
     );
+  }
+
+  void getPageViewBackgroundColor() {
+    if (progress > 1) {
+      beginColor = const Color(0xffFFE5DE);
+      endColor = const Color(0xffDBF6E5).withOpacity(.9);
+    } else {
+      beginColor = const Color(0xffDAD4C8);
+      endColor = const Color(0xffFFE5DE);
+    }
+  }
+
+  void getPageViewTitleAndSubtitle() {
+    if (progress < .5) {
+      title = pageViewTitles[0];
+      subtitle = pageViewSubtitles[0];
+    } else if (progress >= .5 && progress <= 1.5) {
+      title = pageViewTitles[1];
+      subtitle = pageViewSubtitles[1];
+    } else {
+      title = pageViewTitles[2];
+      subtitle = pageViewSubtitles[2];
+    }
+  }
+
+  void initialPageViewController() {
+    _pageController = PageController()
+      ..addListener(() {
+        setState(() {
+          progress = _pageController.page ?? 0;
+          getPageViewBackgroundColor();
+          getPageViewTitleAndSubtitle();
+        });
+      });
+  }
+
+  double getPageViewContainerOpacity() {
+    if (progress == 0) {
+      return 1;
+    } else if (progress <= .5) {
+      return 1 - ((progress + .5) * 1);
+    } else if (progress > .5 && progress <= 1) {
+      return progress;
+    } else if (progress > 1 && progress <= 1.5) {
+      return 1 - (((progress - 1) + .5) * 1);
+    } else {
+      return progress - 1;
+    }
   }
 }
