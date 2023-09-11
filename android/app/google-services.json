@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "376402680768",
+    "project_id": "tourism-398213",
+    "storage_bucket": "tourism-398213.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376402680768:android:c4e0916f70714d5e238625",
+        "android_client_info": {
+          "package_name": "com.example.fun_adventure"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "376402680768-iarkjar23d7n3uqpg9b8j89sgp8kec7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIvHBegXkxPlJVKy-O_-D_rPbGIrzlUR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "376402680768-9edghs549g8f4i1i4ki8i1erj9l40q0d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

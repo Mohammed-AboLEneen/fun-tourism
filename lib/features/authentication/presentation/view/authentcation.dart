@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/cores/methods/navigate_pageview.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/methods/auth_container_size.dart';
-import 'package:fun_adventure/features/authentication/presentation/view/widgets/auth_icon_info.dart';
+import 'package:fun_adventure/features/authentication/presentation/view/utils/auth_icon_info.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/custom_button.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/login_page.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/register_page.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/welcome_page.dart';
+import 'package:fun_adventure/features/authentication/presentation/view_model/login_cubit/login_cubit.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   const AuthenticationScreen({super.key});
@@ -19,6 +21,9 @@ class AuthenticationScreen extends StatefulWidget {
 class _AuthenticationScreenState extends State<AuthenticationScreen> {
   late PageController _pageController;
   double progress = 0;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
 
   @override
   void initState() {
@@ -27,7 +32,6 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
     _pageController = PageController()
       ..addListener(() {
         setState(() {
-          print('rebuild');
           progress = _pageController.page ?? 0;
         });
       });
@@ -38,95 +42,111 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.transparent,
-      body: CustomScrollView(
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                Image.asset(
-                  ImagesClass.welcomeImage,
-                  fit: BoxFit.fill,
-                  height: h,
-                  width: w,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 20),
-                  child: Column(
-                    children: [
-                      const Spacer(),
-                      Stack(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.blue.withOpacity(.3),
-                            ),
-                            child: SizedBox(
-                              height: getPageViewContainerSize(
-                                  h: h, pageView: progress),
-                              child: PageView(
-                                controller: _pageController,
-                                children: [
-                                  const WelcomePage(),
-                                  LoginPage(
-                                    pageController: _pageController,
-                                  ),
-                                  RegisterPage(),
-                                ],
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => LoginCubit())],
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.transparent,
+        body: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Image.asset(
+                    ImagesClass.welcomeImage,
+                    fit: BoxFit.fill,
+                    height: h,
+                    width: w,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 20),
+                    child: Column(
+                      children: [
+                        const Spacer(),
+                        Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.blue.withOpacity(.3),
+                              ),
+                              child: SizedBox(
+                                height: getPageViewContainerSize(
+                                    h: h, pageView: progress),
+                                child: PageView(
+                                  controller: _pageController,
+                                  children: [
+                                    const WelcomePage(),
+                                    LoginPage(
+                                      pageController: _pageController,
+                                      formKey: formKey,
+                                      autovalidateMode: autovalidateMode,
+                                    ),
+                                    RegisterPage(),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            right: AuthIconInfo.getAuthIconLeftWidth(
-                                w: w, pageValue: progress),
-                            bottom: AuthIconInfo.getAuthIconBottomHeight(
-                                h: h, pageValue: progress),
-                            child: SizedBox(
-                              width: AuthIconInfo.getAuthIconWidth(
-                                  w: w, pageView: progress),
-                              height: h * .065,
-                              child: CustomIcon(
-                                tap: () {
-                                  if (progress == 0) {
-                                    navigatePageView(
-                                        pageController: _pageController);
-                                  }
+                            Positioned(
+                              right: AuthIconInfo.getAuthIconLeftWidth(
+                                  w: w, pageValue: progress),
+                              bottom: AuthIconInfo.getAuthIconBottomHeight(
+                                  h: h, pageValue: progress),
+                              child: SizedBox(
+                                width: AuthIconInfo.getAuthIconWidth(
+                                    w: w, pageView: progress),
+                                height: h * .065,
+                                child: CustomIcon(
+                                  tap: () {
+                                    if (progress == 0) {
+                                      navigatePageView(
+                                          pageController: _pageController);
+                                    }
 
-                                  if (progress == 1) {}
-                                  if (progress == 2) {}
-                                },
-                                widget: Center(
-                                  child: AnimatedOpacity(
-                                    opacity:
-                                        AuthIconInfo.getAuthIconTitleOpacity(
+                                    if (progress == 1) {
+                                      if (formKey.currentState!.validate()) {
+                                        LoginCubit.get(context)
+                                            .createOrSignInWithGoogle();
+                                      }
+
+                                      autovalidateMode =
+                                          AutovalidateMode.always;
+                                      setState(() {});
+                                    }
+                                    if (progress == 2) {}
+                                  },
+                                  widget: Center(
+                                    child: AnimatedOpacity(
+                                      opacity:
+                                          AuthIconInfo.getAuthIconTitleOpacity(
+                                              pageView: progress),
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      child: Text(
+                                        AuthIconInfo.getAuthIconTitle(
                                             pageView: progress),
-                                    duration: const Duration(milliseconds: 500),
-                                    child: Text(
-                                      AuthIconInfo.getAuthIconTitle(
-                                          pageView: progress),
-                                      style: TextStyle(
-                                          fontSize: 20.sp, color: Colors.white),
+                                        style: TextStyle(
+                                            fontSize: 20.sp,
+                                            color: Colors.white),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

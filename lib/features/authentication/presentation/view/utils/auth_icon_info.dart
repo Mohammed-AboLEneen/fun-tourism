@@ -3,15 +3,15 @@ class AuthIconInfo {
       {required double h, required double pageValue}) {
     if (h < 600) {
       if (pageValue <= 1) {
-        return (h * .03) + pageValue * h * .3;
+        return (h * .03) + pageValue * h * .28;
       } else {
         return ((h * .03) + h * .3) - ((pageValue - 1) * (h * .25));
       }
     } else {
       if (pageValue <= 1) {
-        return (h * .03) + pageValue * h * .27;
+        return (h * .03) + pageValue * h * .25;
       } else {
-        return ((h * .03) + h * .27) - ((pageValue - 1) * (h * .23));
+        return ((h * .03) + h * .25) - ((pageValue - 1) * (h * .23));
       }
     }
   }
@@ -51,7 +51,6 @@ class AuthIconInfo {
       if (pageView <= 1) {
         return pageView * 1;
       } else {
-        print(((pageView) * .3));
         return (1 - ((pageView) * .3));
       }
     } else {
