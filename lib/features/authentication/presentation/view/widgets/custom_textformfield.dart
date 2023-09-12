@@ -4,17 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomTextField extends StatelessWidget {
   final String? hint;
   final EdgeInsetsGeometry? padding;
-  final TextEditingController controller;
   final Icon? icon;
   final void Function(String)? onChanged;
 
   const CustomTextField(
-      {super.key,
-      this.hint,
-      this.padding,
-      required this.controller,
-      this.icon,
-      this.onChanged});
+      {super.key, this.hint, this.padding, this.icon, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +24,6 @@ class CustomTextField extends StatelessWidget {
           }
           return null;
         },
-        controller: controller,
         style: TextStyle(
           color: Colors.white.withOpacity(.9),
           fontSize: 20.sp,

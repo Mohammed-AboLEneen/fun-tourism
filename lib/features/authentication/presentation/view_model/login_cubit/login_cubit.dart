@@ -23,6 +23,8 @@ class LoginCubit extends Cubit<LoginStates> {
 
   Future<UserCredential?> createOrSignInWithGoogle() async {
     UserCredential? userCredential;
+
+    emit(LoginLoadingState());
     try {
       final credential = await googleAuth();
       UserCredential userCredential =
@@ -32,56 +34,22 @@ class LoginCubit extends Cubit<LoginStates> {
     } catch (e) {
       emit(LoginFailureState(e.toString()));
     }
+
     return userCredential;
   }
 
-  Future<void> anonymousSignIn(
-      {required String emailAddress, required String password}) async {
+  Future<void> anonymousSignIn() async {
+    emit(LoginLoadingState());
     try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailAddress,
-        password: password,
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        if (kDebugMode) {
-          print('The password provided is too weak.');
-        }
-      } else if (e.code == 'email-already-in-use') {
-        if (kDebugMode) {
-          print('The account already exists for that email.');
-        }
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-  }
-
-  Future<bool> createNewAnonymousUser(
-      {required String email, required String password}) async {
-    try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
+        password: accountPassword,
       );
 
-      return credential.user == null ? false : true;
+      emit(LoginSuccessState());
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        if (kDebugMode) {
-          print('The password provided is too weak.');
-        }
-      } else if (e.code == 'email-already-in-use') {
-        if (kDebugMode) {
-          print('The account already exists for that email.');
-        }
-      }
-
-      return false;
+      print('Failed with error code: ${e.code}');
+      print(e.message);
     }
   }
 }

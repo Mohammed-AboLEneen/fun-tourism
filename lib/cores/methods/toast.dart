@@ -10,5 +10,6 @@ void showToast(
       gravity: ToastGravity.BOTTOM,
       backgroundColor: bgColor,
       textColor: txColor,
+      timeInSecForIosWeb: 4,
       fontSize: 16.0.h);
 }

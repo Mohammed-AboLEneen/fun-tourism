@@ -10,7 +10,6 @@ import 'package:fun_adventure/features/home/presentation/view/home_page.dart';
 import '../../../../../cores/methods/google_sign_out.dart';
 import '../../view_model/login_cubit/login_cubit.dart';
 import '../../view_model/login_cubit/login_states.dart';
-import '../utils/firebase_auth.dart';
 import 'custom_textformfield.dart';
 
 class LoginPage extends StatefulWidget {
@@ -30,10 +29,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = TextEditingController();
-
-  final TextEditingController passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LoginCubit, LoginStates>(
@@ -51,6 +46,8 @@ class _LoginPageState extends State<LoginPage> {
                     autovalidateMode: widget.autovalidateMode,
                     child: Column(
                       children: [
+                        if (state is LoginLoadingState)
+                          const LinearProgressIndicator(),
                         Text(
                           'Log In',
                           style: TextStyle(
@@ -59,11 +56,9 @@ class _LoginPageState extends State<LoginPage> {
                               color: Colors.white.withOpacity(1)),
                         ),
                         CustomTextField(
-                          controller: emailController,
                           hint: 'Email',
                           onChanged: (value) {
-                            loginCubit.putEmailAddress(emailController.text);
-                            loginCubit.putPassword(passwordController.text);
+                            loginCubit.putEmailAddress(value);
                           },
                           padding: const EdgeInsets.only(left: 10, top: 10),
                           icon: Icon(Icons.alternate_email,
@@ -73,8 +68,11 @@ class _LoginPageState extends State<LoginPage> {
                           height: 30,
                         ),
                         CustomTextField(
-                          controller: passwordController,
                           hint: 'Password',
+                          onChanged: (value) {
+                            print(value);
+                            loginCubit.putPassword(value);
+                          },
                           padding: const EdgeInsets.only(left: 10, top: 10),
                           icon: Icon(Icons.lock,
                               color: Colors.white.withOpacity(.9)),
@@ -86,8 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: TextButton(
                               onPressed: () async {
                                 await googleSignOut();
-                                FirebaseAuthentication
-                                    .createOrSignInWithGoogle();
+                                loginCubit.createOrSignInWithGoogle();
                               },
                               style: ButtonStyle(
                                   backgroundColor:
