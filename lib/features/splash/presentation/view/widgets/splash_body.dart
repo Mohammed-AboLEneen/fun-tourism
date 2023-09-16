@@ -47,7 +47,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
                   return SizedBox(
                     height: (h * .1 * _animationController.value) + h * .3,
                     child: SvgPicture.asset(
-                      ImagesClass.logoImage,
+                      ImagesClass.logoSvgImage,
                     ),
                   );
                 })

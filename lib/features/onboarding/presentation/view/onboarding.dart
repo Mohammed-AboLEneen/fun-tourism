@@ -104,17 +104,17 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                 PageViewItem(
                   height: h,
                   width: w,
-                  imagePath: ImagesClass.travelsImage,
+                  imagePath: ImagesClass.travelsSvgImage,
                 ),
                 PageViewItem(
                   height: h,
                   width: w,
-                  imagePath: ImagesClass.travelBookingImage,
+                  imagePath: ImagesClass.travelBookingSvgImage,
                 ),
                 PageViewItem(
                   height: h,
                   width: w,
-                  imagePath: ImagesClass.throughDesertImage,
+                  imagePath: ImagesClass.throughDesertSvgImage,
                 ),
               ],
             ),

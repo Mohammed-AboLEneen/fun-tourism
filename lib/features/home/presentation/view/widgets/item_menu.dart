@@ -34,7 +34,7 @@ class _MenuItemState extends State<MenuItem> {
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(.7),
+                    color: Colors.white.withOpacity(.6),
                     borderRadius: BorderRadius.circular(10)),
                 height: MediaQuery.of(context).size.height * .075,
                 width: widget.isSelected

@@ -104,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                               child: Row(
                                 children: [
                                   Image.asset(
-                                    ImagesClass.googleLogoImage,
+                                    ImagesClass.googleLogoPngImage,
                                     fit: BoxFit.cover,
                                   ),
                                   const Spacer(),
@@ -170,6 +170,11 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).viewInsets.bottom,
                   ),
                 )
               ],

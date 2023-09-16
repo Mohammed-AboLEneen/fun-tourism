@@ -18,7 +18,18 @@ class HomeMenu extends StatelessWidget {
             width: MediaQuery.of(context).size.width * .7,
             child: Container(
               width: MediaQuery.of(context).size.width * .6,
-              color: const Color(0xffFFE5DE),
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                    Colors.white.withOpacity(.7),
+                    Colors.tealAccent.withOpacity(.3)
+                  ],
+                      stops: [
+                    0,
+                    .5
+                  ])),
               child: SafeArea(
                 child: Column(
                   children: [

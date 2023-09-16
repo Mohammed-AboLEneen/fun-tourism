@@ -64,7 +64,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                   alignment: Alignment.bottomCenter,
                   children: [
                     Image.asset(
-                      ImagesClass.welcomeImage,
+                      ImagesClass.welcomePngImage,
                       fit: BoxFit.fill,
                       height: h,
                       width: w,
