@@ -24,9 +24,9 @@ class HomeMenu extends StatelessWidget {
                       end: Alignment.bottomCenter,
                       colors: [
                     Colors.white.withOpacity(.7),
-                    Colors.tealAccent.withOpacity(.3)
+                    Colors.indigo.withOpacity(.5)
                   ],
-                      stops: [
+                      stops: const [
                     0,
                     .5
                   ])),

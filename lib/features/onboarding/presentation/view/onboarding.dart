@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
+import 'package:fun_adventure/cores/utils/smooth_dots.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/authentcation.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/widgets/custom_button.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/widgets/pageview_item.dart';
-import 'package:fun_adventure/features/onboarding/presentation/view/widgets/smooth_dots.dart';
 
 import '../../../../cores/methods/navigate_pageview.dart';
 
