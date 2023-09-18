@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,52 +18,55 @@ class HomeMenu extends StatelessWidget {
         builder: (_, model, __) {
           return Drawer(
             width: MediaQuery.of(context).size.width * .7,
-            child: Container(
-              width: MediaQuery.of(context).size.width * .6,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                    Colors.white.withOpacity(.7),
-                    Colors.indigo.withOpacity(.5)
-                  ],
-                      stops: const [
-                    0,
-                    .5
-                  ])),
-              child: SafeArea(
-                child: Column(
-                  children: [
-                    const InfoCard(),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    const Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Browse',
-                          style: TextStyle(
-                            fontSize: 25,
-                          ),
-                        )),
-                    MenuListView(
-                      titles: model.listTitles1,
-                      icons: model.listIcons1,
-                      h: MediaQuery.of(context).size.height * .43,
-                    ),
-                    const Align(
-                        alignment: Alignment.center,
-                        child: Text('History',
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width * .6,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                      Colors.white.withOpacity(.7),
+                      Colors.indigo.withOpacity(.7)
+                    ],
+                        stops: const [
+                      0,
+                      .5
+                    ])),
+                child: SafeArea(
+                  child: Column(
+                    children: [
+                      const InfoCard(),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      const Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Browse',
                             style: TextStyle(
                               fontSize: 25,
-                            ))),
-                    MenuListView(
-                      titles: model.listTitles2,
-                      icons: model.listIcons2,
-                      h: MediaQuery.of(context).size.height * .2,
-                    )
-                  ],
+                            ),
+                          )),
+                      MenuListView(
+                        titles: model.listTitles1,
+                        icons: model.listIcons1,
+                        h: MediaQuery.of(context).size.height * .43,
+                      ),
+                      const Align(
+                          alignment: Alignment.center,
+                          child: Text('History',
+                              style: TextStyle(
+                                fontSize: 25,
+                              ))),
+                      MenuListView(
+                        titles: model.listTitles2,
+                        icons: model.listIcons2,
+                        h: MediaQuery.of(context).size.height * .2,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

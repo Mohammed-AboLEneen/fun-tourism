@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/travel_card_button.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -83,12 +82,20 @@ class TravelsCard extends StatelessWidget {
           ),
           Positioned(
             bottom: 10,
+            left: 5,
             child: Container(
-              height: h * .11,
+              height: h * .09,
               constraints: BoxConstraints(
                 maxHeight: h * .11,
               ),
-              child: Card(
+              child: Container(
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                    color: Colors.white),
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
