@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../../../../cores/methods/google_auth.dart';
+import '../methods/google_auth.dart';
 
 class FirebaseAuthentication {
   static Future<UserCredential> createOrSignInWithGoogle() async {

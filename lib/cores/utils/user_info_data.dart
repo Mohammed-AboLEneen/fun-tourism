@@ -8,21 +8,21 @@ class UserInfoData extends HiveObject {
   @HiveField(0)
   String? email;
   @HiveField(1)
-  String? name;
+  String? displayName;
   @HiveField(2)
-  String? photoUrl;
+  String? photoURL;
   @HiveField(3)
   String? phoneNumber;
   @HiveField(4)
-  String? _uid;
+  String? uid;
 
   UserInfoData();
 
   UserInfoData.getAnonymousUserData({required dynamic user}) {
     email = user?.email;
-    name = user?.displayName;
-    photoUrl = user?.photoURL;
+    displayName = user?.displayName;
+    photoURL = user?.photoURL;
     phoneNumber = user?.phoneNumber;
-    _uid = user?.uid;
+    uid = user?.uid;
   }
 }

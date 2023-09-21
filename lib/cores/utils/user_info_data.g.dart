@@ -18,10 +18,10 @@ class UserInfoDataAdapter extends TypeAdapter<UserInfoData> {
     };
     return UserInfoData()
       ..email = fields[0] as String?
-      ..name = fields[1] as String?
-      ..photoUrl = fields[2] as String?
+      ..displayName = fields[1] as String?
+      ..photoURL = fields[2] as String?
       ..phoneNumber = fields[3] as String?
-      .._uid = fields[4] as String?;
+      ..uid = fields[4] as String?;
   }
 
   @override
@@ -31,13 +31,13 @@ class UserInfoDataAdapter extends TypeAdapter<UserInfoData> {
       ..writeByte(0)
       ..write(obj.email)
       ..writeByte(1)
-      ..write(obj.name)
+      ..write(obj.displayName)
       ..writeByte(2)
-      ..write(obj.photoUrl)
+      ..write(obj.photoURL)
       ..writeByte(3)
       ..write(obj.phoneNumber)
       ..writeByte(4)
-      ..write(obj._uid);
+      ..write(obj.uid);
   }
 
   @override
