@@ -7,7 +7,9 @@ import 'package:fun_adventure/cores/methods/toast.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
 import 'package:fun_adventure/features/home/presentation/view/home_page.dart';
 
+import '../../../../../constants.dart';
 import '../../../../../cores/methods/google_sign_out.dart';
+import '../../../../../cores/utils/sheard_preferance_helper.dart';
 import '../../view_model/login_cubit/login_cubit.dart';
 import '../../view_model/login_cubit/login_states.dart';
 import 'custom_textformfield.dart';
@@ -58,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                         CustomTextField(
                           hint: 'Email',
                           onChanged: (value) {
-                            loginCubit.putEmailAddress(value);
+                            loginCubit.putEmailAddress = value;
                           },
                           padding: const EdgeInsets.only(left: 10, top: 10),
                           icon: Icon(Icons.alternate_email,
@@ -71,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                           hint: 'Password',
                           onChanged: (value) {
                             print(value);
-                            loginCubit.putPassword(value);
+                            loginCubit.putPassword = value;
                           },
                           padding: const EdgeInsets.only(left: 10, top: 10),
                           icon: Icon(Icons.lock,
@@ -186,6 +188,9 @@ class _LoginPageState extends State<LoginPage> {
               msg: 'Welcome',
               bgColor: Colors.green.withOpacity(.7),
               txColor: Colors.white.withOpacity(.7));
+
+          var sharedPreData = locator<SharedPreferenceHelper>();
+          sharedPreData.setBool(key: accountKey, value: true);
 
           navigateTo(page: const HomePage(), context: context);
         } else if (state is LoginFailureState) {

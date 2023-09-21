@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/onboarding.dart';
 
+import '../../../../../constants.dart';
 import '../../../../../cores/utils/images.dart';
+import '../../../../../cores/utils/sheard_preferance_helper.dart';
+import '../../../../authentication/presentation/view/authentcation.dart';
+import '../../../../home/presentation/view/home_page.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -68,10 +72,29 @@ class _SplashViewBodyState extends State<SplashViewBody>
 
   void futureNavigate() {
     Future.delayed(const Duration(seconds: 5), () {
+      Widget beginWidget = beginWidgetApp();
+
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const OnBoardingPage()),
+          MaterialPageRoute(builder: (context) => beginWidget),
           (route) => false);
     });
+  }
+}
+
+Widget beginWidgetApp() {
+  SharedPreferenceHelper data = locator<SharedPreferenceHelper>();
+
+  bool? onBoarding = data.getBool(key: onBoardingKey);
+
+  if (onBoarding == null) {
+    return const OnBoardingPage();
+  } else {
+    bool? login = data.getBool(key: accountKey);
+    if (login == null) {
+      return const AuthenticationScreen();
+    } else {
+      return const HomePage();
+    }
   }
 }

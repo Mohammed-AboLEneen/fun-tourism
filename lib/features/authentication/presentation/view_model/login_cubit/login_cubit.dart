@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fun_adventure/features/authentication/presentation/view_model/login_cubit/login_states.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../../../cores/errors/sign_up_error.dart';
 import '../../../../../cores/methods/google_auth.dart';
 
 class LoginCubit extends Cubit<LoginStates> {
@@ -11,11 +13,11 @@ class LoginCubit extends Cubit<LoginStates> {
   String emailAddress = '';
   String accountPassword = '';
 
-  void putEmailAddress(String email) {
+  set putEmailAddress(String email) {
     emailAddress = email;
   }
 
-  void putPassword(String password) {
+  set putPassword(String password) {
     accountPassword = password;
   }
 
@@ -26,13 +28,15 @@ class LoginCubit extends Cubit<LoginStates> {
 
     emit(LoginLoadingState());
     try {
+      // Create a new credential
       final credential = await googleAuth();
-      UserCredential userCredential =
+
+      final UserCredential authResult =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
-      emit(LoginSuccessState());
+      emit(LoginSuccessState(authResult.user?.providerData[0]));
     } catch (e) {
-      emit(LoginFailureState(e.toString()));
+      emit(LoginFailureState(SignupEmailPassFailure(e.toString()).message));
     }
 
     return userCredential;
@@ -46,10 +50,12 @@ class LoginCubit extends Cubit<LoginStates> {
         password: accountPassword,
       );
 
-      emit(LoginSuccessState());
+      emit(LoginSuccessState(credential.user));
     } on FirebaseAuthException catch (e) {
-      print('Failed with error code: ${e.code}');
-      print(e.message);
+      if (kDebugMode) {
+        print('Failed with error code: ${e.code}');
+      }
+      emit(LoginFailureState(e.code));
     }
   }
 }

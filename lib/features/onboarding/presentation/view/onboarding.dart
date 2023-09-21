@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_adventure/constants.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
+import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 import 'package:fun_adventure/cores/utils/smooth_dots.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/authentcation.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/widgets/custom_button.dart';
@@ -135,6 +137,9 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                     if (progress < 2) {
                       navigatePageView(pageController: _pageController);
                     } else {
+                      var sharedPreData = locator<SharedPreferenceHelper>();
+                      sharedPreData.setBool(key: onBoardingKey, value: true);
+
                       Navigator.push(
                         context,
                         PageRouteBuilder(
