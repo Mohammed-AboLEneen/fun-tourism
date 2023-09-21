@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fun_adventure/constants.dart';
+import 'package:fun_adventure/cores/utils/user_info_data.dart';
 
 class InfoCard extends StatelessWidget {
   const InfoCard({
@@ -18,7 +20,7 @@ class InfoCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width * .5,
               child: ListTile(
                 title: Text(
-                  'Mohammed',
+                  locator<UserInfoData>().email ?? 'momo',
                   maxLines: 1,
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.height * .025,

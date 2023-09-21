@@ -3,16 +3,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fun_adventure/constants.dart';
 import 'package:fun_adventure/cores/methods/locator.dart';
 import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 import 'package:fun_adventure/cores/utils/user_info_data.dart';
-import 'package:fun_adventure/features/authentication/presentation/view/authentcation.dart';
-import 'package:fun_adventure/features/home/presentation/view/home_page.dart';
-import 'package:fun_adventure/features/onboarding/presentation/view/onboarding.dart';
 import 'package:fun_adventure/features/splash/presentation/view/splash.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'cores/utils/bloc_observer.dart';
 import 'firebase_options.dart';
@@ -23,6 +19,8 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await SharedPreferenceHelper.initSharedPreference();
+  await Hive.initFlutter();
+
   Hive.registerAdapter(UserInfoDataAdapter());
   sharedPreferenceLocator();
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fun_adventure/cores/utils/user_info_data.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/banner_slider.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/button_navegation_bar_item.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_page_menu.dart';
@@ -11,6 +12,7 @@ import 'package:fun_adventure/features/home/presentation/view/widgets/travel_car
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../constants.dart';
 import '../../../../cores/utils/images.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,6 +32,14 @@ class _HomePageState extends State<HomePage> {
     FontAwesomeIcons.magnifyingGlass,
     FontAwesomeIcons.plus,
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    print('Wlcome to home page : ${locator<UserInfoData>().email}');
+  }
 
   @override
   Widget build(BuildContext context) {

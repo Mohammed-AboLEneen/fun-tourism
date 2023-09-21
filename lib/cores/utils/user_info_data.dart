@@ -19,7 +19,7 @@ class UserInfoData extends HiveObject {
   UserInfoData();
 
   UserInfoData.getAnonymousUserData({required dynamic user}) {
-    email = user?.displayName;
+    email = user?.email;
     name = user?.displayName;
     photoUrl = user?.photoURL;
     phoneNumber = user?.phoneNumber;

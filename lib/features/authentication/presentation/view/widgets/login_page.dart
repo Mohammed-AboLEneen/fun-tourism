@@ -5,10 +5,13 @@ import 'package:fun_adventure/cores/methods/navigate_pageview.dart';
 import 'package:fun_adventure/cores/methods/navigate_to.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
+import 'package:fun_adventure/cores/utils/user_info_data.dart';
 import 'package:fun_adventure/features/home/presentation/view/home_page.dart';
+import 'package:hive/hive.dart';
 
 import '../../../../../constants.dart';
 import '../../../../../cores/methods/google_sign_out.dart';
+import '../../../../../cores/methods/locator.dart';
 import '../../../../../cores/utils/sheard_preferance_helper.dart';
 import '../../view_model/login_cubit/login_cubit.dart';
 import '../../view_model/login_cubit/login_states.dart';
@@ -182,16 +185,33 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ));
       },
-      listener: (BuildContext context, state) {
+      listener: (BuildContext context, state) async {
         if (state is LoginSuccessState) {
           showToast(
               msg: 'Welcome',
               bgColor: Colors.green.withOpacity(.7),
               txColor: Colors.white.withOpacity(.7));
 
+          // make sure not display login screen anymore while user not sign out.
           var sharedPreData = locator<SharedPreferenceHelper>();
           sharedPreData.setBool(key: accountKey, value: true);
 
+          // save user data in object,
+          // so when he open app there is no need to get his data from firebase.
+          // no internet need for show this information.
+          var box = await Hive.openBox<UserInfoData>('userBox');
+          box.add(UserInfoData.getAnonymousUserData(user: state.userInfo));
+          box.close();
+
+          setupUserLocator(state.userInfo);
+
+          if (!context.mounted) {
+            showToast(
+                msg: 'Please Try Sign In Again',
+                bgColor: Colors.red.withOpacity(.7),
+                txColor: Colors.white.withOpacity(.7));
+            return;
+          }
           navigateTo(page: const HomePage(), context: context);
         } else if (state is LoginFailureState) {
           showToast(
@@ -202,4 +222,8 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
   }
+}
+
+Future<void> storeUserData() async {
+  var box = await Hive.openBox<UserInfoData>('userBox');
 }
