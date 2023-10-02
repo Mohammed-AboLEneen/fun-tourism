@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 
 // run this command to build this file flutter packages pub run build_runner build
+
 part 'user_info_data.g.dart';
 
 @HiveType(typeId: 0)
@@ -24,5 +25,13 @@ class UserInfoData extends HiveObject {
     photoURL = user?.photoURL;
     phoneNumber = user?.phoneNumber;
     uid = user?.uid;
+  }
+
+  UserInfoData.fromMap({required Map<String, dynamic> user}) {
+    email = user['email'];
+    displayName = user['displayName'];
+    photoURL = user['photoURL'];
+    phoneNumber = user['phoneNumber'];
+    uid = user['uid'];
   }
 }

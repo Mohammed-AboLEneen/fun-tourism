@@ -38,7 +38,6 @@ class RegisterCubit extends Cubit<RegisterStates> {
         password: accountPassword,
       );
 
-      print(credential.user?.email);
       emit(RegisterSuccessState());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -48,6 +47,10 @@ class RegisterCubit extends Cubit<RegisterStates> {
       } else if (e.code == 'email-already-in-use') {
         if (kDebugMode) {
           print('The account already exists for that email.');
+        }
+      } else {
+        if (kDebugMode) {
+          print(e.message);
         }
       }
 

@@ -90,7 +90,7 @@ Widget beginWidgetApp() {
   if (onBoarding == null) {
     return const OnBoardingPage();
   } else {
-    bool? login = data.getBool(key: accountKey);
+    bool? login = data.getBool(key: loginKey);
     if (login == null) {
       return const AuthenticationScreen();
     } else {

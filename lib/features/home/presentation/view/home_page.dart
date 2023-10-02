@@ -37,10 +37,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    if (locator.isRegistered<UserInfoData>() == false) {
-      getData();
-    }
-
+    // if (locator.isRegistered<UserInfoData>() == false) {
+    //   getData();
+    // }
+    //
+    // print(FirebaseAuth.instance.currentUser?.emailVerified);
+    // userId = locator<SharedPreferenceHelper>().getString(key: userIdKey);
     super.initState();
   }
 

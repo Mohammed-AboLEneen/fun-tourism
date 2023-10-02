@@ -114,14 +114,7 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  fonts:
-    - family: Tektur
-      fonts:
-        - asset: assets/fonts/Tektur-VariableFont_wdth,wght.ttf
 
-    - family: Sectra
-      fonts:
-        - asset: assets/fonts/GT Sectra Fine Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

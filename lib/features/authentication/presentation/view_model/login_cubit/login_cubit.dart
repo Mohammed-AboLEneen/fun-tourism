@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fun_adventure/cores/utils/user_info_data.dart';
 import 'package:fun_adventure/features/authentication/presentation/view_model/login_cubit/login_states.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../../../../cores/errors/sign_up_error.dart';
 import '../../../../../cores/methods/google_auth.dart';
 
 class LoginCubit extends Cubit<LoginStates> {
@@ -23,7 +22,7 @@ class LoginCubit extends Cubit<LoginStates> {
 
   static LoginCubit get(context) => BlocProvider.of(context);
 
-  Future<UserCredential?> createOrSignInWithGoogle() async {
+  Future<void> createOrSignInWithGoogle() async {
     UserCredential? userCredential;
 
     emit(LoginLoadingState());
@@ -34,15 +33,19 @@ class LoginCubit extends Cubit<LoginStates> {
       final UserCredential authResult =
           await FirebaseAuth.instance.signInWithCredential(credential);
 
-      emit(LoginSuccessState(authResult.user?.providerData[0]));
-    } catch (e) {
-      emit(LoginFailureState(SignupEmailPassFailure(e.toString()).message));
+      emit(LoginSuccessState(
+          emailVerified: FirebaseAuth.instance.currentUser!.emailVerified,
+          user: UserInfoData.getAnonymousUserData(
+            user: authResult.user?.providerData[0],
+          ),
+          isNewUser: authResult.additionalUserInfo?.isNewUser,
+          isGoogleAuth: true));
+    } on FirebaseException catch (e) {
+      emit(LoginFailureState(e.code));
     }
-
-    return userCredential;
   }
 
-  Future<void> anonymousSignIn() async {
+  Future<void> signInWithEmailAndPassword() async {
     emit(LoginLoadingState());
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -50,7 +53,12 @@ class LoginCubit extends Cubit<LoginStates> {
         password: accountPassword,
       );
 
-      emit(LoginSuccessState(credential.user));
+      FirebaseAuth.instance.currentUser?.sendEmailVerification();
+      emit(LoginSuccessState(
+          emailVerified: credential.user!.emailVerified,
+          user: UserInfoData.getAnonymousUserData(user: credential.user),
+          isNewUser: credential.additionalUserInfo?.isNewUser,
+          isGoogleAuth: false));
     } on FirebaseAuthException catch (e) {
       if (kDebugMode) {
         print('Failed with error code: ${e.code}');

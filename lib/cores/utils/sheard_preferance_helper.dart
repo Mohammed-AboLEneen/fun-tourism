@@ -7,12 +7,19 @@ class SharedPreferenceHelper {
     prefs = await SharedPreferences.getInstance();
   }
 
-  String s = 'momomomo';
   bool? getBool({required String key}) {
     return prefs.getBool(key);
   }
 
   Future<void> setBool({required String key, required bool value}) async {
     await prefs.setBool(key, value);
+  }
+
+  Future<void> setString({required String key, required String value}) async {
+    await prefs.setString(key, value);
+  }
+
+  String? getString({required String key}) {
+    return prefs.getString(key);
   }
 }
