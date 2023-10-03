@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_adventure/features/authentication/presentation/view/widgets/verification_page.dart';
 
 import '../../../../../cores/methods/navigate_to.dart';
 import '../../../../../cores/methods/toast.dart';
-import '../../../../home/presentation/view/home_page.dart';
 import '../../view_model/register_cubit/register_cubit.dart';
 import '../../view_model/register_cubit/register_states.dart';
 import 'custom_textformfield.dart';
@@ -103,11 +103,11 @@ class _RegisterPageState extends State<RegisterPage> {
       listener: (context, state) {
         if (state is RegisterSuccessState) {
           showToast(
-              msg: 'Welcome',
+              msg: 'verify your email',
               bgColor: Colors.green.withOpacity(.7),
               txColor: Colors.white.withOpacity(.7));
 
-          navigateTo(page: const HomePage(), context: context);
+          navigateTo(page: const EmailVerificationPage(), context: context);
         } else if (state is RegisterFailureState) {
           showToast(
               msg: state.message,

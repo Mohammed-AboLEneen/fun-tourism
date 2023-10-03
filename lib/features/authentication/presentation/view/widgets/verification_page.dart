@@ -36,14 +36,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery
-        .of(context)
-        .size
-        .height;
-    double w = MediaQuery
-        .of(context)
-        .size
-        .width;
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: Align(
@@ -79,6 +73,4 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
       ),
     );
   }
-
-  void listenToAuthChanges() {}
 }

@@ -83,14 +83,8 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const Spacer(),
                         Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width * .5,
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * .06,
+                          width: MediaQuery.of(context).size.width * .5,
+                          height: MediaQuery.of(context).size.height * .06,
                           child: TextButton(
                               onPressed: () async {
                                 await googleSignOut();
@@ -98,29 +92,26 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               style: ButtonStyle(
                                   backgroundColor:
-                                  MaterialStateProperty.all<Color>(
-                                      Colors.blue.withOpacity(.4)),
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.blue.withOpacity(.4)),
                                   // Set the desired background color here
                                   padding:
-                                  MaterialStateProperty.all<EdgeInsets>(
-                                      EdgeInsets.zero),
+                                      MaterialStateProperty.all<EdgeInsets>(
+                                          EdgeInsets.zero),
                                   shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder?>(
+                                          RoundedRectangleBorder?>(
                                       const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            bottomRight: Radius.circular(10),
-                                          )))),
+                                    topLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  )))),
                               child: Row(
                                 children: [
                                   Image.asset(
                                     ImagesClass.googleLogoPngImage,
                                     fit: BoxFit.cover,
                                     width:
-                                    MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * .1,
+                                        MediaQuery.of(context).size.width * .1,
                                   ),
                                   const Spacer(),
                                   Padding(
@@ -128,10 +119,9 @@ class _LoginPageState extends State<LoginPage> {
                                     child: Text(
                                       'Sign in with google',
                                       style: TextStyle(
-                                          fontSize: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width *
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
                                               .042),
                                     ),
                                   ),
@@ -159,12 +149,12 @@ class _LoginPageState extends State<LoginPage> {
                                 },
                                 style: ButtonStyle(
                                   padding: MaterialStateProperty.all<
-                                      EdgeInsetsGeometry>(
+                                          EdgeInsetsGeometry>(
                                       const EdgeInsets.symmetric(
                                           horizontal: 5)),
                                   overlayColor:
-                                  MaterialStateProperty.resolveWith<Color>(
-                                        (Set<MaterialState> states) {
+                                      MaterialStateProperty.resolveWith<Color>(
+                                    (Set<MaterialState> states) {
                                       if (states
                                           .contains(MaterialState.pressed)) {
                                         // Return the desired color when the button is pressed
@@ -194,10 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SliverToBoxAdapter(
                   child: SizedBox(
-                    height: MediaQuery
-                        .of(context)
-                        .viewInsets
-                        .bottom,
+                    height: MediaQuery.of(context).viewInsets.bottom,
                   ),
                 )
               ],
@@ -215,7 +202,8 @@ class _LoginPageState extends State<LoginPage> {
                 context: context, user: state.user, newUser: state.isNewUser);
           } else {
             if (state.emailVerified) {
-              navigateTo(page: const HomePage(), context: context);
+              checkIsThisNewUser(
+                  context: context, user: state.user, newUser: state.isNewUser);
             } else {
               navigateTo(page: const EmailVerificationPage(), context: context);
             }
