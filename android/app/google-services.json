@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "376402680768",
+    "firebase_url": "https://tourism-398213-default-rtdb.firebaseio.com",
     "project_id": "tourism-398213",
     "storage_bucket": "tourism-398213.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "376402680768-vpbmchn8h88hf5sam6atpog58uh1sqjm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fun_adventure",
+            "certificate_hash": "7bbae0079d81ce526b1b1bae524b0af17115889c"
+          }
+        },
         {
           "client_id": "376402680768-iarkjar23d7n3uqpg9b8j89sgp8kec7h.apps.googleusercontent.com",
           "client_type": 3
@@ -29,6 +38,13 @@
             {
               "client_id": "376402680768-9edghs549g8f4i1i4ki8i1erj9l40q0d.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "376402680768-7a11vq05o99m4mhkmnnrcgfj0piu6fl3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.funAdventure"
+              }
             }
           ]
         }

@@ -9,7 +9,7 @@ class AuthIconInfo {
       }
     } else {
       if (pageValue <= 1) {
-        return (h * .03) + pageValue * h * .25;
+        return (h * .03) + (pageValue * h * .25);
       } else {
         return ((h * .03) + h * .25) - ((pageValue - 1) * (h * .23));
       }

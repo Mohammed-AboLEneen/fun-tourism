@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '376402680768',
     projectId: 'tourism-398213',
     authDomain: 'tourism-398213.firebaseapp.com',
+    databaseURL: 'https://tourism-398213-default-rtdb.firebaseio.com',
     storageBucket: 'tourism-398213.appspot.com',
     measurementId: 'G-E628Y43KDM',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:376402680768:android:c4e0916f70714d5e238625',
     messagingSenderId: '376402680768',
     projectId: 'tourism-398213',
+    databaseURL: 'https://tourism-398213-default-rtdb.firebaseio.com',
     storageBucket: 'tourism-398213.appspot.com',
   );
 
@@ -66,7 +68,9 @@ class DefaultFirebaseOptions {
     appId: '1:376402680768:ios:20648c2687ac4c96238625',
     messagingSenderId: '376402680768',
     projectId: 'tourism-398213',
+    databaseURL: 'https://tourism-398213-default-rtdb.firebaseio.com',
     storageBucket: 'tourism-398213.appspot.com',
+    androidClientId: '376402680768-vpbmchn8h88hf5sam6atpog58uh1sqjm.apps.googleusercontent.com',
     iosClientId: '376402680768-7a11vq05o99m4mhkmnnrcgfj0piu6fl3.apps.googleusercontent.com',
     iosBundleId: 'com.example.funAdventure',
   );
@@ -76,7 +80,9 @@ class DefaultFirebaseOptions {
     appId: '1:376402680768:ios:4c5916a76cc6b96f238625',
     messagingSenderId: '376402680768',
     projectId: 'tourism-398213',
+    databaseURL: 'https://tourism-398213-default-rtdb.firebaseio.com',
     storageBucket: 'tourism-398213.appspot.com',
+    androidClientId: '376402680768-vpbmchn8h88hf5sam6atpog58uh1sqjm.apps.googleusercontent.com',
     iosClientId: '376402680768-d0did5dkeilgqmgovq9hs7u560i0a0og.apps.googleusercontent.com',
     iosBundleId: 'com.example.funAdventure.RunnerTests',
   );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../cores/methods/navigate_to.dart';
 import '../../../../../cores/methods/toast.dart';
@@ -42,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Text(
                           'Sign Up',
                           style: TextStyle(
-                              fontSize: 30,
+                              fontSize: 30.sp,
                               fontWeight: FontWeight.bold,
                               color: Colors.white.withOpacity(1)),
                         ),

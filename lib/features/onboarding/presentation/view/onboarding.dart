@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/constants.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
 import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
@@ -72,7 +71,9 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    constraints: BoxConstraints(maxWidth: w * .74),
+                    constraints: BoxConstraints(
+                      maxWidth: w * .74,
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -80,7 +81,7 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                           Text(
                             title,
                             style: TextStyle(
-                                fontSize: 25.sp,
+                                fontSize: h * .03,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black.withOpacity(.8)),
                           ),
@@ -90,7 +91,7 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                           Text(
                             subtitle,
                             style: TextStyle(
-                                fontSize: 25.sp,
+                                fontSize: h * .030,
                                 color: Colors.black.withOpacity(.6)),
                           ),
                         ],

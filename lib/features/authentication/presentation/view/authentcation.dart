@@ -137,7 +137,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                                                   if (loginFormKey.currentState!
                                                       .validate()) {
                                                     loginCubit
-                                                        .anonymousSignIn();
+                                                        .signInWithEmailAndPassword();
                                                   }
 
                                                   loginAutovalidateMode =
