@@ -1,13 +1,7 @@
-import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
+import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
 
 import '../../constants.dart';
-import '../models/user_data_info/user_info_data.dart';
 
-void setupUserLocator(dynamic user) {
-  locator.registerSingleton<UserInfoData>(
-      UserInfoData.getAnonymousUserData(user: user));
-}
-
-void sharedPreferenceLocator() {
-  locator.registerSingleton<SharedPreferenceHelper>(SharedPreferenceHelper());
+void setupUserDataLocator(UserAppData user) {
+  locator.registerSingleton<UserAppData>(user);
 }

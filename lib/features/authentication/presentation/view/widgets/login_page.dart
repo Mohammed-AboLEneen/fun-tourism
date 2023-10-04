@@ -8,11 +8,11 @@ import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
 import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/verification_page.dart';
-import 'package:fun_adventure/features/home/presentation/view/home_page.dart';
 
 import '../../../../../constants.dart';
 import '../../../../../cores/methods/google_sign_out.dart';
 import '../../../../../cores/utils/sheard_preferance_helper.dart';
+import '../../../../home/presentation/view/main_screen.dart';
 import '../../view_model/login_cubit/login_cubit.dart';
 import '../../view_model/login_cubit/login_states.dart';
 import '../methods/add_user_data.dart';
@@ -215,7 +215,8 @@ class _LoginPageState extends State<LoginPage> {
               if (!context.mounted) return;
 
               if (isExist) {
-                navigateTo(page: const HomePage(), context: context);
+                navigateToAndRemove(
+                    page: const AppMainScreen(), context: context);
               } else {
                 await addNewUserInFireStore(
                     userInfoData: state.user, context: context);
@@ -249,7 +250,7 @@ void checkIsThisNewUser({
     await SharedPreferenceHelper.setString(
         key: userEmailKey, value: user.email ?? '');
     if (!context.mounted) return;
-    navigateTo(page: const HomePage(), context: context);
+    navigateToAndRemove(page: const AppMainScreen(), context: context);
   } else {
     showToast(
         msg: 'Something is wrong, try again.',

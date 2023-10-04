@@ -4,7 +4,7 @@ import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
 import '../../../../../cores/methods/navigate_to.dart';
 import '../../../../../cores/methods/toast.dart';
 import '../../../../../cores/utils/firestore_service.dart';
-import '../../../../home/presentation/view/home_page.dart';
+import '../../../../home/presentation/view/widgets/home_screen.dart';
 
 Future<void> addNewUserInFireStore(
     {required BuildContext context, required UserInfoData userInfoData}) async {
@@ -16,7 +16,7 @@ Future<void> addNewUserInFireStore(
         photoURL: userInfoData.photoURL);
 
     if (context.mounted) {
-      navigateTo(page: const HomePage(), context: context);
+      navigateTo(page: const HomeScreen(), context: context);
     }
   } catch (e) {
     showToast(

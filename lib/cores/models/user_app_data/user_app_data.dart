@@ -13,9 +13,9 @@ class UserAppData {
   @HiveField(3)
   String? photoURL;
   @HiveField(4)
-  List<Map<String, dynamic>>? friends;
+  List<dynamic>? friends;
   @HiveField(5)
-  List<Map<String, dynamic>>? chats;
+  List<dynamic>? chats;
 
   UserAppData();
 

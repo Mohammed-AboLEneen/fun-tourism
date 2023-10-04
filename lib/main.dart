@@ -3,8 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fun_adventure/cores/methods/locator.dart';
-import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
+import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
 import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 import 'package:fun_adventure/features/splash/presentation/view/splash.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,8 +20,7 @@ void main() async {
   await SharedPreferenceHelper.initSharedPreference();
   await Hive.initFlutter();
 
-  Hive.registerAdapter(UserInfoDataAdapter());
-  sharedPreferenceLocator();
+  Hive.registerAdapter(UserAppDataAdapter());
 
   runApp(const MyApp());
 }
