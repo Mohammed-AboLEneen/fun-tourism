@@ -1,7 +1,7 @@
 import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 
 import '../../constants.dart';
-import '../utils/user_info_data.dart';
+import '../models/user_data_info/user_info_data.dart';
 
 void setupUserLocator(dynamic user) {
   locator.registerSingleton<UserInfoData>(

@@ -83,14 +83,12 @@ class _SplashViewBodyState extends State<SplashViewBody>
 }
 
 Widget beginWidgetApp() {
-  SharedPreferenceHelper data = locator<SharedPreferenceHelper>();
-
-  bool? onBoarding = data.getBool(key: onBoardingKey);
+  bool? onBoarding = SharedPreferenceHelper.getBool(key: onBoardingKey);
 
   if (onBoarding == null) {
     return const OnBoardingPage();
   } else {
-    bool? login = data.getBool(key: loginKey);
+    bool? login = SharedPreferenceHelper.getBool(key: loginKey);
     if (login == null) {
       return const AuthenticationScreen();
     } else {

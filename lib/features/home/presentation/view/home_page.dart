@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/constants.dart';
 import 'package:fun_adventure/cores/methods/locator.dart';
-import 'package:fun_adventure/cores/utils/user_info_data.dart';
+import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/banner_slider.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/button_navegation_bar_item.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_page_menu.dart';
@@ -37,12 +37,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // if (locator.isRegistered<UserInfoData>() == false) {
-    //   getData();
-    // }
-    //
-    // print(FirebaseAuth.instance.currentUser?.emailVerified);
-    // userId = locator<SharedPreferenceHelper>().getString(key: userIdKey);
     super.initState();
   }
 

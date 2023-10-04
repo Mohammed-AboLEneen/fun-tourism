@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fun_adventure/cores/utils/user_info_data.dart';
+import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
 import 'package:fun_adventure/features/authentication/presentation/view_model/register_cubit/register_states.dart';
 
 class RegisterCubit extends Cubit<RegisterStates> {
@@ -34,7 +34,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
     emit(RegisterLoadingState());
     try {
       final credential =
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailAddress,
         password: accountPassword,
       );

@@ -1,4 +1,4 @@
-import '../../../../../cores/utils/user_info_data.dart';
+import '../../../../../cores/models/user_data_info/user_info_data.dart';
 
 abstract class RegisterStates {}
 

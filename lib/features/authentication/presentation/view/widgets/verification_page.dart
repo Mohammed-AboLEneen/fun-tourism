@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../cores/methods/toast.dart';
-
 class EmailVerificationPage extends StatefulWidget {
   const EmailVerificationPage({super.key});
 
@@ -19,16 +17,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
   void initState() {
     final FirebaseAuth auth = FirebaseAuth.instance;
 
-    _authSubscription = auth.authStateChanges().listen((User? user) {
-      if (user?.emailVerified ?? false) {
-        showToast(
-            msg: 'Successfully Email Verification',
-            bgColor: Colors.green,
-            txColor: Colors.white);
-        Navigator.of(context).pop();
-      } else {
-        showToast(msg: 'pooooo', bgColor: Colors.red, txColor: Colors.white);
-      }
+    _authSubscription = auth.userChanges().listen((event) {
+      print(event?.emailVerified);
     });
 
     super.initState();

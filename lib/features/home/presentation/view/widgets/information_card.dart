@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/constants.dart';
-import 'package:fun_adventure/cores/utils/user_info_data.dart';
+import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
 
 class InfoCard extends StatelessWidget {
   const InfoCard({

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fun_adventure/cores/utils/user_info_data.dart';
+import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
 import 'package:fun_adventure/features/authentication/presentation/view_model/login_cubit/login_states.dart';
 
 import '../../../../../cores/methods/google_auth.dart';

@@ -4,13 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/cores/methods/navigate_pageview.dart';
 import 'package:fun_adventure/cores/methods/navigate_to.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
+import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
+import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
-import 'package:fun_adventure/cores/utils/user_info_data.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/verification_page.dart';
 import 'package:fun_adventure/features/home/presentation/view/home_page.dart';
-import 'package:hive/hive.dart';
 
+import '../../../../../constants.dart';
 import '../../../../../cores/methods/google_sign_out.dart';
+import '../../../../../cores/utils/sheard_preferance_helper.dart';
 import '../../view_model/login_cubit/login_cubit.dart';
 import '../../view_model/login_cubit/login_states.dart';
 import '../methods/add_user_data.dart';
@@ -193,17 +195,31 @@ class _LoginPageState extends State<LoginPage> {
       listener: (BuildContext context, state) async {
         if (state is LoginSuccessState) {
           // make sure not display login screen anymore while user not sign out.
-          // var sharedPreData = locator<SharedPreferenceHelper>();
           // sharedPreData.setBool(key: loginKey, value: true);
+
+          await SharedPreferenceHelper.setString(
+              key: userEmailKey, value: state.user.email ?? '');
+          userEmail = SharedPreferenceHelper.getString(key: userEmailKey);
+          if (!context.mounted) return;
 
           // if isGoogleAuth is false, it mean that user choose Email and Password method, if else he choose google sign in
           if (state.isGoogleAuth) {
             checkIsThisNewUser(
                 context: context, user: state.user, newUser: state.isNewUser);
           } else {
+            // if user just verified his email, so he don't have any data in fireStore yet.
+            // we will add it by checking if he has data in FireStore or not.
             if (state.emailVerified) {
-              checkIsThisNewUser(
-                  context: context, user: state.user, newUser: state.isNewUser);
+              bool isExist =
+                  await FireStoreServices.checkIfDocumentExists(userEmail!);
+              if (!context.mounted) return;
+
+              if (isExist) {
+                navigateTo(page: const HomePage(), context: context);
+              } else {
+                await addNewUserInFireStore(
+                    userInfoData: state.user, context: context);
+              }
             } else {
               navigateTo(page: const EmailVerificationPage(), context: context);
             }
@@ -219,10 +235,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-Future<void> storeUserData() async {
-  var box = await Hive.openBox<UserInfoData>('userBox');
-}
-
 void checkIsThisNewUser({
   required BuildContext context,
   required UserInfoData user,
@@ -232,9 +244,12 @@ void checkIsThisNewUser({
   if (newUser != null) {
     if (newUser) {
       await addNewUserInFireStore(userInfoData: user, context: context);
-    } else {
-      navigateTo(page: const HomePage(), context: context);
     }
+
+    await SharedPreferenceHelper.setString(
+        key: userEmailKey, value: user.email ?? '');
+    if (!context.mounted) return;
+    navigateTo(page: const HomePage(), context: context);
   } else {
     showToast(
         msg: 'Something is wrong, try again.',

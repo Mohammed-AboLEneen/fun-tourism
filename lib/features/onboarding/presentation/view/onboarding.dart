@@ -138,8 +138,8 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                     if (progress < 2) {
                       navigatePageView(pageController: _pageController);
                     } else {
-                      var sharedPreData = locator<SharedPreferenceHelper>();
-                      sharedPreData.setBool(key: onBoardingKey, value: true);
+                      SharedPreferenceHelper.setBool(
+                          key: onBoardingKey, value: true);
 
                       Navigator.push(
                         context,
