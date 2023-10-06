@@ -21,7 +21,7 @@ class InfoCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width * .5,
               child: ListTile(
                 title: Text(
-                  locator<UserAppData>().email ?? 'momomo',
+                  locator<UserAppData>().displayName ?? 'momomo',
                   maxLines: 1,
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.height * .025,

@@ -45,8 +45,14 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery
+        .of(context)
+        .size
+        .height;
+    double w = MediaQuery
+        .of(context)
+        .size
+        .width;
 
     return MultiBlocProvider(
         providers: [
@@ -69,13 +75,14 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                       height: h,
                       width: w,
                     ),
-                    BlocConsumer<LoginCubit, LoginStates>(
+                    BlocConsumer<RegisterCubit, RegisterStates>(
                       builder: (context, state) {
-                        LoginCubit loginCubit = LoginCubit.get(context);
-                        return BlocConsumer<RegisterCubit, RegisterStates>(
+                        RegisterCubit registerCubit =
+                        RegisterCubit.get(context);
+                        return BlocConsumer<LoginCubit, LoginStates>(
                             builder: (context, state) {
-                              RegisterCubit registerCubit =
-                                  RegisterCubit.get(context);
+                              LoginCubit loginCubit = LoginCubit.get(context);
+
 
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -88,7 +95,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                                         Container(
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(20),
+                                            BorderRadius.circular(20),
                                             color: Colors.blue.withOpacity(.3),
                                           ),
                                           child: SizedBox(
@@ -100,37 +107,37 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                                                 const WelcomePage(),
                                                 LoginPage(
                                                   pageController:
-                                                      _pageController,
+                                                  _pageController,
                                                   formKey: loginFormKey,
                                                   autovalidateMode:
-                                                      loginAutovalidateMode,
+                                                  loginAutovalidateMode,
                                                 ),
                                                 RegisterPage(
                                                     fromKey: registerFormKey,
                                                     autovalidateMode:
-                                                        registerAutovalidateMode),
+                                                    registerAutovalidateMode),
                                               ],
                                             ),
                                           ),
                                         ),
                                         Positioned(
                                           right:
-                                              AuthIconInfo.getAuthIconLeftWidth(
-                                                  w: w, pageValue: progress),
+                                          AuthIconInfo.getAuthIconLeftWidth(
+                                              w: w, pageValue: progress),
                                           bottom: AuthIconInfo
                                               .getAuthIconBottomHeight(
-                                                  h: h, pageValue: progress),
+                                              h: h, pageValue: progress),
                                           child: SizedBox(
                                             width:
-                                                AuthIconInfo.getAuthIconWidth(
-                                                    w: w, pageView: progress),
+                                            AuthIconInfo.getAuthIconWidth(
+                                                w: w, pageView: progress),
                                             height: h * .065,
                                             child: CustomIcon(
                                               tap: () {
                                                 if (progress == 0) {
                                                   navigatePageView(
                                                       pageController:
-                                                          _pageController);
+                                                      _pageController);
                                                 }
 
                                                 if (progress == 1) {
@@ -161,13 +168,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                                                 child: AnimatedOpacity(
                                                   opacity: AuthIconInfo
                                                       .getAuthIconTitleOpacity(
-                                                          pageView: progress),
+                                                      pageView: progress),
                                                   duration: const Duration(
                                                       milliseconds: 500),
                                                   child: Text(
                                                     AuthIconInfo
                                                         .getAuthIconTitle(
-                                                            pageView: progress),
+                                                        pageView: progress),
                                                     style: TextStyle(
                                                         fontSize: 20.sp,
                                                         color: Colors.white),
