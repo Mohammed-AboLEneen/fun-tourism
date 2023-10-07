@@ -4,15 +4,18 @@ import 'package:flutter/cupertino.dart';
 class SliderBanner extends StatelessWidget {
   final double height;
   final Widget item;
+  final Axis scrollDirection;
   final CarouselController? controller;
   final dynamic Function(int, CarouselPageChangedReason)? action;
 
-  const SliderBanner(
-      {super.key,
-      required this.height,
-      required this.item,
-      this.controller,
-      this.action});
+  const SliderBanner({
+    super.key,
+    required this.height,
+    required this.item,
+    this.controller,
+    this.action,
+    required this.scrollDirection,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +23,12 @@ class SliderBanner extends StatelessWidget {
       carouselController: controller,
       options: CarouselOptions(
           height: height,
-          aspectRatio: 16 / 9,
           viewportFraction: 0.8,
           initialPage: 0,
           enableInfiniteScroll: true,
           reverse: false,
-          autoPlayCurve: Curves.fastOutSlowIn,
           enlargeCenterPage: true,
-          enlargeFactor: 0.25,
+          enlargeFactor: 0.28,
           scrollDirection: Axis.horizontal,
           onPageChanged: action),
       itemCount: 5,

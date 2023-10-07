@@ -31,7 +31,7 @@ class LoginCubit extends Cubit<LoginStates> {
       final credential = await googleAuth();
 
       final UserCredential authResult =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
 
       emit(LoginSuccessState(
           emailVerified: FirebaseAuth.instance.currentUser!.emailVerified,
@@ -53,7 +53,6 @@ class LoginCubit extends Cubit<LoginStates> {
         password: accountPassword,
       );
 
-      FirebaseAuth.instance.currentUser?.sendEmailVerification();
       emit(LoginSuccessState(
           emailVerified: credential.user!.emailVerified,
           user: UserInfoData.getAnonymousUserData(user: credential.user),

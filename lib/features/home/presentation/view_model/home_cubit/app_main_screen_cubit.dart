@@ -47,7 +47,6 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     try {
       DocumentSnapshot<Object?> data =
           await FireStoreServices.getUserData(email: email);
-      print(data.data().runtimeType);
       userData = UserAppData.fromJson(data.data() as Map<String, dynamic>);
 
       await _saveUserAppData();
@@ -68,8 +67,6 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     final box = await Hive.openBox<UserAppData>(userBox);
     box.put(userDataKey, userData); // save it in hive
     setupUserDataLocator(userData); // save it in locator to use it in all app.
-
-    print('its saaaaaaaaaaaaaaaaaaaaaaaved');
     box.close();
   }
 }

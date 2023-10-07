@@ -7,8 +7,8 @@ import '../../view_model/menu_provider/menu_provider.dart';
 import 'information_card.dart';
 import 'menu_listview.dart';
 
-class HomeMenu extends StatelessWidget {
-  const HomeMenu({super.key});
+class MainScreenMenu extends StatelessWidget {
+  const MainScreenMenu({super.key});
 
   @override
   Widget build(BuildContext context) {

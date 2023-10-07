@@ -15,11 +15,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
 
   @override
   void initState() {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-
-    _authSubscription = auth.userChanges().listen((event) {
-      print(event?.emailVerified);
-    });
+    FirebaseAuth.instance.currentUser?.sendEmailVerification();
 
     super.initState();
   }
