@@ -6,7 +6,7 @@ import '../../../../../constants.dart';
 import '../../../../../cores/utils/images.dart';
 import '../../../../../cores/utils/sheard_preferance_helper.dart';
 import '../../../../authentication/presentation/view/authentcation.dart';
-import '../../../../home/presentation/view/widgets/home_screen.dart';
+import '../../../../home/presentation/view/widgets/home_screen_widgets/home_screen.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});

@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../view_model/menu_provider/menu_provider.dart';
+import '../../../view_model/menu_provider/menu_provider.dart';
 import 'information_card.dart';
 import 'menu_listview.dart';
 

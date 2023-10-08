@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fun_adventure/features/home/presentation/view/widgets/travel_card_button.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/travel_card_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../../cores/utils/images.dart';
+import '../../../../../../cores/utils/images.dart';
 
 class TravelsCard extends StatelessWidget {
   const TravelsCard({super.key});
@@ -54,7 +54,7 @@ class TravelsCard extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: ClipPath(
-                    clipper: MyCustomClipper(),
+                    clipper: TravelCardButtonCustomClipper(),
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: const BorderRadius.only(

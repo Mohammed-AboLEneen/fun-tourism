@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
 
-import '../../../../../constants.dart';
+import '../../../../../../constants.dart';
 
 class InfoCard extends StatelessWidget {
   const InfoCard({

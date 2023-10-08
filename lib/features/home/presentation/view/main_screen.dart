@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fun_adventure/constants.dart';
-import 'package:fun_adventure/features/home/presentation/view/widgets/button_navegation_bar_item.dart';
-import 'package:fun_adventure/features/home/presentation/view/widgets/main_screen_menu.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/button_navegation_bar_item.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/main_screen_menu.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_cubit.dart';
 
 import '../../../../cores/utils/images.dart';
