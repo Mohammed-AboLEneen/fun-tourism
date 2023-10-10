@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
+import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.dart';
 import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
 import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 import 'package:fun_adventure/features/splash/presentation/view/splash.dart';
@@ -21,6 +23,8 @@ void main() async {
   await Hive.initFlutter();
 
   Hive.registerAdapter(UserAppDataAdapter());
+  Hive.registerAdapter(HotTravelModelAdapter());
+  Hive.registerAdapter(RecentNewsModelAdapter());
 
   runApp(const MyApp());
 }

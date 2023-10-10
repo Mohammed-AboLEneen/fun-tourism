@@ -31,7 +31,7 @@ class LoginCubit extends Cubit<LoginStates> {
       final credential = await googleAuth();
 
       final UserCredential authResult =
-      await FirebaseAuth.instance.signInWithCredential(credential);
+          await FirebaseAuth.instance.signInWithCredential(credential);
 
       emit(LoginSuccessState(
           emailVerified: FirebaseAuth.instance.currentUser!.emailVerified,
@@ -40,8 +40,8 @@ class LoginCubit extends Cubit<LoginStates> {
           ),
           isNewUser: authResult.additionalUserInfo?.isNewUser,
           isGoogleAuth: true));
-    } on FirebaseException catch (e) {
-      emit(LoginFailureState(e.code));
+    } catch (e) {
+      emit(LoginFailureState(e.toString()));
     }
   }
 

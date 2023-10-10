@@ -12,4 +12,18 @@ class GetUserDataFailureState extends AppMainScreenStates {
   GetUserDataFailureState(this.message);
 }
 
+class GetHomeScreenDataLoadingState extends AppMainScreenStates {}
+
+class GetHomeScreenDataSuccessState extends AppMainScreenStates {}
+
+class GetHomeScreenDataFailureState extends AppMainScreenStates {
+  String message;
+
+  GetHomeScreenDataFailureState(this.message);
+}
+
 class ChangeBottomNavigationBarIndex extends AppMainScreenStates {}
+
+class GetLocalAppDataSuccessState extends AppMainScreenStates {}
+
+class GetLocalAppDataFailureState extends AppMainScreenStates {}

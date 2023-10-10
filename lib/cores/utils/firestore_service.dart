@@ -1,14 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireStoreServices {
-  static var usersCollection = FirebaseFirestore.instance.collection('users');
+  static final _usersCollection =
+      FirebaseFirestore.instance.collection('users');
+  static final _homeScreenCollection =
+      FirebaseFirestore.instance.collection('appData');
 
   static Future<DocumentSnapshot> getUserData({required String email}) async {
-    return await usersCollection.doc(email).get();
+    return await _usersCollection.doc(email).get();
   }
 
   static Future<bool> checkIfDocumentExists(String email) async {
-    final DocumentReference documentRef = usersCollection.doc(email);
+    final DocumentReference documentRef = _usersCollection.doc(email);
 
     final DocumentSnapshot documentSnapshot = await documentRef.get();
 
@@ -23,7 +26,7 @@ class FireStoreServices {
   }) {
     // Call the user's CollectionReference to add a new user
 
-    return usersCollection
+    return _usersCollection
         .doc(email)
         .set({
           'email': email,
@@ -39,5 +42,9 @@ class FireStoreServices {
         })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
+  }
+
+  static Future<DocumentSnapshot> getHomeScreenData(String doc) async {
+    return await _homeScreenCollection.doc(doc).get();
   }
 }

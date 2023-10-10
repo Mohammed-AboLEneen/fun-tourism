@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fun_adventure/features/home/presentation/view/main_screen.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/onboarding.dart';
 
 import '../../../../../constants.dart';
 import '../../../../../cores/utils/images.dart';
 import '../../../../../cores/utils/sheard_preferance_helper.dart';
 import '../../../../authentication/presentation/view/authentcation.dart';
-import '../../../../home/presentation/view/widgets/home_screen_widgets/home_screen.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -92,7 +92,7 @@ Widget beginWidgetApp() {
     if (login == null) {
       return const AuthenticationScreen();
     } else {
-      return const HomeScreen();
+      return const AppMainScreen();
     }
   }
 }

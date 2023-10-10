@@ -85,14 +85,8 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const Spacer(),
                         Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width * .5,
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * .06,
+                          width: MediaQuery.of(context).size.width * .5,
+                          height: MediaQuery.of(context).size.height * .06,
                           child: TextButton(
                               onPressed: () async {
                                 await googleSignOut();
@@ -100,29 +94,26 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               style: ButtonStyle(
                                   backgroundColor:
-                                  MaterialStateProperty.all<Color>(
-                                      Colors.blue.withOpacity(.4)),
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.blue.withOpacity(.4)),
                                   // Set the desired background color here
                                   padding:
-                                  MaterialStateProperty.all<EdgeInsets>(
-                                      EdgeInsets.zero),
+                                      MaterialStateProperty.all<EdgeInsets>(
+                                          EdgeInsets.zero),
                                   shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder?>(
+                                          RoundedRectangleBorder?>(
                                       const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            bottomRight: Radius.circular(10),
-                                          )))),
+                                    topLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  )))),
                               child: Row(
                                 children: [
                                   Image.asset(
                                     ImagesClass.googleLogoPngImage,
                                     fit: BoxFit.cover,
                                     width:
-                                    MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width * .1,
+                                        MediaQuery.of(context).size.width * .1,
                                   ),
                                   const Spacer(),
                                   Padding(
@@ -130,10 +121,9 @@ class _LoginPageState extends State<LoginPage> {
                                     child: Text(
                                       'Sign in with google',
                                       style: TextStyle(
-                                          fontSize: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .width *
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
                                               .042),
                                     ),
                                   ),
@@ -161,12 +151,12 @@ class _LoginPageState extends State<LoginPage> {
                                 },
                                 style: ButtonStyle(
                                   padding: MaterialStateProperty.all<
-                                      EdgeInsetsGeometry>(
+                                          EdgeInsetsGeometry>(
                                       const EdgeInsets.symmetric(
                                           horizontal: 5)),
                                   overlayColor:
-                                  MaterialStateProperty.resolveWith<Color>(
-                                        (Set<MaterialState> states) {
+                                      MaterialStateProperty.resolveWith<Color>(
+                                    (Set<MaterialState> states) {
                                       if (states
                                           .contains(MaterialState.pressed)) {
                                         // Return the desired color when the button is pressed
@@ -196,10 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SliverToBoxAdapter(
                   child: SizedBox(
-                    height: MediaQuery
-                        .of(context)
-                        .viewInsets
-                        .bottom,
+                    height: MediaQuery.of(context).viewInsets.bottom,
                   ),
                 )
               ],
@@ -208,15 +195,13 @@ class _LoginPageState extends State<LoginPage> {
       listener: (BuildContext context, state) async {
         if (state is LoginSuccessState) {
           // make sure not display login screen anymore while user not sign out.
-          // sharedPreData.setBool(key: loginKey, value: true);
+          SharedPreferenceHelper.setBool(key: loginKey, value: true);
 
           await SharedPreferenceHelper.setString(
               key: userEmailKey, value: state.user.email ?? '');
           userEmail = SharedPreferenceHelper.getString(key: userEmailKey);
 
-
           if (!context.mounted) return;
-
 
           // if isGoogleAuth is false, it mean that user choose Email and Password method, if else he choose google sign in
           if (state.isGoogleAuth) {
@@ -227,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
             // we will add it by checking if he has data in FireStore or not.
             if (state.emailVerified) {
               bool isExist =
-              await FireStoreServices.checkIfDocumentExists(userEmail!);
+                  await FireStoreServices.checkIfDocumentExists(userEmail!);
               if (!context.mounted) return;
 
               if (isExist) {

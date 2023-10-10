@@ -21,12 +21,8 @@ class UserAppDataAdapter extends TypeAdapter<UserAppData> {
       ..phoneNumber = fields[1] as String?
       ..displayName = fields[2] as String?
       ..photoURL = fields[3] as String?
-      ..friends = (fields[4] as List?)
-          ?.map((dynamic e) => (e as Map).cast<String, dynamic>())
-          ?.toList()
-      ..chats = (fields[5] as List?)
-          ?.map((dynamic e) => (e as Map).cast<String, dynamic>())
-          ?.toList();
+      ..friends = (fields[4] as List?)?.cast<dynamic>()
+      ..chats = (fields[5] as List?)?.cast<dynamic>();
   }
 
   @override
