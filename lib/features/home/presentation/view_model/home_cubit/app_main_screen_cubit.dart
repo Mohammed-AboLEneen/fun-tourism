@@ -1,6 +1,10 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
 import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.dart';
@@ -32,7 +36,9 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
 
   List<Widget> screens = [
     const HomeScreen(),
-    const LolScreen(),
+    const LolScreen(
+      title: 'Welcome man',
+    ),
     const HomeScreen(),
     const HomeScreen(),
   ];
@@ -46,25 +52,21 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
 
   Future<void> initLocalAppData() async {
     try {
-      final box1 = await Hive.openBox<List<dynamic>>(hotTravelsBox);
-      final box2 = await Hive.openBox<List<dynamic>>(recentNewsBox);
-      final box3 = await Hive.openBox<UserAppData>(userDataKey);
+      final box1 = await Hive.openBox(hotTravelsBox);
+      final box2 = await Hive.openBox(recentNewsBox);
 
-      print('getting local data');
 
-      hotTravels = box1.values.first.cast<HotTravelModel>();
-      recentNews = box2.values.first.cast<RecentNewsModel>();
+      hotTravels = box1.get(hotTravelsKey).cast<HotTravelModel>();
+      recentNews = box2.get(recentNewsKey).cast<RecentNewsModel>();
 
-      print(hotTravels[0].availablePlaces);
-      print(recentNews[0].image);
-      print(box1.get(hotTravelsBox)?[0].price);
+      // // close all boxes when firebase data coming and update hive boxes values.
 
-      box1.close();
-      box2.close();
-      box3.close();
+      await box1.close();
+      await box2.close();
       emit(GetLocalAppDataSuccessState());
-    } catch (e) {
+    } catch (e, x) {
       print(e.toString());
+      print(x);
       emit(GetLocalAppDataFailureState());
     }
   }
@@ -74,7 +76,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
 
     try {
       DocumentSnapshot<Object?> data =
-          await FireStoreServices.getUserData(email: email);
+      await FireStoreServices.getUserData(email: email);
       userData = UserAppData.fromJson(data.data() as Map<String, dynamic>);
       await _saveUserAppData();
 
@@ -90,29 +92,43 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     emit(ChangeBottomNavigationBarIndex());
   }
 
+  Future<Uint8List> downloadAndStoreImage(String imageUrl) async {
+    final cacheManager = DefaultCacheManager();
+    await cacheManager.downloadFile(imageUrl);
+    return await retrieveImageFromCache(imageUrl);
+  }
+
+  Future<Uint8List> retrieveImageFromCache(String imageUrl) async {
+    final cacheManager = DefaultCacheManager();
+    final File file = await cacheManager.getSingleFile(imageUrl);
+    return file.readAsBytesSync();
+  }
+
   Future<void> getHomeScreen() async {
     emit(GetHomeScreenDataLoadingState());
 
     try {
       DocumentSnapshot<Object?> data1 =
-          await FireStoreServices.getHomeScreenData('last travels');
+      await FireStoreServices.getHomeScreenData('last travels');
       DocumentSnapshot<Object?> data2 =
-          await FireStoreServices.getHomeScreenData('recent news');
+      await FireStoreServices.getHomeScreenData('recent news');
 
       Map<String, dynamic> dataList1 = data1.data() as Map<String, dynamic>;
       Map<String, dynamic> dataList2 = data2.data() as Map<String, dynamic>;
 
       for (Map<String, dynamic> element in dataList1.values.toList()) {
+        element['image'] = await downloadAndStoreImage(element['image']);
+
         hotTravels.add(HotTravelModel.fromJson(element));
       }
 
       for (Map<String, dynamic> element in dataList2.values.toList()) {
+        element['image'] = await downloadAndStoreImage(element['image']);
         recentNews.add(RecentNewsModel.fromJson(element));
       }
 
       _saveHomeScreenData();
 
-      print('home screen data is Saaaaaaaaaaaaaaaved');
       emit(GetHomeScreenDataSuccessState());
     } catch (e) {
       print(e.toString());
@@ -121,10 +137,10 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   }
 
   Future<void> _saveUserAppData() async {
-    print('start to save user info');
     try {
       final box = await Hive.openBox<UserAppData>(userBox);
       await box.put(userDataKey, userData); // save it in hive
+      box.close();
     } catch (e) {
       print(e.toString());
     }
@@ -132,9 +148,23 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
 
   Future<void> _saveHomeScreenData() async {
     try {
-      print('start save home screen Data');
-      final box1 = await Hive.openBox<List<HotTravelModel>>(hotTravelsBox);
-      final box2 = await Hive.openBox<List<RecentNewsModel>>(recentNewsBox);
+      print(Hive.isBoxOpen(hotTravelsBox));
+
+      late final box1;
+
+      if (Hive.isBoxOpen(hotTravelsBox)) {
+        box1 = Hive.box(hotTravelsBox);
+      } else {
+        box1 = await Hive.openBox(hotTravelsBox);
+      }
+
+      late final box2;
+      if (Hive.isBoxOpen(recentNewsBox)) {
+        box2 = Hive.box(recentNewsBox);
+      } else {
+        box2 = await Hive.openBox(recentNewsBox);
+      }
+
       await box1.put(hotTravelsKey, hotTravels); // save it in hive
       await box2.put(recentNewsKey, recentNews); // save it in hive
 

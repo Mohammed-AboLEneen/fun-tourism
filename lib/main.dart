@@ -22,8 +22,10 @@ void main() async {
   await SharedPreferenceHelper.initSharedPreference();
   await Hive.initFlutter();
 
-  Hive.registerAdapter(UserAppDataAdapter());
-  Hive.registerAdapter(HotTravelModelAdapter());
+  Hive.registerAdapter(UserAppDataAdapter(), override: true);
+  Hive.registerAdapter(
+    HotTravelModelAdapter(),
+  );
   Hive.registerAdapter(RecentNewsModelAdapter());
 
   runApp(const MyApp());

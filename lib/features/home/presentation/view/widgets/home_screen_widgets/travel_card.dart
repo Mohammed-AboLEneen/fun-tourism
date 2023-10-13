@@ -1,11 +1,15 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
+import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/travel_card_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../../../cores/utils/images.dart';
-
 class TravelsCard extends StatelessWidget {
-  const TravelsCard({super.key});
+  final HotTravelModel hotTravelModel;
+
+  const TravelsCard({super.key, required this.hotTravelModel});
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +26,10 @@ class TravelsCard extends StatelessWidget {
             width: w * .8,
             child: Stack(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      image: DecorationImage(
-                        image: AssetImage(
-                          ImagesClass.welcomePngImage,
-                        ),
-                        fit: BoxFit.cover,
-                      )),
+                Image.memory(
+                  hotTravelModel.image ?? Uint8List(0),
+                  fit: BoxFit.cover,
+                  width: context.width,
                 ),
                 Align(
                   alignment: Alignment.topCenter,
@@ -44,11 +43,13 @@ class TravelsCard extends StatelessWidget {
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
-                        'Marsa Matroh',
+                        hotTravelModel.title ?? '-----',
                         style: GoogleFonts.lobster(
                           fontSize: h * .028,
                           color: Colors.white,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       )),
                 ),
                 Align(
@@ -104,11 +105,11 @@ class TravelsCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Travel Price: 18\$',
+                        'Travel Price: ${hotTravelModel.price}\$',
                         style: TextStyle(fontSize: h * .021),
                       ),
                       Text(
-                        'Available Places: 5',
+                        'Available Places: ${hotTravelModel.availablePlaces}',
                         style: TextStyle(fontSize: h * .021),
                       ),
                     ],

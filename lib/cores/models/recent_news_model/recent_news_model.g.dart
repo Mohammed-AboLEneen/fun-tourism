@@ -17,7 +17,7 @@ class RecentNewsModelAdapter extends TypeAdapter<RecentNewsModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return RecentNewsModel()
-      ..image = fields[0] as String?
+      ..image = fields[0] as Uint8List?
       ..title = fields[1] as String?;
   }
 

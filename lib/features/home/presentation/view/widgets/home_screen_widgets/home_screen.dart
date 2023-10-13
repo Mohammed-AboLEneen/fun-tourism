@@ -1,10 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fun_adventure/constants.dart';
-import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/top_banner_item_clippath.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/top_banner_item_textbutton.dart';
@@ -114,7 +114,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       sliderBannerCurrentIndex = index;
                     });
                   },
-                  item: const TravelsCard(),
+                  item: TravelsCard(
+                    hotTravelModel:
+                        appMainScreenCubit.hotTravels[sliderBannerCurrentIndex],
+                  ),
                   scrollDirection: Axis.horizontal,
                 ),
               ),
@@ -163,24 +166,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Stack(
                                       alignment: Alignment.bottomCenter,
                                       children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: NetworkImage(locator
-                                                          .isRegistered<
-                                                              List<
-                                                                  RecentNewsModel>>()
-                                                      ? (locator<List<RecentNewsModel>>()[
-                                                                  model
-                                                                      .currentItem]
-                                                              .image ??
-                                                          '')
-                                                      : 'https://th.bing.com/th/id/OIP.7wO0lin122XZz8cW6QwMPwHaNK?pid=ImgDet&rs=1'),
-                                                  fit: BoxFit.cover),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(20))),
-                                        ),
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          child: Image.memory(
+                                            appMainScreenCubit
+                                                    .recentNews[
+                                                        model.currentItem]
+                                                    .image ??
+                                                Uint8List(0),
+                                            fit: BoxFit.cover,
+                                            width: context.width,
+                                          ),
+                                        )
                                       ]))),
                           Align(
                             alignment: Alignment.bottomCenter,
@@ -224,13 +222,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           Expanded(
                                             child: Text(
-                                              locator.isRegistered<
-                                                      List<RecentNewsModel>>()
-                                                  ? (locator<List<RecentNewsModel>>()[
-                                                              model.currentItem]
-                                                          .title ??
-                                                      '')
-                                                  : 'lolo popo',
+                                              appMainScreenCubit
+                                                      .recentNews[
+                                                          model.currentItem]
+                                                      .title ??
+                                                  'Noting',
                                               maxLines: 1,
                                               style: GoogleFonts.bitter()
                                                   .copyWith(

@@ -19,19 +19,25 @@ class HotTravelModelAdapter extends TypeAdapter<HotTravelModel> {
     return HotTravelModel()
       ..description = fields[0] as String?
       ..price = fields[1] as String?
-      ..availablePlaces = fields[2] as String?;
+      ..availablePlaces = fields[2] as String?
+      ..title = fields[3] as String?
+      ..image = fields[4] as Uint8List?;
   }
 
   @override
   void write(BinaryWriter writer, HotTravelModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.description)
       ..writeByte(1)
       ..write(obj.price)
       ..writeByte(2)
-      ..write(obj.availablePlaces);
+      ..write(obj.availablePlaces)
+      ..writeByte(3)
+      ..write(obj.title)
+      ..writeByte(4)
+      ..write(obj.image);
   }
 
   @override

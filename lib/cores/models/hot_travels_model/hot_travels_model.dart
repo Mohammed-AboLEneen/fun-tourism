@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:hive/hive.dart';
 
 part 'hot_travels_model.g.dart';
@@ -10,6 +12,10 @@ class HotTravelModel {
   String? price;
   @HiveField(2)
   String? availablePlaces;
+  @HiveField(3)
+  String? title;
+  @HiveField(4)
+  Uint8List? image;
 
   HotTravelModel();
 
@@ -17,5 +23,7 @@ class HotTravelModel {
     description = json['description'];
     price = json['price'];
     availablePlaces = json['places'];
+    title = json['title'];
+    image = json['image'];
   }
 }
