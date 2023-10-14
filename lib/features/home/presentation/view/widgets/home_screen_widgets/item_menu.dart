@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 
 class MenuItem extends StatefulWidget {
   final String text;
@@ -23,27 +24,26 @@ class _MenuItemState extends State<MenuItem> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * .078,
-      width: MediaQuery.of(context).size.width * .6,
       child: Column(
         children: [
           const Divider(
             height: 1,
           ),
           Stack(
+            alignment: Alignment.center,
             children: [
               AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 200),
                 decoration: BoxDecoration(
                     color: Colors.white.withOpacity(.6),
                     borderRadius: BorderRadius.circular(10)),
-                height: MediaQuery.of(context).size.height * .075,
+                height: MediaQuery.of(context).size.height * .073,
                 width: widget.isSelected
                     ? MediaQuery.of(context).size.width * .7
                     : 0,
               ),
               Padding(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * .02, left: 10),
+                padding: const EdgeInsets.only(left: 8.0),
                 child: Row(
                   children: [
                     FaIcon(
@@ -53,7 +53,8 @@ class _MenuItemState extends State<MenuItem> {
                     const SizedBox(
                       width: 15,
                     ),
-                    Text(widget.text, style: const TextStyle(fontSize: 20))
+                    Text(widget.text,
+                        style: TextStyle(fontSize: context.height * .033))
                   ],
                 ),
               ),

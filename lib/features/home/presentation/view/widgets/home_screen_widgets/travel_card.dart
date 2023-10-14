@@ -26,10 +26,14 @@ class TravelsCard extends StatelessWidget {
             width: w * .8,
             child: Stack(
               children: [
-                Image.memory(
-                  hotTravelModel.image ?? Uint8List(0),
-                  fit: BoxFit.cover,
-                  width: context.width,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.memory(
+                    hotTravelModel.image ?? Uint8List(0),
+                    fit: BoxFit.cover,
+                    width: context.width,
+                    height: h * .3,
+                  ),
                 ),
                 Align(
                   alignment: Alignment.topCenter,

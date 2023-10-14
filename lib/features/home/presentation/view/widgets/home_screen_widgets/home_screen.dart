@@ -8,7 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/top_banner_item_clippath.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/top_banner_item_textbutton.dart';
-import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/travel_card.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_cubit.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_states.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/tops_banner_provider/tops_banner_provider.dart';
@@ -114,10 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       sliderBannerCurrentIndex = index;
                     });
                   },
-                  item: TravelsCard(
-                    hotTravelModel:
-                        appMainScreenCubit.hotTravels[sliderBannerCurrentIndex],
-                  ),
+                  items: appMainScreenCubit.hotTravels,
                   scrollDirection: Axis.horizontal,
                 ),
               ),

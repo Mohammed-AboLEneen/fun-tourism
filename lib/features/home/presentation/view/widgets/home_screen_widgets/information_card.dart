@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
-
-import '../../../../../../constants.dart';
+import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_cubit.dart';
 
 class InfoCard extends StatelessWidget {
   const InfoCard({
@@ -21,7 +20,8 @@ class InfoCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width * .5,
               child: ListTile(
                 title: Text(
-                  locator<UserAppData>().displayName ?? 'Nothing',
+                  BlocProvider.of<AppMainScreenCubit>(context).userData.email ??
+                      'Nothing',
                   maxLines: 1,
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.height * .025,
