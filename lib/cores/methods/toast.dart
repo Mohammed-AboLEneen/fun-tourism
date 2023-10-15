@@ -6,7 +6,7 @@ void showToast(
     {required String msg, required Color bgColor, required Color txColor}) {
   Fluttertoast.showToast(
       msg: msg,
-      toastLength: Toast.LENGTH_SHORT,
+      toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.BOTTOM,
       backgroundColor: bgColor,
       textColor: txColor,

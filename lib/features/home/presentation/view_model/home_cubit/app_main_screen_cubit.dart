@@ -1,11 +1,16 @@
+import 'dart:async';
+import 'dart:developer' as developer;
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fun_adventure/cores/methods/toast.dart';
 import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
 import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.dart';
 import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
@@ -21,8 +26,9 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   AppMainScreenCubit() : super(AppMainScreenInitState());
 
   late UserAppData userData;
-
   int currentIndex = 0;
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
 
   List<IconData> bottomNavigationBarIcons = [
     FontAwesomeIcons.house,
@@ -43,47 +49,95 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     const HomeScreen(),
   ];
 
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initConnectivity() async {
+    _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+
+    late ConnectivityResult result;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      developer.log('Couldn\'t check connectivity status', error: e);
+      return;
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    String temp = _connectionStatus.name;
+    _connectionStatus = result;
+
+    if (temp == 'none' &&
+        (result.name == 'wifi' || result.name == 'mobile')) {
+      getHomeScreen();
+    }
+
+    print(result.name);
+  }
+
+
   static AppMainScreenCubit get(context) => BlocProvider.of(context);
 
-  Future<bool> checkIfUserDataSavedLocal() async {
-    final box = await Hive.openBox<UserAppData>(userBox);
-    return box.isEmpty;
+  Future<void> blocOperations(String userEmail) async {
+    await initConnectivity();
+    initLocalAppData();
+    getUserData(userEmail ?? '');
+    getHomeScreen();
   }
 
   Future<void> initLocalAppData() async {
     try {
+      print('start local data');
       final box1 = await Hive.openBox(hotTravelsBox);
       final box2 = await Hive.openBox(recentNewsBox);
-
 
       hotTravels = box1.get(hotTravelsKey).cast<HotTravelModel>();
       recentNews = box2.get(recentNewsKey).cast<RecentNewsModel>();
 
-      // // close all boxes when firebase data coming and update hive boxes values.
-
+      // close all boxes when firebase data coming and update hive boxes values.
       await box1.close();
       await box2.close();
       emit(GetLocalAppDataSuccessState());
     } catch (e, x) {
-      print(e.toString());
-      print(x);
+      print('error local data');
+      showToast(msg: 'There is no saved data, connect to the internet',
+          bgColor: Colors.red,
+          txColor: Colors.white);
+      if (kDebugMode) {
+        print(e.toString());
+      }
+      if (kDebugMode) {
+        print(x);
+      }
       emit(GetLocalAppDataFailureState());
     }
   }
 
-  Future<void> getUserData(String email) async {
-    emit(GetUserDataLoadingState());
+  Future<void> getUserData(String email,) async {
+    print(_connectionStatus.name);
+    if (_connectionStatus.name != 'none') {
+      emit(GetUserDataLoadingState());
 
-    try {
-      DocumentSnapshot<Object?> data =
-      await FireStoreServices.getUserData(email: email);
-      userData = UserAppData.fromJson(data.data() as Map<String, dynamic>);
-      await _saveUserAppData();
+      try {
+        DocumentSnapshot<Object?> data =
+        await FireStoreServices.getUserData(email: email);
+        userData = UserAppData.fromJson(data.data() as Map<String, dynamic>);
+        await _saveUserAppData();
 
-      emit(GetUserDataSuccessState());
-    } catch (e) {
-      print(e.toString());
-      emit(GetUserDataFailureState(e.toString()));
+        emit(GetUserDataSuccessState());
+      } catch (e) {
+        if (kDebugMode) {
+          print(e.toString());
+        }
+        emit(GetUserDataFailureState(e.toString()));
+      }
+    } else {
+      showToast(
+          msg: 'There is no internet',
+          bgColor: Colors.red,
+          txColor: Colors.white);
     }
   }
 
@@ -105,34 +159,42 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   }
 
   Future<void> getHomeScreen() async {
-    emit(GetHomeScreenDataLoadingState());
+    if (_connectionStatus.name != 'none') {
+      emit(GetHomeScreenDataLoadingState());
+      try {
+        DocumentSnapshot<Object?> data1 =
+        await FireStoreServices.getHomeScreenData('last travels');
+        DocumentSnapshot<Object?> data2 =
+        await FireStoreServices.getHomeScreenData('recent news');
 
-    try {
-      DocumentSnapshot<Object?> data1 =
-      await FireStoreServices.getHomeScreenData('last travels');
-      DocumentSnapshot<Object?> data2 =
-      await FireStoreServices.getHomeScreenData('recent news');
+        Map<String, dynamic> dataList1 = data1.data() as Map<String, dynamic>;
+        Map<String, dynamic> dataList2 = data2.data() as Map<String, dynamic>;
 
-      Map<String, dynamic> dataList1 = data1.data() as Map<String, dynamic>;
-      Map<String, dynamic> dataList2 = data2.data() as Map<String, dynamic>;
+        for (Map<String, dynamic> element in dataList1.values.toList()) {
+          element['image'] = await downloadAndStoreImage(element['image']);
 
-      for (Map<String, dynamic> element in dataList1.values.toList()) {
-        element['image'] = await downloadAndStoreImage(element['image']);
+          hotTravels.add(HotTravelModel.fromJson(element));
+        }
 
-        hotTravels.add(HotTravelModel.fromJson(element));
+        for (Map<String, dynamic> element in dataList2.values.toList()) {
+          element['image'] = await downloadAndStoreImage(element['image']);
+          recentNews.add(RecentNewsModel.fromJson(element));
+        }
+
+        _saveHomeScreenData();
+
+        emit(GetHomeScreenDataSuccessState());
+      } catch (e) {
+        if (kDebugMode) {
+          print(e.toString());
+        }
+        emit(GetHomeScreenDataFailureState(e.toString()));
       }
-
-      for (Map<String, dynamic> element in dataList2.values.toList()) {
-        element['image'] = await downloadAndStoreImage(element['image']);
-        recentNews.add(RecentNewsModel.fromJson(element));
-      }
-
-      _saveHomeScreenData();
-
-      emit(GetHomeScreenDataSuccessState());
-    } catch (e) {
-      print(e.toString());
-      emit(GetHomeScreenDataFailureState(e.toString()));
+    } else {
+      showToast(
+          msg: 'There is no internet',
+          bgColor: Colors.red,
+          txColor: Colors.white);
     }
   }
 
@@ -142,28 +204,24 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
       await box.put(userDataKey, userData); // save it in hive
       box.close();
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
     }
   }
 
   Future<void> _saveHomeScreenData() async {
     try {
-      print(Hive.isBoxOpen(hotTravelsBox));
-
-      late final box1;
-
-      if (Hive.isBoxOpen(hotTravelsBox)) {
-        box1 = Hive.box(hotTravelsBox);
-      } else {
-        box1 = await Hive.openBox(hotTravelsBox);
+      if (kDebugMode) {
+        print(Hive.isBoxOpen(hotTravelsBox));
       }
 
-      late final box2;
-      if (Hive.isBoxOpen(recentNewsBox)) {
-        box2 = Hive.box(recentNewsBox);
-      } else {
-        box2 = await Hive.openBox(recentNewsBox);
-      }
+      final box1 = Hive.isBoxOpen(hotTravelsBox)
+          ? Hive.box(hotTravelsBox)
+          : await Hive.openBox(hotTravelsBox);
+      final box2 = Hive.isBoxOpen(recentNewsBox)
+          ? Hive.box(recentNewsBox)
+          : await Hive.openBox(recentNewsBox);
 
       await box1.put(hotTravelsKey, hotTravels); // save it in hive
       await box2.put(recentNewsKey, recentNews); // save it in hive
@@ -171,8 +229,12 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
       box1.close();
       box2.close();
     } catch (e, s) {
-      print(e.toString());
-      print(s);
+      if (kDebugMode) {
+        print(e.toString());
+      }
+      if (kDebugMode) {
+        print(s);
+      }
     }
   }
 }
