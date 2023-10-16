@@ -30,7 +30,6 @@ class _MenuItemState extends State<MenuItem> {
             height: 1,
           ),
           Stack(
-            alignment: Alignment.center,
             children: [
               AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
@@ -43,7 +42,7 @@ class _MenuItemState extends State<MenuItem> {
                     : 0,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
                     FaIcon(

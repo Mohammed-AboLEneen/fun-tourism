@@ -29,6 +29,8 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   int currentIndex = 0;
   ConnectivityResult _connectionStatus = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
+  bool isGetHomeScreenData = false;
+  bool isGetUserAppData = false;
 
   List<IconData> bottomNavigationBarIcons = [
     FontAwesomeIcons.house,
@@ -48,6 +50,20 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     const HomeScreen(),
     const HomeScreen(),
   ];
+
+  static AppMainScreenCubit get(context) => BlocProvider.of(context);
+
+  Future<void> blocOperations(String userEmail) async {
+    await initConnectivity();
+    initLocalAppData();
+    getUserData(userEmail ?? '');
+
+    // this function is called when get the state of the internet,
+    // so when open wifi or mobile after close it,
+    // this function will be called again to get the new data.
+    // getHomeScreen();
+
+  }
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initConnectivity() async {
@@ -69,40 +85,32 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     String temp = _connectionStatus.name;
     _connectionStatus = result;
 
-    if (temp == 'none' &&
-        (result.name == 'wifi' || result.name == 'mobile')) {
+    if ((temp == 'none' &&
+        (result.name == 'wifi' || result.name == 'mobile')) &&
+        isGetHomeScreenData == false) {
       getHomeScreen();
     }
 
     print(result.name);
   }
 
-
-  static AppMainScreenCubit get(context) => BlocProvider.of(context);
-
-  Future<void> blocOperations(String userEmail) async {
-    await initConnectivity();
-    initLocalAppData();
-    getUserData(userEmail ?? '');
-    getHomeScreen();
-  }
-
   Future<void> initLocalAppData() async {
     try {
-      print('start local data');
       final box1 = await Hive.openBox(hotTravelsBox);
       final box2 = await Hive.openBox(recentNewsBox);
+      final box3 = await Hive.openBox<UserAppData>(userBox);
 
       hotTravels = box1.get(hotTravelsKey).cast<HotTravelModel>();
       recentNews = box2.get(recentNewsKey).cast<RecentNewsModel>();
+      userData = box3.get(userDataKey) ?? UserAppData();
 
       // close all boxes when firebase data coming and update hive boxes values.
       await box1.close();
       await box2.close();
       emit(GetLocalAppDataSuccessState());
     } catch (e, x) {
-      print('error local data');
-      showToast(msg: 'There is no saved data, connect to the internet',
+      showToast(
+          msg: 'There is no saved data, connect to the internet',
           bgColor: Colors.red,
           txColor: Colors.white);
       if (kDebugMode) {
@@ -118,6 +126,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   Future<void> getUserData(String email,) async {
     print(_connectionStatus.name);
     if (_connectionStatus.name != 'none') {
+      isGetUserAppData = true;
       emit(GetUserDataLoadingState());
 
       try {
@@ -131,6 +140,8 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
         if (kDebugMode) {
           print(e.toString());
         }
+
+        isGetUserAppData = false;
         emit(GetUserDataFailureState(e.toString()));
       }
     } else {
@@ -141,9 +152,53 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     }
   }
 
-  void changeBottomNavigationBarIndex(int index) {
-    currentIndex = index;
-    emit(ChangeBottomNavigationBarIndex());
+  // this function is called when get the state of the internet,
+  // so when open wifi or mobile after close it,
+  // this function will be called again to get the new data.
+  Future<void> getHomeScreen() async {
+    if (_connectionStatus.name != 'none') {
+      isGetHomeScreenData = true;
+      emit(GetHomeScreenDataLoadingState());
+      try {
+        DocumentSnapshot<Object?> data1 =
+        await FireStoreServices.getHomeScreenData('last travels');
+        DocumentSnapshot<Object?> data2 =
+        await FireStoreServices.getHomeScreenData('recent news');
+
+        Map<String, dynamic> dataList1 = data1.data() as Map<String, dynamic>;
+        Map<String, dynamic> dataList2 = data2.data() as Map<String, dynamic>;
+
+        hotTravels.clear();
+        recentNews.clear();
+        for (Map<String, dynamic> element in dataList1.values.toList()) {
+          element['image'] = await downloadAndStoreImage(element['image']);
+          print(element['title']);
+          hotTravels.add(HotTravelModel.fromJson(element));
+        }
+
+        for (Map<String, dynamic> element in dataList2.values.toList()) {
+          element['image'] = await downloadAndStoreImage(element['image']);
+          recentNews.add(RecentNewsModel.fromJson(element));
+        }
+
+        _saveHomeScreenData();
+
+        isGetHomeScreenData = false;
+        emit(GetHomeScreenDataSuccessState());
+      } catch (e) {
+        if (kDebugMode) {
+          print(e.toString());
+        }
+
+        isGetHomeScreenData = false;
+        emit(GetHomeScreenDataFailureState(e.toString()));
+      }
+    } else {
+      showToast(
+          msg: 'There is no internet',
+          bgColor: Colors.red,
+          txColor: Colors.white);
+    }
   }
 
   Future<Uint8List> downloadAndStoreImage(String imageUrl) async {
@@ -156,46 +211,6 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     final cacheManager = DefaultCacheManager();
     final File file = await cacheManager.getSingleFile(imageUrl);
     return file.readAsBytesSync();
-  }
-
-  Future<void> getHomeScreen() async {
-    if (_connectionStatus.name != 'none') {
-      emit(GetHomeScreenDataLoadingState());
-      try {
-        DocumentSnapshot<Object?> data1 =
-        await FireStoreServices.getHomeScreenData('last travels');
-        DocumentSnapshot<Object?> data2 =
-        await FireStoreServices.getHomeScreenData('recent news');
-
-        Map<String, dynamic> dataList1 = data1.data() as Map<String, dynamic>;
-        Map<String, dynamic> dataList2 = data2.data() as Map<String, dynamic>;
-
-        for (Map<String, dynamic> element in dataList1.values.toList()) {
-          element['image'] = await downloadAndStoreImage(element['image']);
-
-          hotTravels.add(HotTravelModel.fromJson(element));
-        }
-
-        for (Map<String, dynamic> element in dataList2.values.toList()) {
-          element['image'] = await downloadAndStoreImage(element['image']);
-          recentNews.add(RecentNewsModel.fromJson(element));
-        }
-
-        _saveHomeScreenData();
-
-        emit(GetHomeScreenDataSuccessState());
-      } catch (e) {
-        if (kDebugMode) {
-          print(e.toString());
-        }
-        emit(GetHomeScreenDataFailureState(e.toString()));
-      }
-    } else {
-      showToast(
-          msg: 'There is no internet',
-          bgColor: Colors.red,
-          txColor: Colors.white);
-    }
   }
 
   Future<void> _saveUserAppData() async {
@@ -236,5 +251,10 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
         print(s);
       }
     }
+  }
+
+  void changeBottomNavigationBarIndex(int index) {
+    currentIndex = index;
+    emit(ChangeBottomNavigationBarIndex());
   }
 }

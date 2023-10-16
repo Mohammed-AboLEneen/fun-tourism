@@ -7,9 +7,9 @@ String loginKey = 'loginKey455556';
 String userEmailKey = 'UserEmailKey';
 String userBox = 'userBox'; // name of hive box which hold user data.
 String hotTravelsBox =
-    'HotTravelsBox10'; // name of hive box which hold user data.
+    'HotTravelsBox100'; // name of hive box which hold user data.
 String recentNewsBox =
-    'RecentNewsBox10'; // name of hive box which hold user data.
+    'RecentNewsBox100'; // name of hive box which hold user data.
 String userDataKey = 'userAppDataKey'; // key of userAppData object in hive box.
 String hotTravelsKey = 'hotTravelsKe';
 String recentNewsKey = 'recentNewsKe';
