@@ -37,11 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocConsumer<AppMainScreenCubit, AppMainScreenStates>(
         builder: (context, state) {
           AppMainScreenCubit appMainScreenCubit =
-          AppMainScreenCubit.get(context);
+              AppMainScreenCubit.get(context);
 
           return CustomScrollView(
             slivers: [
-
               SliverToBoxAdapter(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -75,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: context.width * .3,
                                 child: Text('Have Fun & Enjoy',
                                     style:
-                                    GoogleFonts.tajawal(fontSize: 32.sp)),
+                                        GoogleFonts.tajawal(fontSize: 32.sp)),
                               ),
                             )
                           ],
@@ -99,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: context.width * .33,
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                              vertical: 3.0.h, horizontal: 2.0.w),
+                              vertical: 3.0.h, horizontal: 6.0.w),
                           child: Text(
                             'Hot Travels',
                             style: GoogleFonts.akayaKanadaka()
@@ -164,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: context.width * .37,
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                              vertical: 3.0.h, horizontal: 2.0.w),
+                              vertical: 3.0.h, horizontal: 6.0.w),
                           child: Text(
                             'Recent News',
                             style: GoogleFonts.akayaKanadaka()
@@ -183,133 +182,132 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: SizedBox(
-                      height: context.height * .3,
-                      child: ChangeNotifierProvider(
-                        create: (BuildContext context) => TopsBannerProvider(),
-                        child: Consumer<TopsBannerProvider>(builder:
-                            (BuildContext context, TopsBannerProvider model,
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: SizedBox(
+                  height: context.height * .3,
+                  child: ChangeNotifierProvider(
+                    create: (BuildContext context) => TopsBannerProvider(),
+                    child: Consumer<TopsBannerProvider>(builder:
+                        (BuildContext context, TopsBannerProvider model,
                             Widget? child) {
-                          return Stack(
-                            children: [
-                              SizedBox(
-                                  width: context.width,
-                                  child: SizedBox(
-                                      width: context.width * .4,
-                                      height: context.height * .5,
-                                      child: Stack(
-                                          alignment: Alignment.bottomCenter,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
+                      return Stack(
+                        children: [
+                          SizedBox(
+                              width: context.width,
+                              child: SizedBox(
+                                  width: context.width * .4,
+                                  height: context.height * .5,
+                                  child: Stack(
+                                      alignment: Alignment.bottomCenter,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
                                               BorderRadius.circular(20),
-                                              child: Image.memory(
-                                                appMainScreenCubit
+                                          child: Image.memory(
+                                            appMainScreenCubit
                                                     .recentNews[
-                                                model.currentItem]
+                                                        model.currentItem]
                                                     .image ??
-                                                    Uint8List(0),
-                                                fit: BoxFit.cover,
-                                                width: context.width,
-                                              ),
-                                            )
-                                          ]))),
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Stack(children: [
-                                  ClipPath(
-                                    clipper: MyCustomClipper(),
-                                    child: Container(
-                                      height: context.height * .1,
-                                      width: context.width,
-                                      decoration: const BoxDecoration(
-                                          gradient: LinearGradient(colors: [
-                                            Colors.transparent,
-                                            Colors.indigo
-                                          ]),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20))),
-                                      child: Align(
-                                        alignment: Alignment.bottomCenter,
-                                        child: Padding(
-                                          padding:
+                                                Uint8List(0),
+                                            fit: BoxFit.cover,
+                                            width: context.width,
+                                          ),
+                                        )
+                                      ]))),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Stack(children: [
+                              ClipPath(
+                                clipper: MyCustomClipper(),
+                                child: Container(
+                                  height: context.height * .1,
+                                  width: context.width,
+                                  decoration: const BoxDecoration(
+                                      gradient: LinearGradient(colors: [
+                                        Colors.transparent,
+                                        Colors.indigo
+                                      ]),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20))),
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Padding(
+                                      padding:
                                           const EdgeInsets.only(bottom: 5.0),
-                                          child: Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10.0),
-                                                child: AnimatedSmoothIndicator(
-                                                  activeIndex: model
-                                                      .currentItem,
-                                                  count: 4,
-                                                  effect: ColorTransitionEffect(
-                                                      dotHeight: 10,
-                                                      dotWidth: 10,
-                                                      dotColor: Colors.white
-                                                          .withOpacity(0.7),
-                                                      activeDotColor:
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 10.0),
+                                            child: AnimatedSmoothIndicator(
+                                              activeIndex: model.currentItem,
+                                              count: 4,
+                                              effect: ColorTransitionEffect(
+                                                  dotHeight: 10,
+                                                  dotWidth: 10,
+                                                  dotColor: Colors.white
+                                                      .withOpacity(0.7),
+                                                  activeDotColor:
                                                       Colors.indigo),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: context.width * .17,
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  appMainScreenCubit
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: context.width * .17,
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              appMainScreenCubit
                                                       .recentNews[
-                                                  model.currentItem]
+                                                          model.currentItem]
                                                       .title ??
-                                                      'Noting',
-                                                  maxLines: 1,
-                                                  style: GoogleFonts.bitter()
-                                                      .copyWith(
+                                                  'Noting',
+                                              maxLines: 1,
+                                              style: GoogleFonts.bitter()
+                                                  .copyWith(
                                                       color: Colors.white
                                                           .withOpacity(.8),
                                                       overflow:
-                                                      TextOverflow.ellipsis,
+                                                          TextOverflow.ellipsis,
                                                       fontSize: context.height *
                                                           .023),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
                                   ),
-                                ]),
-                              ),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: TopBannerItemTextButton(
-                                  topLeft: Radius.zero,
-                                  bottomLeft: Radius.zero,
-                                  action: () {
-                                    model.previousTopsBannerItem();
-                                  },
-                                  icon: Icons.arrow_back,
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: TopBannerItemTextButton(
-                                  topRight: Radius.zero,
-                                  bottomRight: Radius.zero,
-                                  action: () {
-                                    model.nextTopsBannerItem();
-                                  },
-                                  icon: Icons.arrow_forward_rounded,
-                                ),
-                              )
-                            ],
-                          );
-                        }),
-                      ),
-                    ),
-                  )),
+                            ]),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: TopBannerItemTextButton(
+                              topLeft: Radius.zero,
+                              bottomLeft: Radius.zero,
+                              action: () {
+                                model.previousTopsBannerItem();
+                              },
+                              icon: Icons.arrow_back,
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TopBannerItemTextButton(
+                              topRight: Radius.zero,
+                              bottomRight: Radius.zero,
+                              action: () {
+                                model.nextTopsBannerItem();
+                              },
+                              icon: Icons.arrow_forward_rounded,
+                            ),
+                          )
+                        ],
+                      );
+                    }),
+                  ),
+                ),
+              )),
               SliverToBoxAdapter(
                 child: SizedBox(
                   height: context.height * .13,

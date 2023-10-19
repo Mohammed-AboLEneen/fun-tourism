@@ -36,7 +36,7 @@ class _MenuItemState extends State<MenuItem> {
                 decoration: BoxDecoration(
                     color: Colors.white.withOpacity(.6),
                     borderRadius: BorderRadius.circular(10)),
-                height: MediaQuery.of(context).size.height * .073,
+                height: MediaQuery.of(context).size.height * .075,
                 width: widget.isSelected
                     ? MediaQuery.of(context).size.width * .7
                     : 0,

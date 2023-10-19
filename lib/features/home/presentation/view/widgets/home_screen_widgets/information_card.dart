@@ -20,7 +20,9 @@ class InfoCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width * .5,
               child: ListTile(
                 title: Text(
-                  BlocProvider.of<AppMainScreenCubit>(context).userData.email ??
+                  BlocProvider.of<AppMainScreenCubit>(context)
+                          .userData
+                          ?.email ??
                       'Nothing',
                   maxLines: 1,
                   style: TextStyle(

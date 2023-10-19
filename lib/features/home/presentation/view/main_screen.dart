@@ -24,10 +24,30 @@ class AppMainScreen extends StatefulWidget {
 class _AppMainScreenState extends State<AppMainScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  int sliderBannerCurrentIndex = 0;
+  late double xPosition;
+  late double normalizedXPosition;
+  late final window;
+  late final Size size;
+
+  double tweenBeginScale = 0;
+  double tweenEndScale = 0;
+
+  double tweenBeginColor = 1;
+  double tweenEndColor = 1;
+
   @override
   void initState() {
-    userEmail = SharedPreferenceHelper.getString(key: userEmailKey);
     super.initState();
+    window = WidgetsBinding.instance.platformDispatcher.views.first;
+    size = window.physicalSize / window.devicePixelRatio;
+    xPosition = -1.0 *
+        (size.width) *
+        .7; // set xPosition to negative of container's width
+    print(xPosition);
+    normalizedXPosition = xPosition / (size.width * .7); // normalize
+
+    userEmail = SharedPreferenceHelper.getString(key: userEmailKey);
   }
 
   @override
@@ -45,88 +65,156 @@ class _AppMainScreenState extends State<AppMainScreen> {
                   image: AssetImage(ImagesClass.homeBgPngImage),
                   fit: BoxFit.fill),
             ),
-            child: Scaffold(
-              drawer: const MainScreenMenu(),
-              backgroundColor: Colors.transparent,
-              body: NestedScrollView(
-                headerSliverBuilder: (context, inner) {
-                  return <Widget>[
-                    SliverAppBar(
-                      flexibleSpace: FlexibleSpaceBar(
-                        title: Text(
-                          'FunTourism',
-                          style: GoogleFonts.actor(),
-                        ),
-                      ),
-                      backgroundColor: Colors.white.withOpacity(.4),
-                      actions: [
-                        IconButton(
-                            onPressed: () {
-                              _scaffoldKey.currentState?.openDrawer();
-                            },
-                            icon: const FaIcon(FontAwesomeIcons.bell)),
-                      ],
-                      pinned: true,
-                      floating: true,
-                      snap: true,
-                    ),
-                  ];
-                },
-                body: appMainScreenCubit.recentNews.isNotEmpty &&
-                        appMainScreenCubit.hotTravels.isNotEmpty
-                    ? Stack(
-                        children: [
-                          appMainScreenCubit
-                              .screens[appMainScreenCubit.currentIndex],
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 20.0),
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: ClipRRect(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(20)),
-                                child: BackdropFilter(
-                                  filter:
-                                      ImageFilter.blur(sigmaY: 5, sigmaX: 5),
-                                  child: Container(
-                                    height: context.height * .07,
-                                    width: context.width * .6,
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xff313745)
-                                            .withOpacity(.8),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(20))),
-                                    child: ListView.builder(
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (context, index) =>
-                                            CustomBottomNavigationBarItem(
-                                              icon: appMainScreenCubit
-                                                      .bottomNavigationBarIcons[
-                                                  index],
-                                              index: index,
-                                              currentIndex: appMainScreenCubit
-                                                  .currentIndex,
-                                              onTap: () {
-                                                appMainScreenCubit
-                                                    .changeBottomNavigationBarIndex(
-                                                        index);
-                                              },
-                                            ),
-                                        itemCount: 4),
-                                  ),
-                                ),
+            child: GestureDetector(
+              onPanUpdate: (tapInfo) {
+                setState(() {
+                  if (xPosition + tapInfo.delta.dx <= 1 &&
+                      (xPosition + tapInfo.delta.dx) > -(context.width * .7)) {
+                    xPosition += tapInfo.delta.dx * 1.5;
+
+                    // make the range from 0 to .05 not from 1 to 0
+                    tweenBeginScale = .05 - ((normalizedXPosition * .05));
+
+                    // normalize xPosition ( make it value from 0 to 1)
+                    normalizedXPosition = -(xPosition / (context.width * .7));
+
+                    // make the range from 0 to .05 not from 1 to 0
+                    tweenEndScale = .05 - ((normalizedXPosition * .05));
+                  }
+                  // Check if newXPosition is within screen bounds
+                });
+              },
+              onPanEnd: (de) {
+                if (normalizedXPosition > .5) {
+                  xPosition = -1.0 * (context.width) * .7;
+                  normalizedXPosition = 1;
+
+                  tweenBeginScale = normalizedXPosition * .05;
+                  tweenEndScale = 0;
+                } else {
+                  xPosition = 0;
+                  normalizedXPosition = 0;
+
+                  tweenBeginScale = normalizedXPosition * .05;
+                  tweenEndScale = .05;
+                }
+
+                setState(() {});
+              },
+              child: Stack(
+                children: [
+                  TweenAnimationBuilder(
+                      tween: Tween<double>(
+                          begin: tweenBeginScale, end: tweenEndScale),
+                      duration: const Duration(milliseconds: 150),
+                      builder: (_, value, ___) {
+                        return Transform.scale(
+                          scale: (1 - value),
+                          child: Scaffold(
+                            backgroundColor: Colors.transparent,
+                            appBar: AppBar(
+                              backgroundColor: Colors.white.withOpacity(.2),
+                              title: Text(
+                                'FTourism',
+                                style: GoogleFonts.akayaKanadaka(),
                               ),
+                              actions: [
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: const FaIcon(FontAwesomeIcons.bell))
+                              ],
+                              leading: IconButton(
+                                  onPressed: () {
+                                    print('dsd');
+                                    xPosition = 0;
+                                    print(xPosition);
+                                    setState(() {
+                                      print('done');
+                                    });
+                                  },
+                                  icon: const FaIcon(FontAwesomeIcons.bars)),
                             ),
-                          )
-                        ],
+                            body: appMainScreenCubit.recentNews.isNotEmpty &&
+                                    appMainScreenCubit.hotTravels.isNotEmpty
+                                ? Stack(
+                                    children: [
+                                      appMainScreenCubit.screens[
+                                          appMainScreenCubit.currentIndex],
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 20.0),
+                                        child: Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(20)),
+                                            child: BackdropFilter(
+                                              filter: ImageFilter.blur(
+                                                  sigmaY: 5, sigmaX: 5),
+                                              child: Container(
+                                                height: context.height * .07,
+                                                width: context.width * .6,
+                                                decoration: BoxDecoration(
+                                                    color:
+                                                        const Color(0xff313745)
+                                                            .withOpacity(.8),
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(
+                                                                20))),
+                                                child: ListView.builder(
+                                                    physics:
+                                                        const NeverScrollableScrollPhysics(),
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemBuilder: (context,
+                                                            index) =>
+                                                        CustomBottomNavigationBarItem(
+                                                          icon: appMainScreenCubit
+                                                                  .bottomNavigationBarIcons[
+                                                              index],
+                                                          index: index,
+                                                          currentIndex:
+                                                              appMainScreenCubit
+                                                                  .currentIndex,
+                                                          onTap: () {
+                                                            appMainScreenCubit
+                                                                .changeBottomNavigationBarIndex(
+                                                                    index);
+                                                          },
+                                                        ),
+                                                    itemCount: 4),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                : const Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.indigo,
+                                    ),
+                                  ),
+                          ),
+                        );
+                      }),
+                  Stack(
+                    children: [
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        // Set the duration for the animation
+                        curve: Curves.easeOut,
+                        // Set the easing function for the animation
+                        transform: Matrix4.translationValues(xPosition, 0, 0),
+                        // Use translation instead of Offset for AnimatedContainer
+                        width: context.width * .7,
+                        child: const MainScreenMenu(),
                       )
-                    : const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.indigo,
-                        ),
-                      ),
+                    ],
+                  )
+                ],
               ),
             ),
           );

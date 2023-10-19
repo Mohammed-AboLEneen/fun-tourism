@@ -21,11 +21,12 @@ import 'package:hive/hive.dart';
 
 import '../../../../../constants.dart';
 import '../../view/widgets/home_screen_widgets/home_screen.dart';
+import '../../view/widgets/home_screen_widgets/l.dart';
 
 class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   AppMainScreenCubit() : super(AppMainScreenInitState());
 
-  late UserAppData userData;
+  UserAppData? userData;
   int currentIndex = 0;
   ConnectivityResult _connectionStatus = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
@@ -47,7 +48,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     const LolScreen(
       title: 'Welcome man',
     ),
-    const HomeScreen(),
+    const DragContainer(),
     const HomeScreen(),
   ];
 
@@ -62,7 +63,6 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     // so when open wifi or mobile after close it,
     // this function will be called again to get the new data.
     // getHomeScreen();
-
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -134,7 +134,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
         await FireStoreServices.getUserData(email: email);
         userData = UserAppData.fromJson(data.data() as Map<String, dynamic>);
         await _saveUserAppData();
-
+        print('get user data');
         emit(GetUserDataSuccessState());
       } catch (e) {
         if (kDebugMode) {
@@ -142,6 +142,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
         }
 
         isGetUserAppData = false;
+
         emit(GetUserDataFailureState(e.toString()));
       }
     } else {
@@ -216,7 +217,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   Future<void> _saveUserAppData() async {
     try {
       final box = await Hive.openBox<UserAppData>(userBox);
-      await box.put(userDataKey, userData); // save it in hive
+      await box.put(userDataKey, userData!); // save it in hive
       box.close();
     } catch (e) {
       if (kDebugMode) {
