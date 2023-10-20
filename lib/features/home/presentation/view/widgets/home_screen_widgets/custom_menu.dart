@@ -22,16 +22,19 @@ class CustomMenuApp {
     normalizedXPosition = xPosition / (size.width * .7); // normalize
   }
 
+  // this method called when moving menu to determine the beginning value for scale and black color with menu when it open.
   void setBeforeUpdateRealTimeNormalizedValue() {
     tweenBeginScale = .05 - ((normalizedXPosition * .05));
     tweenBeginColor = .2 - ((normalizedXPosition * .2));
   }
 
+  // this method called when moving menu to determine the Ending value for scale and black color with menu when it open.
   void setAfterUpdateRealTimeNormalizedValue() {
     tweenEndScale = .05 - ((normalizedXPosition * .05));
     tweenEndColor = .2 - ((normalizedXPosition * .2));
   }
 
+  // when user stop touching screen.
   void leaveMenuMoving(BuildContext context) {
     if (normalizedXPosition > .5) {
       xPosition = -1.0 * (context.width) * .7;
