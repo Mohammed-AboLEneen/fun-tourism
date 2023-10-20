@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 
@@ -42,7 +43,7 @@ class _MenuItemState extends State<MenuItem> {
                     : 0,
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(7.h),
                 child: Row(
                   children: [
                     FaIcon(

@@ -53,11 +53,13 @@ class _AppMainScreenState extends State<AppMainScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppMainScreenCubit()..blocOperations(userEmail!),
+      create: (context) =>
+      AppMainScreenCubit()
+        ..blocOperations(userEmail!),
       child: BlocConsumer<AppMainScreenCubit, AppMainScreenStates>(
         builder: (context, state) {
           AppMainScreenCubit appMainScreenCubit =
-              AppMainScreenCubit.get(context);
+          AppMainScreenCubit.get(context);
 
           return Container(
             decoration: BoxDecoration(
@@ -70,16 +72,17 @@ class _AppMainScreenState extends State<AppMainScreen> {
                 setState(() {
                   if (xPosition + tapInfo.delta.dx <= 1 &&
                       (xPosition + tapInfo.delta.dx) > -(context.width * .7)) {
-                    xPosition += tapInfo.delta.dx * 1.5;
+                    xPosition += tapInfo.delta.dx * 1.8;
 
                     // make the range from 0 to .05 not from 1 to 0
                     tweenBeginScale = .05 - ((normalizedXPosition * .05));
-
+                    tweenBeginColor = .2 - ((normalizedXPosition * .2));
                     // normalize xPosition ( make it value from 0 to 1)
                     normalizedXPosition = -(xPosition / (context.width * .7));
 
                     // make the range from 0 to .05 not from 1 to 0
                     tweenEndScale = .05 - ((normalizedXPosition * .05));
+                    tweenEndColor = .2 - ((normalizedXPosition * .2));
                   }
                   // Check if newXPosition is within screen bounds
                 });
@@ -89,14 +92,18 @@ class _AppMainScreenState extends State<AppMainScreen> {
                   xPosition = -1.0 * (context.width) * .7;
                   normalizedXPosition = 1;
 
-                  tweenBeginScale = normalizedXPosition * .05;
+                  tweenBeginScale = .05 - (normalizedXPosition * .05);
                   tweenEndScale = 0;
+                  tweenBeginColor = .2 - ((normalizedXPosition * .2));
+                  tweenEndColor = 0;
                 } else {
                   xPosition = 0;
                   normalizedXPosition = 0;
 
-                  tweenBeginScale = normalizedXPosition * .05;
+                  tweenBeginScale = .05 - (normalizedXPosition * .05);
                   tweenEndScale = .05;
+                  tweenBeginColor = .2 - ((normalizedXPosition * .2));
+                  tweenEndColor = .2;
                 }
 
                 setState(() {});
@@ -125,83 +132,113 @@ class _AppMainScreenState extends State<AppMainScreen> {
                               ],
                               leading: IconButton(
                                   onPressed: () {
-                                    print('dsd');
-                                    xPosition = 0;
-                                    print(xPosition);
                                     setState(() {
-                                      print('done');
+                                      xPosition = 0;
+                                      xPosition = 0;
+                                      normalizedXPosition = 0;
+
+                                      tweenBeginScale =
+                                          .05 - (normalizedXPosition * .05);
+                                      tweenEndScale = .05;
+                                      tweenBeginColor = 0;
+                                      tweenEndColor = .2;
                                     });
                                   },
                                   icon: const FaIcon(FontAwesomeIcons.bars)),
                             ),
                             body: appMainScreenCubit.recentNews.isNotEmpty &&
-                                    appMainScreenCubit.hotTravels.isNotEmpty
+                                appMainScreenCubit.hotTravels.isNotEmpty
                                 ? Stack(
-                                    children: [
-                                      appMainScreenCubit.screens[
-                                          appMainScreenCubit.currentIndex],
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 20.0),
-                                        child: Align(
-                                          alignment: Alignment.bottomCenter,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(20)),
-                                            child: BackdropFilter(
-                                              filter: ImageFilter.blur(
-                                                  sigmaY: 5, sigmaX: 5),
-                                              child: Container(
-                                                height: context.height * .07,
-                                                width: context.width * .6,
-                                                decoration: BoxDecoration(
-                                                    color:
-                                                        const Color(0xff313745)
-                                                            .withOpacity(.8),
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(
-                                                                20))),
-                                                child: ListView.builder(
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    itemBuilder: (context,
-                                                            index) =>
-                                                        CustomBottomNavigationBarItem(
-                                                          icon: appMainScreenCubit
-                                                                  .bottomNavigationBarIcons[
-                                                              index],
-                                                          index: index,
-                                                          currentIndex:
-                                                              appMainScreenCubit
-                                                                  .currentIndex,
-                                                          onTap: () {
-                                                            appMainScreenCubit
-                                                                .changeBottomNavigationBarIndex(
-                                                                    index);
-                                                          },
-                                                        ),
-                                                    itemCount: 4),
-                                              ),
-                                            ),
-                                          ),
+                              children: [
+                                appMainScreenCubit.screens[
+                                appMainScreenCubit.currentIndex],
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.only(bottom: 20.0),
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: ClipRRect(
+                                      borderRadius:
+                                      const BorderRadius.all(
+                                          Radius.circular(20)),
+                                      child: BackdropFilter(
+                                        filter: ImageFilter.blur(
+                                            sigmaY: 5, sigmaX: 5),
+                                        child: Container(
+                                          height: context.height * .07,
+                                          width: context.width * .6,
+                                          decoration: BoxDecoration(
+                                              color:
+                                              const Color(0xff313745)
+                                                  .withOpacity(.8),
+                                              borderRadius:
+                                              const BorderRadius.all(
+                                                  Radius.circular(
+                                                      20))),
+                                          child: ListView.builder(
+                                              physics:
+                                              const NeverScrollableScrollPhysics(),
+                                              scrollDirection:
+                                              Axis.horizontal,
+                                              itemBuilder: (context,
+                                                  index) =>
+                                                  CustomBottomNavigationBarItem(
+                                                    icon: appMainScreenCubit
+                                                        .bottomNavigationBarIcons[
+                                                    index],
+                                                    index: index,
+                                                    currentIndex:
+                                                    appMainScreenCubit
+                                                        .currentIndex,
+                                                    onTap: () {
+                                                      appMainScreenCubit
+                                                          .changeBottomNavigationBarIndex(
+                                                          index);
+                                                    },
+                                                  ),
+                                              itemCount: 4),
                                         ),
-                                      )
-                                    ],
-                                  )
-                                : const Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.indigo,
+                                      ),
                                     ),
                                   ),
+                                )
+                              ],
+                            )
+                                : const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.indigo,
+                              ),
+                            ),
                           ),
                         );
                       }),
                   Stack(
                     children: [
+                      if (normalizedXPosition < 1)
+                        GestureDetector(
+                          onTap: () {
+                            xPosition = -1.0 * (context.width) * .7;
+                            normalizedXPosition = 1;
+
+                            tweenBeginScale = .05 - (normalizedXPosition * .05);
+                            tweenEndScale = 0;
+                            tweenBeginColor = .2 - ((normalizedXPosition * .2));
+                            tweenEndColor = 0;
+
+                            setState(() {});
+                          },
+                          child: TweenAnimationBuilder(
+                              tween: Tween<double>(
+                                  begin: tweenBeginColor, end: tweenEndColor),
+                              duration: const Duration(milliseconds: 300),
+                              builder: (_, value, ___) {
+                                return Container(
+                                  width: context.width,
+                                  height: context.height,
+                                  color: Colors.black.withOpacity(value),
+                                );
+                              }),
+                        ),
                       AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
                         // Set the duration for the animation
