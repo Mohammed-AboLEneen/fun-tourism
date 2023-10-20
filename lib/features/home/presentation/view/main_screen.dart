@@ -7,6 +7,7 @@ import 'package:fun_adventure/constants.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/button_navegation_bar_item.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/custom_menu.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/main_screen_menu.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_cubit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,31 +23,14 @@ class AppMainScreen extends StatefulWidget {
 }
 
 class _AppMainScreenState extends State<AppMainScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  int sliderBannerCurrentIndex = 0;
-  late double xPosition;
-  late double normalizedXPosition;
-  late final window;
-  late final Size size;
-
-  double tweenBeginScale = 0;
-  double tweenEndScale = 0;
-
-  double tweenBeginColor = 1;
-  double tweenEndColor = 1;
+  CustomMenuApp customMenuApp = CustomMenuApp();
 
   @override
   void initState() {
     super.initState();
-    window = WidgetsBinding.instance.platformDispatcher.views.first;
-    size = window.physicalSize / window.devicePixelRatio;
-    xPosition = -1.0 *
-        (size.width) *
-        .7; // set xPosition to negative of container's width
-    print(xPosition);
-    normalizedXPosition = xPosition / (size.width * .7); // normalize
 
+    customMenuApp.initMenuValue();
     userEmail = SharedPreferenceHelper.getString(key: userEmailKey);
   }
 
@@ -70,49 +54,31 @@ class _AppMainScreenState extends State<AppMainScreen> {
             child: GestureDetector(
               onPanUpdate: (tapInfo) {
                 setState(() {
-                  if (xPosition + tapInfo.delta.dx <= 1 &&
-                      (xPosition + tapInfo.delta.dx) > -(context.width * .7)) {
-                    xPosition += tapInfo.delta.dx * 1.8;
+                  if (customMenuApp.xPosition + tapInfo.delta.dx <= 1 &&
+                      (customMenuApp.xPosition + tapInfo.delta.dx) >
+                          -(context.width * .7)) {
+                    customMenuApp.xPosition += tapInfo.delta.dx * 1.8;
+                    customMenuApp.setBeforeUpdateRealTimeNormalizedValue();
 
-                    // make the range from 0 to .05 not from 1 to 0
-                    tweenBeginScale = .05 - ((normalizedXPosition * .05));
-                    tweenBeginColor = .2 - ((normalizedXPosition * .2));
                     // normalize xPosition ( make it value from 0 to 1)
-                    normalizedXPosition = -(xPosition / (context.width * .7));
-
+                    customMenuApp.normalizedXPosition =
+                    -(customMenuApp.xPosition / (context.width * .7));
                     // make the range from 0 to .05 not from 1 to 0
-                    tweenEndScale = .05 - ((normalizedXPosition * .05));
-                    tweenEndColor = .2 - ((normalizedXPosition * .2));
+                    customMenuApp.setAfterUpdateRealTimeNormalizedValue();
                   }
                   // Check if newXPosition is within screen bounds
                 });
               },
               onPanEnd: (de) {
-                if (normalizedXPosition > .5) {
-                  xPosition = -1.0 * (context.width) * .7;
-                  normalizedXPosition = 1;
-
-                  tweenBeginScale = .05 - (normalizedXPosition * .05);
-                  tweenEndScale = 0;
-                  tweenBeginColor = .2 - ((normalizedXPosition * .2));
-                  tweenEndColor = 0;
-                } else {
-                  xPosition = 0;
-                  normalizedXPosition = 0;
-
-                  tweenBeginScale = .05 - (normalizedXPosition * .05);
-                  tweenEndScale = .05;
-                  tweenBeginColor = .2 - ((normalizedXPosition * .2));
-                  tweenEndColor = .2;
-                }
-
+                customMenuApp.leaveMenuMoving(context);
                 setState(() {});
               },
               child: Stack(
                 children: [
                   TweenAnimationBuilder(
                       tween: Tween<double>(
-                          begin: tweenBeginScale, end: tweenEndScale),
+                          begin: customMenuApp.tweenBeginScale,
+                          end: customMenuApp.tweenEndScale),
                       duration: const Duration(milliseconds: 150),
                       builder: (_, value, ___) {
                         return Transform.scale(
@@ -133,15 +99,7 @@ class _AppMainScreenState extends State<AppMainScreen> {
                               leading: IconButton(
                                   onPressed: () {
                                     setState(() {
-                                      xPosition = 0;
-                                      xPosition = 0;
-                                      normalizedXPosition = 0;
-
-                                      tweenBeginScale =
-                                          .05 - (normalizedXPosition * .05);
-                                      tweenEndScale = .05;
-                                      tweenBeginColor = 0;
-                                      tweenEndColor = .2;
+                                      customMenuApp.openMenu();
                                     });
                                   },
                                   icon: const FaIcon(FontAwesomeIcons.bars)),
@@ -214,22 +172,16 @@ class _AppMainScreenState extends State<AppMainScreen> {
                       }),
                   Stack(
                     children: [
-                      if (normalizedXPosition < 1)
+                      if (customMenuApp.normalizedXPosition < 1)
                         GestureDetector(
                           onTap: () {
-                            xPosition = -1.0 * (context.width) * .7;
-                            normalizedXPosition = 1;
-
-                            tweenBeginScale = .05 - (normalizedXPosition * .05);
-                            tweenEndScale = 0;
-                            tweenBeginColor = .2 - ((normalizedXPosition * .2));
-                            tweenEndColor = 0;
-
+                            customMenuApp.closeMenu(context);
                             setState(() {});
                           },
                           child: TweenAnimationBuilder(
                               tween: Tween<double>(
-                                  begin: tweenBeginColor, end: tweenEndColor),
+                                  begin: customMenuApp.tweenBeginColor,
+                                  end: customMenuApp.tweenEndColor),
                               duration: const Duration(milliseconds: 300),
                               builder: (_, value, ___) {
                                 return Container(
@@ -244,7 +196,8 @@ class _AppMainScreenState extends State<AppMainScreen> {
                         // Set the duration for the animation
                         curve: Curves.easeOut,
                         // Set the easing function for the animation
-                        transform: Matrix4.translationValues(xPosition, 0, 0),
+                        transform: Matrix4.translationValues(
+                            customMenuApp.xPosition, 0, 0),
                         // Use translation instead of Offset for AnimatedContainer
                         width: context.width * .7,
                         child: const MainScreenMenu(),

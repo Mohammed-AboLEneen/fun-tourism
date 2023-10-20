@@ -21,7 +21,6 @@ import 'package:hive/hive.dart';
 
 import '../../../../../constants.dart';
 import '../../view/widgets/home_screen_widgets/home_screen.dart';
-import '../../view/widgets/home_screen_widgets/l.dart';
 
 class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   AppMainScreenCubit() : super(AppMainScreenInitState());
@@ -48,7 +47,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     const LolScreen(
       title: 'Welcome man',
     ),
-    const DragContainer(),
+    const HomeScreen(),
     const HomeScreen(),
   ];
 
@@ -86,7 +85,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     _connectionStatus = result;
 
     if ((temp == 'none' &&
-        (result.name == 'wifi' || result.name == 'mobile')) &&
+            (result.name == 'wifi' || result.name == 'mobile')) &&
         isGetHomeScreenData == false) {
       getHomeScreen();
     }
@@ -123,7 +122,9 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     }
   }
 
-  Future<void> getUserData(String email,) async {
+  Future<void> getUserData(
+    String email,
+  ) async {
     print(_connectionStatus.name);
     if (_connectionStatus.name != 'none') {
       isGetUserAppData = true;
@@ -131,7 +132,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
 
       try {
         DocumentSnapshot<Object?> data =
-        await FireStoreServices.getUserData(email: email);
+            await FireStoreServices.getUserData(email: email);
         userData = UserAppData.fromJson(data.data() as Map<String, dynamic>);
         await _saveUserAppData();
         print('get user data');
@@ -162,9 +163,9 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
       emit(GetHomeScreenDataLoadingState());
       try {
         DocumentSnapshot<Object?> data1 =
-        await FireStoreServices.getHomeScreenData('last travels');
+            await FireStoreServices.getHomeScreenData('last travels');
         DocumentSnapshot<Object?> data2 =
-        await FireStoreServices.getHomeScreenData('recent news');
+            await FireStoreServices.getHomeScreenData('recent news');
 
         Map<String, dynamic> dataList1 = data1.data() as Map<String, dynamic>;
         Map<String, dynamic> dataList2 = data2.data() as Map<String, dynamic>;
