@@ -23,7 +23,6 @@ class AppMainScreen extends StatefulWidget {
 }
 
 class _AppMainScreenState extends State<AppMainScreen> {
-
   CustomMenuApp customMenuApp = CustomMenuApp();
 
   @override
@@ -37,13 +36,11 @@ class _AppMainScreenState extends State<AppMainScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-      AppMainScreenCubit()
-        ..blocOperations(userEmail!),
+      create: (context) => AppMainScreenCubit()..blocOperations(userEmail!),
       child: BlocConsumer<AppMainScreenCubit, AppMainScreenStates>(
         builder: (context, state) {
           AppMainScreenCubit appMainScreenCubit =
-          AppMainScreenCubit.get(context);
+              AppMainScreenCubit.get(context);
 
           return Container(
             decoration: BoxDecoration(
@@ -54,19 +51,7 @@ class _AppMainScreenState extends State<AppMainScreen> {
             child: GestureDetector(
               onPanUpdate: (tapInfo) {
                 setState(() {
-                  if (customMenuApp.xPosition + tapInfo.delta.dx <= 1 &&
-                      (customMenuApp.xPosition + tapInfo.delta.dx) >
-                          -(context.width * .7)) {
-                    customMenuApp.xPosition += tapInfo.delta.dx * 1.8;
-                    customMenuApp.setBeforeUpdateRealTimeNormalizedValue();
-
-                    // normalize xPosition ( make it value from 0 to 1)
-                    customMenuApp.normalizedXPosition =
-                    -(customMenuApp.xPosition / (context.width * .7));
-                    // make the range from 0 to .05 not from 1 to 0
-                    customMenuApp.setAfterUpdateRealTimeNormalizedValue();
-                  }
-                  // Check if newXPosition is within screen bounds
+                  customMenuApp.realTimeUpdatingValues(context, tapInfo);
                 });
               },
               onPanEnd: (de) {
@@ -105,68 +90,68 @@ class _AppMainScreenState extends State<AppMainScreen> {
                                   icon: const FaIcon(FontAwesomeIcons.bars)),
                             ),
                             body: appMainScreenCubit.recentNews.isNotEmpty &&
-                                appMainScreenCubit.hotTravels.isNotEmpty
+                                    appMainScreenCubit.hotTravels.isNotEmpty
                                 ? Stack(
-                              children: [
-                                appMainScreenCubit.screens[
-                                appMainScreenCubit.currentIndex],
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.only(bottom: 20.0),
-                                  child: Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: ClipRRect(
-                                      borderRadius:
-                                      const BorderRadius.all(
-                                          Radius.circular(20)),
-                                      child: BackdropFilter(
-                                        filter: ImageFilter.blur(
-                                            sigmaY: 5, sigmaX: 5),
-                                        child: Container(
-                                          height: context.height * .07,
-                                          width: context.width * .6,
-                                          decoration: BoxDecoration(
-                                              color:
-                                              const Color(0xff313745)
-                                                  .withOpacity(.8),
-                                              borderRadius:
-                                              const BorderRadius.all(
-                                                  Radius.circular(
-                                                      20))),
-                                          child: ListView.builder(
-                                              physics:
-                                              const NeverScrollableScrollPhysics(),
-                                              scrollDirection:
-                                              Axis.horizontal,
-                                              itemBuilder: (context,
-                                                  index) =>
-                                                  CustomBottomNavigationBarItem(
-                                                    icon: appMainScreenCubit
-                                                        .bottomNavigationBarIcons[
-                                                    index],
-                                                    index: index,
-                                                    currentIndex:
-                                                    appMainScreenCubit
-                                                        .currentIndex,
-                                                    onTap: () {
-                                                      appMainScreenCubit
-                                                          .changeBottomNavigationBarIndex(
-                                                          index);
-                                                    },
-                                                  ),
-                                              itemCount: 4),
+                                    children: [
+                                      appMainScreenCubit.screens[
+                                          appMainScreenCubit.currentIndex],
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 20.0),
+                                        child: Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(20)),
+                                            child: BackdropFilter(
+                                              filter: ImageFilter.blur(
+                                                  sigmaY: 5, sigmaX: 5),
+                                              child: Container(
+                                                height: context.height * .07,
+                                                width: context.width * .6,
+                                                decoration: BoxDecoration(
+                                                    color:
+                                                        const Color(0xff313745)
+                                                            .withOpacity(.8),
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(
+                                                                20))),
+                                                child: ListView.builder(
+                                                    physics:
+                                                        const NeverScrollableScrollPhysics(),
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemBuilder: (context,
+                                                            index) =>
+                                                        CustomBottomNavigationBarItem(
+                                                          icon: appMainScreenCubit
+                                                                  .bottomNavigationBarIcons[
+                                                              index],
+                                                          index: index,
+                                                          currentIndex:
+                                                              appMainScreenCubit
+                                                                  .currentIndex,
+                                                          onTap: () {
+                                                            appMainScreenCubit
+                                                                .changeBottomNavigationBarIndex(
+                                                                    index);
+                                                          },
+                                                        ),
+                                                    itemCount: 4),
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      )
+                                    ],
+                                  )
+                                : const Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.indigo,
                                     ),
                                   ),
-                                )
-                              ],
-                            )
-                                : const Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.indigo,
-                              ),
-                            ),
                           ),
                         );
                       }),

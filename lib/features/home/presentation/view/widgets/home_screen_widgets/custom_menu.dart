@@ -22,6 +22,21 @@ class CustomMenuApp {
     normalizedXPosition = xPosition / (size.width * .7); // normalize
   }
 
+  void realTimeUpdatingValues(BuildContext context, DragUpdateDetails tapInfo) {
+    if (xPosition + tapInfo.delta.dx <= 1 &&
+        (xPosition + tapInfo.delta.dx) >
+            -(context.width * .7)) {
+      xPosition += tapInfo.delta.dx * 1.8;
+      setBeforeUpdateRealTimeNormalizedValue();
+
+      // normalize xPosition ( make it value from 0 to 1)
+      normalizedXPosition =
+      -(xPosition / (context.width * .7));
+      // make the range from 0 to .05 not from 1 to 0
+      setAfterUpdateRealTimeNormalizedValue();
+    }
+  }
+
   // this method called when moving menu to determine the beginning value for scale and black color with menu when it open.
   void setBeforeUpdateRealTimeNormalizedValue() {
     tweenBeginScale = .05 - ((normalizedXPosition * .05));
