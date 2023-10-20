@@ -169,6 +169,9 @@ class _AppMainScreenState extends State<AppMainScreen> {
                                   end: customMenuApp.tweenEndColor),
                               duration: const Duration(milliseconds: 300),
                               builder: (_, value, ___) {
+                                if (value < 0) {
+                                  value = 0;
+                                }
                                 return Container(
                                   width: context.width,
                                   height: context.height,
