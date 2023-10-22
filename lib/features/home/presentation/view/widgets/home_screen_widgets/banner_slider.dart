@@ -33,7 +33,7 @@ class SliderBanner extends StatelessWidget {
           enlargeFactor: 0.28,
           scrollDirection: Axis.horizontal,
           onPageChanged: action),
-      itemCount: 5,
+      itemCount: items.length,
       itemBuilder: (BuildContext context, int index, int realIndex) {
         return TravelsCard(hotTravelModel: items[index]);
       },

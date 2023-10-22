@@ -13,7 +13,6 @@ class CustomMenuApp {
   double tweenEndColor = 0;
   late double menuWidth;
 
-
   void initMenuValue() {
     window = WidgetsBinding.instance.platformDispatcher.views.first;
     size = window.physicalSize / window.devicePixelRatio;
@@ -37,24 +36,11 @@ class CustomMenuApp {
     }
   }
 
-  // this method called when moving menu to determine the beginning value for scale and black color with menu when it open.
-  void updateTweenBeginScaleAndColorValue() {
-    tweenBeginScale = .05 - ((normalizedXPosition * .05));
-    tweenBeginColor = .2 - ((normalizedXPosition * .2));
-  }
-
-  // this method called when moving menu to determine the Ending value for scale and black color with menu when it open.
-  void updateTweenEndScaleAndColorValue() {
-    tweenEndScale = .05 - ((normalizedXPosition * .05));
-    tweenEndColor = .2 - ((normalizedXPosition * .2));
-  }
-
   // when user stop touching screen.
   void leaveMenuMoving(BuildContext context) {
     if (normalizedXPosition > .5) {
       xPosition = -1.0 * menuWidth;
       normalizedXPosition = 1;
-
 
       updateTweenBeginScaleAndColorValue();
       tweenEndScale = 0;
@@ -67,6 +53,18 @@ class CustomMenuApp {
       tweenEndScale = .05;
       tweenEndColor = .2;
     }
+  }
+
+  // this method called when moving menu to determine the beginning value for scale and black color with menu when it open.
+  void updateTweenBeginScaleAndColorValue() {
+    tweenBeginScale = .05 - ((normalizedXPosition * .05));
+    tweenBeginColor = .2 - ((normalizedXPosition * .2));
+  }
+
+  // this method called when moving menu to determine the Ending value for scale and black color with menu when it open.
+  void updateTweenEndScaleAndColorValue() {
+    tweenEndScale = .05 - ((normalizedXPosition * .05));
+    tweenEndColor = .2 - ((normalizedXPosition * .2));
   }
 
   void openMenu() {
