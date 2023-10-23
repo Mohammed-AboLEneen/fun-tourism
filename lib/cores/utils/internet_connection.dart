@@ -10,6 +10,7 @@ class InternetConnectionState {
   late AppMainScreenCubit appMainScreenCubit;
   ConnectivityResult connectionStatus = ConnectivityResult.none;
   final Connectivity connectivity = Connectivity();
+  bool appJustBegin = true;
 
   void initCubitObject(AppMainScreenCubit cubit) {
     appMainScreenCubit = cubit;
@@ -28,6 +29,8 @@ class InternetConnectionState {
       return;
     }
 
+    appJustBegin = true;
+
     _updateConnectionStatus(result);
   }
 
@@ -35,16 +38,18 @@ class InternetConnectionState {
     String temp = connectionStatus.name;
     connectionStatus = result;
 
-    if ((temp == 'none' &&
-        (result.name == 'wifi' || result.name == 'mobile')) &&
-        appMainScreenCubit.isGetHomeScreenData == false) {
-      print('lolo');
-      showToast(
-          msg: 'Internet is back, Refresh Now !',
-          bgColor: Colors.green,
-          txColor: Colors.white);
+    if (appJustBegin == true) {
+      appJustBegin = false;
+      return;
     }
 
-    appMainScreenCubit.getHomeScreen();
+    if ((temp == 'none' &&
+        (result.name == 'wifi' || result.name == 'mobile'))) {
+      showToast(
+          msg: 'Internet is back, Refresh ...',
+          bgColor: Colors.green,
+          txColor: Colors.white);
+      appMainScreenCubit.getHomeScreen();
+    }
   }
 }

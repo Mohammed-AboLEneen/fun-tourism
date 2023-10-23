@@ -27,3 +27,5 @@ class ChangeBottomNavigationBarIndex extends AppMainScreenStates {}
 class GetLocalAppDataSuccessState extends AppMainScreenStates {}
 
 class GetLocalAppDataFailureState extends AppMainScreenStates {}
+
+class GetTheUserLocationName extends AppMainScreenStates {}

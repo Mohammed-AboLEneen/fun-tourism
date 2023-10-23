@@ -23,51 +23,53 @@ class _WaitingScreenState extends State<WaitingScreen> {
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.all(8.0),
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: SizedBox(
-                  height: context.height * .3,
-                  width: context.width,
-                  child: Card(color: color)),
-            ),
-            const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 20,
+        child: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: SizedBox(
+                    height: context.height * .3,
+                    width: context.width,
+                    child: Card(color: color)),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: context.height * .32,
-                child: ListView.builder(
-                  itemBuilder: (context, index) => SizedBox(
-                    width: context.width * .8,
-                    child: Card(
-                      color: color,
-                    ),
-                  ),
-                  itemCount: 5,
-                  scrollDirection: Axis.horizontal,
+              const SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 20,
                 ),
               ),
-            ),
-            const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 20,
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: context.height * .32,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) => SizedBox(
+                      width: context.width * .8,
+                      child: Card(
+                        color: color,
+                      ),
+                    ),
+                    itemCount: 5,
+                    scrollDirection: Axis.horizontal,
+                  ),
+                ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                  height: context.height * .3,
-                  width: context.width,
-                  child: Card(color: color)),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: context.height * .13,
+              const SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 20,
+                ),
               ),
-            ),
-          ],
+              SliverToBoxAdapter(
+                child: SizedBox(
+                    height: context.height * .3,
+                    width: context.width,
+                    child: Card(color: color)),
+              ),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: context.height * .13,
+                ),
+              ),
+            ],
+          ),
         ));
   }
 }

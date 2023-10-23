@@ -18,6 +18,7 @@ import '../../../../../constants.dart';
 import '../../../../../cores/methods/download_image.dart';
 import '../../../../../cores/methods/save_home_screen.dart';
 import '../../../../../cores/methods/save_user_data.dart';
+import '../../../../../cores/utils/get_location.dart';
 import '../../../../../cores/utils/wating_screen.dart';
 import '../../view/home_screen.dart';
 
@@ -26,8 +27,6 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
 
   UserAppData? userData;
   int currentIndex = 0;
-  bool isGetHomeScreenData = false;
-  bool isGetUserAppData = false;
   InternetConnectionState internetConnection = InternetConnectionState();
 
   List<RecentNewsModel> recentNews = [];
@@ -44,6 +43,8 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     const HomeScreen(),
   ];
 
+  GetUserLocation getUserLocation = GetUserLocation();
+
   static AppMainScreenCubit get(context) => BlocProvider.of(context);
 
   Future<void> blocOperations(String userEmail) async {
@@ -52,6 +53,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     // init the variables that will read the state if the internet.
     await internetConnection.initConnectivity();
     initLocalAppData();
+    getUserLocationName();
     getUserData(userEmail);
     getHomeScreen();
   }
@@ -91,14 +93,15 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     }
   }
 
-  Future<void> getUserData(String email,) async {
+  Future<void> getUserData(
+    String email,
+  ) async {
     if (internetConnection.connectionStatus.name != 'none') {
-      isGetUserAppData = true;
       emit(GetUserDataLoadingState());
 
       try {
         DocumentSnapshot<Object?> data =
-        await FireStoreServices.getUserData(email: email);
+            await FireStoreServices.getUserData(email: email);
         userData = UserAppData.fromJson(data.data() as Map<String, dynamic>);
         await saveUserAppData(userData);
         emit(GetUserDataSuccessState());
@@ -107,11 +110,11 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
           print(e.toString());
         }
 
-        isGetUserAppData = false;
         emit(GetUserDataFailureState(e.toString()));
       }
     } else {
-      showToast(msg: 'Please turn on wifi or mobile data',
+      showToast(
+          msg: 'Please turn on wifi or mobile data',
           bgColor: Colors.red,
           txColor: Colors.white);
     }
@@ -128,14 +131,12 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
         hotTravels.clear();
         recentNews.clear();
 
-        isGetHomeScreenData = true;
         emit(GetHomeScreenDataLoadingState());
 
-
         DocumentSnapshot<Object?> data1 =
-        await FireStoreServices.getHomeScreenData('last travels');
+            await FireStoreServices.getHomeScreenData('last travels');
         DocumentSnapshot<Object?> data2 =
-        await FireStoreServices.getHomeScreenData('recent news');
+            await FireStoreServices.getHomeScreenData('recent news');
 
         Map<String, dynamic> dataList1 = data1.data() as Map<String, dynamic>;
         Map<String, dynamic> dataList2 = data2.data() as Map<String, dynamic>;
@@ -151,7 +152,6 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
         }
 
         saveHomeScreenData(hotTravels: hotTravels, recentNews: recentNews);
-        isGetHomeScreenData = false;
 
         hotTravelsTemp.clear();
         recentNewsTemp.clear();
@@ -167,11 +167,11 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
         hotTravelsTemp.clear();
         recentNewsTemp.clear();
 
-        isGetHomeScreenData = false;
         emit(GetHomeScreenDataFailureState(e.toString()));
       }
     } else {
-      showToast(msg: 'Please turn on wifi or mobile data',
+      showToast(
+          msg: 'Please turn on wifi or mobile data',
           bgColor: Colors.red,
           txColor: Colors.white);
     }
@@ -180,5 +180,11 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   void changeBottomNavigationBarIndex(int index) {
     currentIndex = index;
     emit(ChangeBottomNavigationBarIndex());
+  }
+
+  Future<void> getUserLocationName() async {
+    await getUserLocation.getUserLocation();
+    print(getUserLocation.locationName);
+    emit(GetTheUserLocationName());
   }
 }

@@ -8,7 +8,6 @@ import 'package:fun_adventure/features/home/presentation/view/widgets/home_scree
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/custom_menu.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/main_screen_menu.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_cubit.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../cores/utils/images.dart';
 import '../../../view_model/home_cubit/app_main_screen_states.dart';
@@ -68,79 +67,57 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
                     duration: const Duration(milliseconds: 150),
                     builder: (_, value, ___) {
                       return Transform.scale(
-                        scale: (1 - value),
-                        child: Scaffold(
-                            backgroundColor: Colors.transparent,
-                            appBar: AppBar(
-                              backgroundColor: Colors.white.withOpacity(.2),
-                              title: Text(
-                                'FTourism',
-                                style: GoogleFonts.akayaKanadaka(),
-                              ),
-                              actions: [
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const FaIcon(FontAwesomeIcons.bell))
-                              ],
-                              leading: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      customMenuApp.openMenu();
-                                    });
-                                  },
-                                  icon: const FaIcon(FontAwesomeIcons.bars)),
-                            ),
-                            body: Stack(
-                              children: [
-                                appMainScreenCubit
-                                    .screens[appMainScreenCubit.currentIndex],
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 20.0),
-                                  child: Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(20)),
-                                      child: BackdropFilter(
-                                        filter: ImageFilter.blur(
-                                            sigmaY: 5, sigmaX: 5),
-                                        child: Container(
-                                          height: context.height * .07,
-                                          width: context.width * .6,
-                                          decoration: BoxDecoration(
-                                              color: const Color(0xff313745)
-                                                  .withOpacity(.8),
-                                              borderRadius:
-                                              const BorderRadius.all(
-                                                  Radius.circular(20))),
-                                          child: ListView.builder(
-                                              physics:
-                                              const NeverScrollableScrollPhysics(),
-                                              scrollDirection: Axis.horizontal,
-                                              itemBuilder: (context, index) =>
-                                                  CustomBottomNavigationBarItem(
-                                                    icon:
-                                                    bottomNavigationBarIcons[
-                                                    index],
-                                                    index: index,
-                                                    currentIndex:
-                                                    appMainScreenCubit
-                                                        .currentIndex,
-                                                    onTap: () {
+                          scale: (1 - value),
+                          child: Stack(
+                            children: [
+                              appMainScreenCubit
+                                  .screens[appMainScreenCubit.currentIndex],
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 20.0),
+                                child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(20)),
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                          sigmaY: 5, sigmaX: 5),
+                                      child: Container(
+                                        height: context.height * .07,
+                                        width: context.width * .6,
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xff313745)
+                                                .withOpacity(.8),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(20))),
+                                        child: ListView.builder(
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (context, index) =>
+                                                CustomBottomNavigationBarItem(
+                                                  icon:
+                                                      bottomNavigationBarIcons[
+                                                          index],
+                                                  index: index,
+                                                  currentIndex:
                                                       appMainScreenCubit
-                                                          .changeBottomNavigationBarIndex(
-                                                          index);
-                                                    },
-                                                  ),
-                                              itemCount: 4),
-                                        ),
+                                                          .currentIndex,
+                                                  onTap: () {
+                                                    appMainScreenCubit
+                                                        .changeBottomNavigationBarIndex(
+                                                            index);
+                                                  },
+                                                ),
+                                            itemCount: 4),
                                       ),
                                     ),
                                   ),
-                                )
-                              ],
-                            )),
-                      );
+                                ),
+                              )
+                            ],
+                          ));
                     }),
                 Stack(
                   children: [
@@ -189,8 +166,7 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
   }
 
   void initInternetConnectionCubitObject() {
-    BlocProvider
-        .of<AppMainScreenCubit>(context)
+    BlocProvider.of<AppMainScreenCubit>(context)
         .internetConnection
         .initCubitObject(BlocProvider.of<AppMainScreenCubit>(context));
   }

@@ -23,9 +23,9 @@ class CustomMenuApp {
   }
 
   void realTimeUpdatingValues(BuildContext context, DragUpdateDetails tapInfo) {
-    if (xPosition + (tapInfo.delta.dx * 1.8) < 0 &&
+    if (xPosition + (tapInfo.delta.dx * 2) < 0 &&
         (xPosition + tapInfo.delta.dx) > -(menuWidth)) {
-      xPosition += tapInfo.delta.dx * 1.8;
+      xPosition += tapInfo.delta.dx * 2;
 
       updateTweenBeginScaleAndColorValue();
 
