@@ -41,8 +41,6 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        print(MediaQuery.of(context).size.height);
-        print(MediaQuery.of(context).size.width);
         return MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(

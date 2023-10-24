@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class TopsBannerProvider extends ChangeNotifier {
+class RecentNewsBannerProvider extends ChangeNotifier {
   int currentItem = 0;
 
   void previousTopsBannerItem() {

@@ -43,17 +43,18 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     const HomeScreen(),
   ];
 
-  GetUserLocation getUserLocation = GetUserLocation();
+  UserLocation userLocation = UserLocation();
 
   static AppMainScreenCubit get(context) => BlocProvider.of(context);
 
   Future<void> blocOperations(String userEmail) async {
     // to access cubit from internetConnectionState.
-
     // init the variables that will read the state if the internet.
     await internetConnection.initConnectivity();
+
+    await getUserLocation();
     initLocalAppData();
-    getUserLocationName();
+
     getUserData(userEmail);
     getHomeScreen();
   }
@@ -182,9 +183,8 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     emit(ChangeBottomNavigationBarIndex());
   }
 
-  Future<void> getUserLocationName() async {
-    await getUserLocation.getUserLocation();
-    print(getUserLocation.locationName);
+  Future<void> getUserLocation() async {
+    await userLocation.getUserLocation();
     emit(GetTheUserLocationName());
   }
 }

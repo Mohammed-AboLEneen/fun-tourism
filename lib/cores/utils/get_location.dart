@@ -1,7 +1,7 @@
 import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart' as loc;
 
-class GetUserLocation {
+class UserLocation {
   bool _serviceEnabled = false;
   loc.PermissionStatus? _permissionGranted;
   loc.LocationData? _userLocation;
@@ -43,7 +43,5 @@ class GetUserLocation {
     Placemark place = placemarks[0];
 
     _locationName = "${place.locality}, ${place.country}";
-
-    print(_locationName);
   }
 }
