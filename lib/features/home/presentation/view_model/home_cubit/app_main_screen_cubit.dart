@@ -10,7 +10,6 @@ import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.d
 import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
 import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/cores/utils/internet_connection.dart';
-import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/t.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_states.dart';
 import 'package:hive/hive.dart';
 
@@ -21,6 +20,7 @@ import '../../../../../cores/methods/save_user_data.dart';
 import '../../../../../cores/utils/get_location.dart';
 import '../../../../../cores/utils/wating_screen.dart';
 import '../../view/home_screen.dart';
+import '../../view/widgets/chats_screen_widgets/chat_screen_widget.dart';
 
 class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   AppMainScreenCubit() : super(AppMainScreenInitState());
@@ -36,9 +36,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
 
   List<Widget> screens = [
     const HomeScreen(),
-    const LolScreen(
-      title: 'Welcome man',
-    ),
+    const ChatScreenWidget(),
     const WaitingScreen(),
     const HomeScreen(),
   ];

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class MyCustomClipper extends CustomClipper<Path> {
+class RecentNewsBannerTitleClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();

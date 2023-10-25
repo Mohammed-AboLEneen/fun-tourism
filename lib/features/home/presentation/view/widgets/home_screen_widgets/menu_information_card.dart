@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_cubit.dart';
 
-class InfoCard extends StatelessWidget {
-  const InfoCard({
+class MenuInfoCard extends StatelessWidget {
+  const MenuInfoCard({
     super.key,
   });
 

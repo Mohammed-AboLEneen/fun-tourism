@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../view_model/menu_provider/menu_provider.dart';
-import 'information_card.dart';
+import 'menu_information_card.dart';
 import 'menu_listview.dart';
 
-class MainScreenMenu extends StatefulWidget {
-  const MainScreenMenu({super.key});
+class HomeScreenMenu extends StatefulWidget {
+  const HomeScreenMenu({super.key});
 
   @override
-  State<MainScreenMenu> createState() => _MainScreenMenuState();
+  State<HomeScreenMenu> createState() => _HomeScreenMenuState();
 }
 
-class _MainScreenMenuState extends State<MainScreenMenu> {
+class _HomeScreenMenuState extends State<HomeScreenMenu> {
   final GlobalKey<DrawerControllerState> _globalKey =
-  GlobalKey<DrawerControllerState>();
+      GlobalKey<DrawerControllerState>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,33 +26,27 @@ class _MainScreenMenuState extends State<MainScreenMenu> {
         builder: (_, model, __) {
           return Drawer(
             key: _globalKey,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * .7,
+            width: MediaQuery.of(context).size.width * .7,
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
               child: Container(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * .6,
+                width: MediaQuery.of(context).size.width * .6,
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.white.withOpacity(.7),
-                          Colors.indigo.withOpacity(.7)
-                        ],
+                      Colors.white.withOpacity(.7),
+                      Colors.indigo.withOpacity(.7)
+                    ],
                         stops: const [
-                          0,
-                          .5
-                        ])),
+                      0,
+                      .5
+                    ])),
                 child: SafeArea(
                   child: Column(
                     children: [
-                      const InfoCard(),
+                      const MenuInfoCard(),
                       const SizedBox(
                         height: 15,
                       ),
@@ -67,10 +61,7 @@ class _MainScreenMenuState extends State<MainScreenMenu> {
                       MenuListView(
                         titles: model.listTitles1,
                         icons: model.listIcons1,
-                        h: MediaQuery
-                            .of(context)
-                            .size
-                            .height * .43,
+                        h: MediaQuery.of(context).size.height * .43,
                       ),
                       const Align(
                           alignment: Alignment.center,
@@ -81,10 +72,7 @@ class _MainScreenMenuState extends State<MainScreenMenu> {
                       MenuListView(
                         titles: model.listTitles2,
                         icons: model.listIcons2,
-                        h: MediaQuery
-                            .of(context)
-                            .size
-                            .height * .2,
+                        h: MediaQuery.of(context).size.height * .2,
                       )
                     ],
                   ),

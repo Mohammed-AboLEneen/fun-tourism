@@ -6,8 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'hot_travel_container_clipper.dart';
 
 class CustomHomeHeader extends StatelessWidget {
-
-
   final double h;
   final double w;
   final String header;
@@ -27,14 +25,13 @@ class CustomHomeHeader extends StatelessWidget {
               height: h,
               width: w,
               child: Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: 3.0.h, horizontal: 6.0.w),
+                padding:
+                    EdgeInsets.symmetric(vertical: 3.0.h, horizontal: 6.0.w),
                 child: Text(
                   header,
-                  style: GoogleFonts.akayaKanadaka()
-                      .copyWith(
-                      fontSize:
-                      context.height * .027),
+                  style: GoogleFonts.akayaKanadaka().copyWith(
+                      fontSize: context.height * .027,
+                      color: Colors.black.withOpacity(.9)),
                 ),
               ),
             ),

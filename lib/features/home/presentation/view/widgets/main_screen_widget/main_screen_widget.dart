@@ -8,7 +8,6 @@ import 'package:fun_adventure/features/home/presentation/view/widgets/home_scree
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/custom_menu.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_cubit.dart';
 
-import '../../../../../../cores/utils/images.dart';
 import '../../../view_model/home_cubit/app_main_screen_states.dart';
 
 class AppMainScreenWidget extends StatefulWidget {
@@ -40,14 +39,8 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
       builder: (context, state) {
         AppMainScreenCubit appMainScreenCubit = AppMainScreenCubit.get(context);
 
-        return Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(ImagesClass.homeBgPngImage),
-                fit: BoxFit.fill),
-          ),
-          child: SafeArea(
-              child: Stack(
+        return Scaffold(
+          body: Stack(
             children: [
               appMainScreenCubit.screens[appMainScreenCubit.currentIndex],
               Padding(
@@ -85,7 +78,7 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
                 ),
               ),
             ],
-          )),
+          ),
         );
       },
       listener: (context, state) {},

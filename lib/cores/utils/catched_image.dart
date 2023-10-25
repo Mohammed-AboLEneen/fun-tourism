@@ -11,16 +11,20 @@ class CachedImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: "http://via.placeholder.com/200x150",
-      imageBuilder: (context, imageProvider) => Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
+      imageUrl: networkImageUrl,
+      imageBuilder: (context, imageProvider) => ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
               image: imageProvider,
               fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn)),
+            ),
+          ),
         ),
       ),
-      placeholder: (context, url) => CircularProgressIndicator(),
+      placeholder: (context, url) =>
+          const Center(child: CircularProgressIndicator()),
       errorWidget: (context, url, error) => Icon(Icons.error),
     );
   }

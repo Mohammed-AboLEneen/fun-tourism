@@ -1,17 +1,23 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_adventure/cores/utils/catched_image.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/sliver_sizedbox.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_cubit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../../../cores/utils/images.dart';
 import '../../../view_model/tops_banner_provider/recent_news_banner_provider.dart';
 import '../custom_appbar.dart';
-import 'banner_slider.dart';
 import 'custom_banner.dart';
 import 'custom_header.dart';
 import 'custom_menu.dart';
-import 'main_screen_menu.dart';
+import 'home_screen_menu_item.dart';
+import 'slider_banner.dart';
 
 class HomeScreenWidget extends StatefulWidget {
   final AppMainScreenCubit appMainScreenCubit;
@@ -26,6 +32,20 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
     with SingleTickerProviderStateMixin {
   int sliderBannerCurrentIndex = 0;
   CustomMenuApp customMenuApp = CustomMenuApp();
+
+  List<String> categoriesTitles = [
+    'North Egypt',
+    'South Egypt',
+    'East Egypt',
+    'West Egypt',
+  ];
+
+  List<String> categoriesImagesUrl = [
+    'https://th.bing.com/th/id/R.fce7404b15d00c3020f7eecdc5313836?rik=V8qh4TWh8NXp9w&pid=ImgRaw&r=0',
+    'https://th.bing.com/th/id/R.0d23e67eabbb6c0f6a9e5fa7ad950a31?rik=gqXlAoKzqQl78w&pid=ImgRaw&r=0',
+    'https://th.bing.com/th/id/OIP.RBRql-XKiGpHsGAMoCQ7-AHaCe?pid=ImgDet&rs=1',
+    'https://www.tripsavvy.com/thmb/Ue5Tz-4fTb9OTBbEzBxlqa8UT_s=/2143x1399/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-154260931-584169ec3df78c0230514c82.jpg',
+  ];
 
   @override
   void initState() {
@@ -71,6 +91,49 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
                               },
                               locationName: widget
                                   .appMainScreenCubit.userLocation.locationName,
+                            ),
+                            const SliverSizedBox(
+                              h: 20,
+                            ),
+                            SliverGrid(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 10,
+                                childAspectRatio: 1.4,
+                              ),
+                              delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                                  return Card(
+                                    // generate blues with random shades
+                                    color:
+                                        Colors.amber[Random().nextInt(9) * 100],
+                                    child: Stack(
+                                      children: [
+                                        CachedImage(
+                                            networkImageUrl:
+                                                categoriesImagesUrl[index],
+                                            assetImageUrl:
+                                                ImagesClass.logoSvgImage),
+                                        Container(
+                                          alignment: Alignment.bottomCenter,
+                                          margin:
+                                              const EdgeInsets.only(bottom: 5),
+                                          child: Text(
+                                            categoriesTitles[index],
+                                            style: GoogleFonts.abel().copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 20.sp),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                childCount: 4,
+                              ),
                             ),
                             const SliverSizedBox(
                               h: 20,
@@ -134,7 +197,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
                                   );
                                 })),
                             SliverSizedBox(
-                              h: context.height * .12,
+                              h: context.height * .11,
                             ),
                           ],
                         ),
@@ -174,7 +237,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
                     Matrix4.translationValues(customMenuApp.xPosition, 0, 0),
                 // Use translation instead of Offset for AnimatedContainer
                 width: context.width * .7,
-                child: const MainScreenMenu(),
+                child: const HomeScreenMenu(),
               )
             ],
           )

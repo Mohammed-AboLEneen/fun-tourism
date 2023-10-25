@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fun_adventure/constants.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 
-class TopBannerItemTextButton extends StatelessWidget {
+class RecentNewsBannerItemButton extends StatelessWidget {
   final Radius? topRight;
   final Radius? topLeft;
   final Radius? bottomRight;
@@ -9,7 +10,7 @@ class TopBannerItemTextButton extends StatelessWidget {
   final void Function()? action;
   final IconData icon;
 
-  const TopBannerItemTextButton(
+  const RecentNewsBannerItemButton(
       {super.key,
       this.topRight,
       this.topLeft,
@@ -41,7 +42,7 @@ class TopBannerItemTextButton extends StatelessWidget {
                   return Colors.blue
                       .withOpacity(0.5); // Set the desired pressed color
                 }
-                return Colors.indigo.withOpacity(.9); // Set the default color
+                return mainColor.withOpacity(.9); // Set the default color
               },
             ),
           ),

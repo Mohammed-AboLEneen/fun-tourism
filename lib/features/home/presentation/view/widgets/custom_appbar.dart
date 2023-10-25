@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fun_adventure/constants.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,11 +26,7 @@ class CustomAppBar extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      colors: [Colors.transparent, Colors.indigo],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      stops: [0, .7]),
+                  color: mainColor,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(35.w),
                       bottomRight: Radius.circular(35.w))),
@@ -37,8 +34,8 @@ class CustomAppBar extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 10,
+                padding: EdgeInsets.only(
+                  left: 15.w,
                 ),
                 child: SizedBox(
                   height: context.height * .06,
@@ -46,9 +43,9 @@ class CustomAppBar extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: menuAction,
-                        child: const FaIcon(
+                        child: FaIcon(
                           FontAwesomeIcons.bars,
-                          color: Colors.indigo,
+                          color: Colors.white.withOpacity(.9),
                         ),
                       ),
                       SizedBox(
@@ -88,7 +85,7 @@ class CustomAppBar extends StatelessWidget {
                                     onTap: () {},
                                     child: FaIcon(
                                       FontAwesomeIcons.magnifyingGlass,
-                                      color: Colors.white,
+                                      color: Colors.white.withOpacity(.9),
                                       size: 20.h,
                                     ),
                                   )),
@@ -97,9 +94,9 @@ class CustomAppBar extends StatelessWidget {
                                 backgroundColor: Colors.white.withOpacity(.4),
                                 child: GestureDetector(
                                   onTap: () {},
-                                  child: const FaIcon(
+                                  child: FaIcon(
                                     FontAwesomeIcons.bell,
-                                    color: Colors.white,
+                                    color: Colors.white.withOpacity(.9),
                                   ),
                                 ))
                           ],
