@@ -47,7 +47,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
 
   static AppMainScreenCubit get(context) => BlocProvider.of(context);
 
-  Future<void> blocOperations(String userEmail) async {
+  Future<void> blocOperations(String uId) async {
     // to access cubit from internetConnectionState.
     // init the variables that will read the state if the internet.
     await internetConnection.initConnectivity();
@@ -55,7 +55,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     await getUserLocation();
     initLocalAppData();
 
-    getUserData(userEmail);
+    getUserData(uId);
     getHomeScreen();
   }
 
@@ -94,15 +94,13 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     }
   }
 
-  Future<void> getUserData(
-    String email,
-  ) async {
+  Future<void> getUserData(uId) async {
     if (internetConnection.connectionStatus.name != 'none') {
       emit(GetUserDataLoadingState());
 
       try {
         DocumentSnapshot<Object?> data =
-            await FireStoreServices.getUserData(email: email);
+            await FireStoreServices.getUserData(uId: uId);
         userData = UserAppData.fromJson(data.data() as Map<String, dynamic>);
         await saveUserAppData(userData);
         emit(GetUserDataSuccessState());

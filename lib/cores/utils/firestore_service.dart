@@ -6,12 +6,12 @@ class FireStoreServices {
   static final _homeScreenCollection =
       FirebaseFirestore.instance.collection('appData');
 
-  static Future<DocumentSnapshot> getUserData({required String email}) async {
-    return await _usersCollection.doc(email).get();
+  static Future<DocumentSnapshot> getUserData({required String uId}) async {
+    return await _usersCollection.doc(uId).get();
   }
 
-  static Future<bool> checkIfDocumentExists(String email) async {
-    final DocumentReference documentRef = _usersCollection.doc(email);
+  static Future<bool> checkIfDocumentExists(String uId) async {
+    final DocumentReference documentRef = _usersCollection.doc(uId);
 
     final DocumentSnapshot documentSnapshot = await documentRef.get();
 
@@ -20,6 +20,7 @@ class FireStoreServices {
 
   static Future<void> addUser({
     required String? email,
+    required String? uId,
     required String? phoneNumber,
     required String? displayName,
     required String? photoURL,
@@ -27,7 +28,7 @@ class FireStoreServices {
     // Call the user's CollectionReference to add a new user
 
     return _usersCollection
-        .doc(email)
+        .doc(uId)
         .set({
           'email': email,
           // John Doe

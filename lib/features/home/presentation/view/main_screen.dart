@@ -14,18 +14,18 @@ class AppMainScreen extends StatefulWidget {
 }
 
 class _AppMainScreenState extends State<AppMainScreen> {
-  late String userEmail;
+  late String uId;
 
   @override
   void initState() {
     super.initState();
-    userEmail = SharedPreferenceHelper.getString(key: userEmailKey) ?? '';
+    uId = SharedPreferenceHelper.getString(key: uIdKey) ?? '';
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppMainScreenCubit()..blocOperations(userEmail),
+      create: (context) => AppMainScreenCubit()..blocOperations(uId),
       child: const AppMainScreenWidget(),
     );
   }

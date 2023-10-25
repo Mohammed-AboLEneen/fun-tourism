@@ -23,8 +23,6 @@ class LoginCubit extends Cubit<LoginStates> {
   static LoginCubit get(context) => BlocProvider.of(context);
 
   Future<void> createOrSignInWithGoogle() async {
-    UserCredential? userCredential;
-
     emit(LoginLoadingState());
     try {
       // Create a new credential
@@ -36,8 +34,8 @@ class LoginCubit extends Cubit<LoginStates> {
       emit(LoginSuccessState(
           emailVerified: FirebaseAuth.instance.currentUser!.emailVerified,
           user: UserInfoData.getAnonymousUserData(
-            user: authResult.user?.providerData[0],
-          ),
+              user: authResult.user,
+              userEmail: authResult.user?.providerData[0].email),
           isNewUser: authResult.additionalUserInfo?.isNewUser,
           isGoogleAuth: true));
     } catch (e) {

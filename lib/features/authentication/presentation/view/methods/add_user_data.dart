@@ -13,6 +13,7 @@ Future<void> addNewUserInFireStore(
   try {
     await FireStoreServices.addUser(
         email: userInfoData.email,
+        uId: userInfoData.uid,
         phoneNumber: userInfoData.phoneNumber ??
             BlocProvider.of<RegisterCubit>(context).phone,
         displayName: userInfoData.displayName ??
