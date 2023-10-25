@@ -198,8 +198,8 @@ class _LoginPageState extends State<LoginPage> {
           SharedPreferenceHelper.setBool(key: loginKey, value: true);
 
           await SharedPreferenceHelper.setString(
-              key: userEmailKey, value: state.user.email ?? '');
-          userEmail = SharedPreferenceHelper.getString(key: userEmailKey);
+              key: uIdKey, value: state.user.uid ?? '');
+          uId = SharedPreferenceHelper.getString(key: uIdKey);
 
           if (!context.mounted) return;
 
@@ -212,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
             // we will add it by checking if he has data in FireStore or not.
             if (state.emailVerified) {
               bool isExist =
-                  await FireStoreServices.checkIfDocumentExists(userEmail!);
+                  await FireStoreServices.checkIfDocumentExists(uId!);
               if (!context.mounted) return;
 
               if (isExist) {
@@ -248,8 +248,8 @@ void checkIsThisNewUser({
       await addNewUserInFireStore(userInfoData: user, context: context);
     }
 
-    await SharedPreferenceHelper.setString(
-        key: userEmailKey, value: user.email ?? '');
+    await SharedPreferenceHelper.setString(key: uIdKey, value: user.uid ?? '');
+
     if (!context.mounted) return;
     navigateToAndRemove(page: const AppMainScreen(), context: context);
   } else {
