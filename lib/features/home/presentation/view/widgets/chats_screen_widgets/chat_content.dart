@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/chats_screen_widgets/chat_message.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ChatContent extends StatelessWidget {
+class ChatContent extends StatefulWidget {
   const ChatContent({super.key});
+
+  @override
+  State<ChatContent> createState() => _ChatContentState();
+}
+
+class _ChatContentState extends State<ChatContent> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,19 +73,26 @@ class ChatContent extends StatelessWidget {
                   itemCount: 1,
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: const TextField(
-                    decoration: InputDecoration(
-                        label: Text('Send a message'),
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20)))),
-                  ),
-                ),
+              TextField(
+                cursorColor: Colors.blue,
+                maxLines: 3,
+                minLines: 1,
+                decoration: InputDecoration(
+                    hintText: 'Send a massage',
+                    hintStyle: GoogleFonts.abel().copyWith(color: Colors.grey),
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: const FaIcon(FontAwesomeIcons.paperPlane),
+                      ),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        borderSide: BorderSide(color: Colors.indigo)),
+                    border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        borderSide: BorderSide(color: Colors.indigo))),
               )
             ],
           ),
