@@ -24,7 +24,8 @@ class _ChatContentState extends State<ChatContent> {
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(10.0.h),
+          padding: EdgeInsets.only(
+              bottom: 10.0.h, left: 10.0.h, right: 10.0.h, top: 5.0.h),
           child: Column(
             children: [
               Row(
@@ -41,7 +42,7 @@ class _ChatContentState extends State<ChatContent> {
                     width: 10,
                   ),
                   SizedBox(
-                    height: context.height * .1,
+                    height: context.height * .08,
                     width: context.width * .15,
                     child: const CircleAvatar(
                       child: Icon(Icons.person),

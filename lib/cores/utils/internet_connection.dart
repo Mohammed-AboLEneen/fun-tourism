@@ -4,7 +4,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
-import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_cubit.dart';
+
+import '../../features/home/presentation/view_model/main_screen_cubit/app_main_screen_cubit.dart';
 
 class InternetConnectionState {
   late AppMainScreenCubit appMainScreenCubit;

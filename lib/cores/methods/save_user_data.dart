@@ -5,8 +5,11 @@ import 'package:hive/hive.dart';
 import '../../constants.dart';
 
 Future<void> saveUserAppData(UserAppData? userData) async {
+  print('userData == null ${userData == null}');
   try {
     final box = await Hive.openBox<UserAppData>(userBox);
+    print('box.isOpen : ${box.isOpen}');
+    print(userData?.userInfoData.uid);
     await box.put(userDataKey, userData!); // save it in hive
     box.close();
   } catch (e) {

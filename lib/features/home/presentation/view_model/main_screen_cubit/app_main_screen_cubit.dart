@@ -10,7 +10,6 @@ import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.d
 import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
 import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/cores/utils/internet_connection.dart';
-import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_states.dart';
 import 'package:hive/hive.dart';
 
 import '../../../../../constants.dart';
@@ -21,6 +20,7 @@ import '../../../../../cores/utils/get_location.dart';
 import '../../../../../cores/utils/wating_screen.dart';
 import '../../view/home_screen.dart';
 import '../../view/widgets/chats_screen_widgets/chat_screen_widget.dart';
+import 'app_main_screen_states.dart';
 
 class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   AppMainScreenCubit() : super(AppMainScreenInitState());
@@ -65,7 +65,9 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
 
       hotTravels = box1.get(hotTravelsKey).cast<HotTravelModel>();
       recentNews = box2.get(recentNewsKey).cast<RecentNewsModel>();
-      userData = box3.get(userDataKey) ?? UserAppData();
+      userData = box3.get(userDataKey);
+      print('i am in local data : ${box3.get(userDataKey)}');
+      print(userData?.userInfoData.email);
 
       // close all boxes when firebase data coming and update hive boxes values.
       await box1.close();
@@ -92,14 +94,17 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     }
   }
 
-  Future<void> getUserData(uId) async {
+  Future<void> getUserData(String uId) async {
     if (internetConnection.connectionStatus.name != 'none') {
       emit(GetUserDataLoadingState());
 
       try {
         DocumentSnapshot<Object?> data =
             await FireStoreServices.getUserData(uId: uId);
+
         userData = UserAppData.fromJson(data.data() as Map<String, dynamic>);
+
+        print(userData?.userInfoData.email);
         await saveUserAppData(userData);
         emit(GetUserDataSuccessState());
       } catch (e) {

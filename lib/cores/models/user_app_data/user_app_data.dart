@@ -1,3 +1,4 @@
+import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
 import 'package:hive/hive.dart';
 
 part 'user_app_data.g.dart';
@@ -5,25 +6,20 @@ part 'user_app_data.g.dart';
 @HiveType(typeId: 1)
 class UserAppData {
   @HiveField(0)
-  String? email;
+  UserInfoData userInfoData = UserInfoData();
   @HiveField(1)
-  String? phoneNumber;
-  @HiveField(2)
-  String? displayName;
-  @HiveField(3)
-  String? photoURL;
-  @HiveField(4)
   List<dynamic>? friends;
-  @HiveField(5)
+  @HiveField(2)
   List<dynamic>? chats;
 
   UserAppData();
 
   UserAppData.fromJson(Map<String, dynamic> json) {
-    email = json['email'];
-    phoneNumber = json['phoneNumber'];
-    displayName = json['displayName'];
-    photoURL = json['photoURL'];
+    userInfoData.email = json['email'];
+
+    userInfoData.phoneNumber = json['phoneNumber'];
+    userInfoData.displayName = json['displayName'];
+    userInfoData.photoURL = json['photoURL'];
     friends = json['friends'];
     chats = json['chats'];
   }

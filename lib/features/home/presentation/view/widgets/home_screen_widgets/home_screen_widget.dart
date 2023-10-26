@@ -5,12 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/cores/utils/catched_image.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/sliver_sizedbox.dart';
-import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_cubit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../../../cores/utils/images.dart';
+import '../../../view_model/main_screen_cubit/app_main_screen_cubit.dart';
 import '../../../view_model/tops_banner_provider/recent_news_banner_provider.dart';
 import '../custom_appbar.dart';
 import 'custom_banner.dart';

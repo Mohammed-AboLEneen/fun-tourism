@@ -1,37 +1,40 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_app_data.dart';
+part of 'message_content_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class UserAppDataAdapter extends TypeAdapter<UserAppData> {
+class MessageContentModelAdapter extends TypeAdapter<MessageContentModel> {
   @override
-  final int typeId = 1;
+  final int typeId = 4;
 
   @override
-  UserAppData read(BinaryReader reader) {
+  MessageContentModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return UserAppData()
-      ..userInfoData = fields[0] as UserInfoData
-      ..friends = (fields[1] as List?)?.cast<dynamic>()
-      ..chats = (fields[2] as List?)?.cast<dynamic>();
+    return MessageContentModel()
+      ..time = fields[0] as String?
+      ..message = fields[1] as String?
+      ..receiverId = fields[2] as String?
+      ..senderId = fields[3] as String?;
   }
 
   @override
-  void write(BinaryWriter writer, UserAppData obj) {
+  void write(BinaryWriter writer, MessageContentModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.userInfoData)
+      ..write(obj.time)
       ..writeByte(1)
-      ..write(obj.friends)
+      ..write(obj.message)
       ..writeByte(2)
-      ..write(obj.chats);
+      ..write(obj.receiverId)
+      ..writeByte(3)
+      ..write(obj.senderId);
   }
 
   @override
@@ -40,7 +43,7 @@ class UserAppDataAdapter extends TypeAdapter<UserAppData> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UserAppDataAdapter &&
+      other is MessageContentModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

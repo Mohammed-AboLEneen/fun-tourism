@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_cubit.dart';
+
+import '../../../view_model/main_screen_cubit/app_main_screen_cubit.dart';
 
 class MenuInfoCard extends StatelessWidget {
   const MenuInfoCard({
@@ -22,7 +23,8 @@ class MenuInfoCard extends StatelessWidget {
                 title: Text(
                   BlocProvider.of<AppMainScreenCubit>(context)
                           .userData
-                          ?.email ??
+                          ?.userInfoData
+                          .displayName ??
                       'Nothing',
                   maxLines: 1,
                   style: TextStyle(

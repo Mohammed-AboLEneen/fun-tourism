@@ -6,9 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/button_navegation_bar_item.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/custom_menu.dart';
-import 'package:fun_adventure/features/home/presentation/view_model/home_cubit/app_main_screen_cubit.dart';
 
-import '../../../view_model/home_cubit/app_main_screen_states.dart';
+import '../../../view_model/main_screen_cubit/app_main_screen_cubit.dart';
+import '../../../view_model/main_screen_cubit/app_main_screen_states.dart';
 
 class AppMainScreenWidget extends StatefulWidget {
   const AppMainScreenWidget({super.key});

@@ -7,7 +7,7 @@ String userDataKey = 'userAppDataKey'; // key of userAppData object in hive box.
 String hotTravelsKey = 'hotTravelsKe1';
 String recentNewsKey = 'recentNewsKe1';
 
-String userBox = 'userBoxw1'; // name of hive box which hold user data.
+String userBox = 'userBox'; // name of hive box which hold user data.
 String hotTravelsBox =
     'HotTravelsBox'; // name of hive box which hold user data.
 String recentNewsBox =

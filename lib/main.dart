@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
 import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.dart';
 import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
+import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
 import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 import 'package:fun_adventure/features/splash/presentation/view/splash.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,7 +23,12 @@ void main() async {
   await SharedPreferenceHelper.initSharedPreference();
   await Hive.initFlutter();
 
-  Hive.registerAdapter(UserAppDataAdapter(), override: true);
+  Hive.registerAdapter(
+    UserAppDataAdapter(),
+  );
+  Hive.registerAdapter(
+    UserInfoDataAdapter(),
+  );
   Hive.registerAdapter(
     HotTravelModelAdapter(),
   );
@@ -45,6 +51,11 @@ class MyApp extends StatelessWidget {
           title: 'Flutter Demo',
           theme: ThemeData(
             textTheme: GoogleFonts.abelTextTheme(ThemeData.light().textTheme),
+            textSelectionTheme: TextSelectionThemeData(
+              selectionColor: Colors.grey.withOpacity(.8),
+              cursorColor: Colors.blue,
+              selectionHandleColor: Colors.blue,
+            ),
             appBarTheme: Theme.of(context)
                 .appBarTheme
                 .copyWith(systemOverlayStyle: SystemUiOverlayStyle.dark),
