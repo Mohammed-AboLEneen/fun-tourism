@@ -2,13 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/button_navegation_bar_item.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/custom_menu.dart';
+import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_states.dart';
 
-import '../../../view_model/main_screen_cubit/app_main_screen_cubit.dart';
-import '../../../view_model/main_screen_cubit/app_main_screen_states.dart';
+import '../../../../../../cores/utils/firebase_api.dart';
+import '../../../view_model/main_screen_cubit/main_screen_cubit.dart';
 
 class AppMainScreenWidget extends StatefulWidget {
   const AppMainScreenWidget({super.key});
@@ -20,16 +20,11 @@ class AppMainScreenWidget extends StatefulWidget {
 class _AppMainScreenState extends State<AppMainScreenWidget> {
   CustomMenuApp customMenuApp = CustomMenuApp();
 
-  List<IconData> bottomNavigationBarIcons = [
-    FontAwesomeIcons.house,
-    FontAwesomeIcons.rocketchat,
-    FontAwesomeIcons.magnifyingGlass,
-    FontAwesomeIcons.plus,
-  ];
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
+    FirebaseApi().initNotifications();
     initInternetConnectionCubitObject();
   }
 
@@ -63,12 +58,13 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) =>
                                 CustomBottomNavigationBarItem(
-                                  icon: bottomNavigationBarIcons[index],
+                                  icon: appMainScreenCubit
+                                      .bottomNavigationBarIcons[index],
                                   index: index,
                                   currentIndex: appMainScreenCubit.currentIndex,
                                   onTap: () {
                                     appMainScreenCubit
-                                        .changeBottomNavigationBarIndex(index);
+                                        .changeNavigationBar(index);
                                   },
                                 ),
                             itemCount: 4),

@@ -13,7 +13,7 @@ class RegisterPage extends StatefulWidget {
   final GlobalKey fromKey;
   final AutovalidateMode autovalidateMode;
 
-  RegisterPage(
+  const RegisterPage(
       {super.key, required this.fromKey, required this.autovalidateMode});
 
   @override

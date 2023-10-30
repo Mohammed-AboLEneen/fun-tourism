@@ -16,7 +16,7 @@ class ChatScreenWidget extends StatelessWidget {
           'chats',
           style: GoogleFonts.aBeeZee().copyWith(fontSize: 25.sp),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: true,
       ),
       body: const SingleChildScrollView(

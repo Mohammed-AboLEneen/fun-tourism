@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../../../view_model/main_screen_cubit/app_main_screen_cubit.dart';
+import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 
 class MenuInfoCard extends StatelessWidget {
   const MenuInfoCard({

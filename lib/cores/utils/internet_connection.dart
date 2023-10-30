@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
 
-import '../../features/home/presentation/view_model/main_screen_cubit/app_main_screen_cubit.dart';
+import '../../features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 
 class InternetConnectionState {
   late AppMainScreenCubit appMainScreenCubit;
@@ -50,7 +50,6 @@ class InternetConnectionState {
           msg: 'Internet is back, Refresh ...',
           bgColor: Colors.green,
           txColor: Colors.white);
-      appMainScreenCubit.getHomeScreen();
     }
   }
 }

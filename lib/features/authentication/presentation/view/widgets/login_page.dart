@@ -10,7 +10,6 @@ import 'package:fun_adventure/cores/utils/images.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/verification_page.dart';
 
 import '../../../../../constants.dart';
-import '../../../../../cores/methods/google_sign_out.dart';
 import '../../../../../cores/utils/sheard_preferance_helper.dart';
 import '../../../../home/presentation/view/main_screen.dart';
 import '../../view_model/login_cubit/login_cubit.dart';
@@ -84,12 +83,11 @@ class _LoginPageState extends State<LoginPage> {
                               color: Colors.white.withOpacity(.9)),
                         ),
                         const Spacer(),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * .5,
                           height: MediaQuery.of(context).size.height * .06,
                           child: TextButton(
                               onPressed: () async {
-                                await googleSignOut();
                                 loginCubit.createOrSignInWithGoogle();
                               },
                               style: ButtonStyle(

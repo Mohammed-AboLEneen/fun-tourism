@@ -60,6 +60,8 @@ dependencies:
   connectivity_plus: ^5.0.0
   location: ^5.0.3
   geocoding: ^2.1.1
+  firebase_messaging: ^14.7.2
+  flutter_local_notifications: ^16.1.0
 
 
 
