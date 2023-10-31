@@ -2,9 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fun_adventure/constants.dart';
+import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
+import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/button_navegation_bar_item.dart';
-import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/custom_menu.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/mange_custom_menu.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_states.dart';
 
 import '../../../../../../cores/utils/firebase_api.dart';
@@ -18,14 +21,15 @@ class AppMainScreenWidget extends StatefulWidget {
 }
 
 class _AppMainScreenState extends State<AppMainScreenWidget> {
-  CustomMenuApp customMenuApp = CustomMenuApp();
+  MangeCustomMenuApp customMenuApp = MangeCustomMenuApp();
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
+  void initState() {
+    super.initState();
     FirebaseApi().initNotifications();
     initInternetConnectionCubitObject();
+
+    uId = SharedPreferenceHelper.getString(key: uIdKey);
   }
 
   @override
@@ -35,6 +39,7 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
         AppMainScreenCubit appMainScreenCubit = AppMainScreenCubit.get(context);
 
         return Scaffold(
+          backgroundColor: Colors.white.withLightness(.94),
           body: Stack(
             children: [
               appMainScreenCubit.screens[appMainScreenCubit.currentIndex],

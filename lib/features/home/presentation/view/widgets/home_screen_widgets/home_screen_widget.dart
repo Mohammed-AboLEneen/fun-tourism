@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/cores/utils/catched_image.dart';
+import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
+import 'package:fun_adventure/cores/utils/wating_screen.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/home_screen_menu_structure.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/sliver_sizedbox.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,11 +19,11 @@ import '../../../../../../cores/utils/images.dart';
 import '../../../view_model/home_screen_cubit/home_screen_cubit.dart';
 import '../../../view_model/home_screen_cubit/home_screen_states.dart';
 import '../../../view_model/tops_banner_provider/recent_news_banner_provider.dart';
-import '../custom_appbar.dart';
+import 'custom_appbar.dart';
 import 'custom_banner.dart';
 import 'custom_header.dart';
-import 'custom_menu.dart';
-import 'home_screen_menu_item.dart';
+import 'mange_custom_menu.dart';
+import 'notification_screen.dart';
 import 'slider_banner.dart';
 
 class HomeScreenWidget extends StatefulWidget {
@@ -33,7 +36,8 @@ class HomeScreenWidget extends StatefulWidget {
 class _HomeScreenWidgetState extends State<HomeScreenWidget>
     with SingleTickerProviderStateMixin {
   int sliderBannerCurrentIndex = 0;
-  CustomMenuApp customMenuApp = CustomMenuApp();
+  double notification = 0;
+  MangeCustomMenuApp mangeCustomMenuApp = MangeCustomMenuApp();
 
   List<String> categoriesTitles = [
     'North Egypt',
@@ -52,7 +56,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
   @override
   void initState() {
     super.initState();
-    customMenuApp.initMenuValue();
+    mangeCustomMenuApp.initMenuValue();
   }
 
   @override
@@ -61,213 +65,286 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
         builder: (context, state) {
           HomeScreenCubit homeScreenCubit = HomeScreenCubit.get(context);
           AppMainScreenCubit appMainScreenCubit =
-              AppMainScreenCubit.get(context);
+          AppMainScreenCubit.get(context);
 
-          return RefreshIndicator(
-            color: Colors.blue,
-            backgroundColor: Colors.white.withOpacity(.8),
-            onRefresh: () async {
-              homeScreenCubit.clearHomeScreenData();
-              homeScreenCubit.getData(uId!);
-            },
-            child: GestureDetector(
-              onPanUpdate: (tapInfo) {
-                setState(() {
-                  customMenuApp.realTimeUpdatingValues(context, tapInfo);
-                });
-              },
-              onPanEnd: (de) {
-                customMenuApp.leaveMenuMoving(context);
-                setState(() {});
-              },
-              child: Stack(
-                children: [
-                  TweenAnimationBuilder(
-                      tween: Tween<double>(
-                          begin: customMenuApp.tweenBeginScale,
-                          end: customMenuApp.tweenEndScale),
-                      duration: const Duration(milliseconds: 150),
-                      builder: (_, value, ___) {
-                        return Transform.scale(
-                            scale: (1 - value),
-                            child: Scaffold(
-                              backgroundColor: Colors.transparent,
-                              body: SafeArea(
-                                child: CustomScrollView(
-                                  slivers: [
-                                    CustomAppBar(
-                                      locationAction: () {
-                                        homeScreenCubit.getUserLocation();
-                                      },
-                                      menuAction: () {
-                                        setState(() {
-                                          customMenuApp.openMenu();
-                                        });
-                                      },
-                                      locationName: appMainScreenCubit
-                                          .userLocation.locationName,
-                                    ),
-                                    const SliverSizedBox(
-                                      h: 20,
-                                    ),
-                                    SliverGrid(
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        mainAxisSpacing: 10,
-                                        crossAxisSpacing: 10,
-                                        childAspectRatio: 1.4,
-                                      ),
-                                      delegate: SliverChildBuilderDelegate(
-                                        (context, index) {
-                                          return Card(
-                                            // generate blues with random shades
-                                            color: Colors.amber[
-                                                Random().nextInt(9) * 100],
-                                            child: Stack(
-                                              children: [
-                                                CachedImage(
-                                                    networkImageUrl:
-                                                        categoriesImagesUrl[
-                                                            index],
-                                                    assetImageUrl: ImagesClass
-                                                        .logoSvgImage),
-                                                Container(
-                                                  alignment:
-                                                      Alignment.bottomCenter,
-                                                  margin: const EdgeInsets.only(
-                                                      bottom: 5),
-                                                  child: Text(
-                                                    categoriesTitles[index],
-                                                    style: GoogleFonts.abel()
-                                                        .copyWith(
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 20.sp),
+          return appMainScreenCubit.recentNews.isNotEmpty &&
+              appMainScreenCubit.hotTravels.isNotEmpty
+              ? Stack(
+            children: [
+              GestureDetector(
+                onPanUpdate: (tapInfo) {
+                  setState(() {
+                    mangeCustomMenuApp.realTimeUpdatingValues(
+                        context, tapInfo);
+                  });
+                },
+                onPanEnd: (de) {
+                  mangeCustomMenuApp.leaveMenuMoving(context);
+                  setState(() {});
+                },
+                child: TweenAnimationBuilder(
+                    tween: Tween<double>(begin: 0, end: 1),
+                    duration: const Duration(milliseconds: 1000),
+                    builder: (_, value, ___) {
+                      return Opacity(
+                        opacity: value,
+                        child: Stack(
+                          children: [
+                            TweenAnimationBuilder(
+                                tween: Tween<double>(
+                                    begin: mangeCustomMenuApp
+                                        .tweenBeginScale,
+                                    end:
+                                    mangeCustomMenuApp.tweenEndScale),
+                                duration:
+                                const Duration(milliseconds: 150),
+                                builder: (_, value, ___) {
+                                  return Transform.scale(
+                                      scale: (1 - value),
+                                      child: RefreshIndicator(
+                                        onRefresh: () async {
+                                          homeScreenCubit.getData(uId!);
+                                        },
+                                        child: Scaffold(
+                                          backgroundColor:
+                                          Colors.transparent,
+                                          body: SafeArea(
+                                            child: CustomScrollView(
+                                              slivers: [
+                                                CustomAppBar(
+                                                  locationAction: () {
+                                                    homeScreenCubit
+                                                        .getUserLocation();
+                                                  },
+                                                  menuAction: () {
+                                                    setState(() {
+                                                      mangeCustomMenuApp
+                                                          .openMenu();
+                                                    });
+                                                  },
+                                                  notificationAction:
+                                                      () async {
+                                                    homeScreenCubit
+                                                        .openNotificationScreen(
+                                                        context);
+                                                  },
+                                                  locationName:
+                                                  appMainScreenCubit
+                                                      .userLocation
+                                                      .locationName,
+                                                ),
+                                                const SliverSizedBox(
+                                                  h: 20,
+                                                ),
+                                                SliverGrid(
+                                                  gridDelegate:
+                                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisSpacing: 10,
+                                                    crossAxisSpacing: 10,
+                                                    childAspectRatio: 1.4,
                                                   ),
+                                                  delegate:
+                                                  SliverChildBuilderDelegate(
+                                                        (context, index) {
+                                                      return Card(
+                                                        // generate blues with random shades
+                                                        color: Colors
+                                                            .amber[Random()
+                                                            .nextInt(
+                                                            9) *
+                                                            100],
+                                                        child: Stack(
+                                                          children: [
+                                                            CachedImage(
+                                                                networkImageUrl:
+                                                                categoriesImagesUrl[
+                                                                index],
+                                                                assetImageUrl:
+                                                                ImagesClass
+                                                                    .logoSvgImage),
+                                                            Align(
+                                                              alignment:
+                                                              Alignment
+                                                                  .bottomCenter,
+                                                              child:
+                                                              Container(
+                                                                decoration: BoxDecoration(
+                                                                    color: Colors
+                                                                        .indigo
+                                                                        .withOpacity(
+                                                                        .7)
+                                                                        .withLightness(
+                                                                        .35),
+                                                                    borderRadius: const BorderRadius
+                                                                        .only(
+                                                                      bottomRight:
+                                                                      Radius
+                                                                          .circular(
+                                                                          10),
+                                                                      bottomLeft:
+                                                                      Radius
+                                                                          .circular(
+                                                                          10),
+                                                                    )),
+                                                                width: context
+                                                                    .width,
+                                                                child:
+                                                                Text(
+                                                                  categoriesTitles[
+                                                                  index],
+                                                                  textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                                  style: GoogleFonts
+                                                                      .abel()
+                                                                      .copyWith(
+                                                                      color:
+                                                                      Colors
+                                                                          .white
+                                                                          .withLightness(
+                                                                          .9),
+                                                                      fontWeight: FontWeight
+                                                                          .w600,
+                                                                      fontSize: 20
+                                                                          .sp),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      );
+                                                    },
+                                                    childCount: 4,
+                                                  ),
+                                                ),
+                                                const SliverSizedBox(
+                                                  h: 20,
+                                                ),
+                                                CustomHomeHeader(
+                                                  h: context.height * .05,
+                                                  w: context.width * .33,
+                                                  header: 'Hot Travels',
+                                                ),
+                                                const SliverSizedBox(
+                                                  h: 15,
+                                                ),
+                                                SliverToBoxAdapter(
+                                                  child: SliderBanner(
+                                                    height:
+                                                    context.height *
+                                                        .33,
+                                                    action: (index, __) {
+                                                      setState(() {
+                                                        sliderBannerCurrentIndex =
+                                                            index;
+                                                      });
+                                                    },
+                                                    items:
+                                                    appMainScreenCubit
+                                                        .hotTravels,
+                                                    scrollDirection:
+                                                    Axis.horizontal,
+                                                  ),
+                                                ),
+                                                const SliverSizedBox(
+                                                  h: 10,
+                                                ),
+                                                SliverToBoxAdapter(
+                                                  child: Align(
+                                                    alignment:
+                                                    Alignment.center,
+                                                    child:
+                                                    AnimatedSmoothIndicator(
+                                                      activeIndex:
+                                                      sliderBannerCurrentIndex,
+                                                      count: 5,
+                                                      effect:
+                                                      const WormEffect(
+                                                          dotHeight:
+                                                          5),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SliverSizedBox(
+                                                  h: context.height * .03,
+                                                ),
+                                                CustomHomeHeader(
+                                                  h: context.height * .05,
+                                                  w: context.width * .38,
+                                                  header: 'Recent News',
+                                                ),
+                                                SliverSizedBox(
+                                                  h: context.height *
+                                                      .015,
+                                                ),
+                                                ChangeNotifierProvider(
+                                                    create: (context) =>
+                                                        RecentNewsBannerProvider(),
+                                                    child: Consumer<
+                                                        RecentNewsBannerProvider>(
+                                                        builder: (BuildContext
+                                                        context,
+                                                            RecentNewsBannerProvider
+                                                            model,
+                                                            Widget?
+                                                            child) {
+                                                          return CustomRecentNewsBanner(
+                                                            image: appMainScreenCubit
+                                                                .recentNews[model
+                                                                .currentItem]
+                                                                .image,
+                                                            title: appMainScreenCubit
+                                                                .recentNews[model
+                                                                .currentItem]
+                                                                .title,
+                                                            model: model,
+                                                          );
+                                                        })),
+                                                SliverSizedBox(
+                                                  h: context.height * .11,
                                                 ),
                                               ],
                                             ),
-                                          );
-                                        },
-                                        childCount: 4,
-                                      ),
-                                    ),
-                                    const SliverSizedBox(
-                                      h: 20,
-                                    ),
-                                    CustomHomeHeader(
-                                      h: context.height * .05,
-                                      w: context.width * .33,
-                                      header: 'Hot Travels',
-                                    ),
-                                    const SliverSizedBox(
-                                      h: 15,
-                                    ),
-                                    SliverToBoxAdapter(
-                                      child: SliderBanner(
-                                        height: context.height * .33,
-                                        action: (index, __) {
-                                          setState(() {
-                                            sliderBannerCurrentIndex = index;
-                                          });
-                                        },
-                                        items: appMainScreenCubit.hotTravels,
-                                        scrollDirection: Axis.horizontal,
-                                      ),
-                                    ),
-                                    const SliverSizedBox(
-                                      h: 10,
-                                    ),
-                                    SliverToBoxAdapter(
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: AnimatedSmoothIndicator(
-                                          activeIndex: sliderBannerCurrentIndex,
-                                          count: 5,
-                                          effect:
-                                              const WormEffect(dotHeight: 5),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    SliverSizedBox(
-                                      h: context.height * .05,
-                                    ),
-                                    CustomHomeHeader(
-                                      h: context.height * .05,
-                                      w: context.width * .38,
-                                      header: 'Recent News',
-                                    ),
-                                    SliverSizedBox(
-                                      h: context.height * .015,
-                                    ),
-                                    ChangeNotifierProvider(
-                                        create: (context) =>
-                                            RecentNewsBannerProvider(),
-                                        child: Consumer<
-                                                RecentNewsBannerProvider>(
-                                            builder: (BuildContext context,
-                                                RecentNewsBannerProvider model,
-                                                Widget? child) {
-                                          return CustomRecentNewsBanner(
-                                            image: appMainScreenCubit
-                                                .recentNews[model.currentItem]
-                                                .image,
-                                            title: appMainScreenCubit
-                                                .recentNews[model.currentItem]
-                                                .title,
-                                            model: model,
-                                          );
-                                        })),
-                                    SliverSizedBox(
-                                      h: context.height * .11,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ));
-                      }),
-                  Stack(
-                    children: [
-                      if (customMenuApp.normalizedXPosition < 1)
-                        GestureDetector(
-                          onTap: () {
-                            customMenuApp.closeMenu(context);
-                            setState(() {});
-                          },
-                          child: TweenAnimationBuilder(
-                              tween: Tween<double>(
-                                  begin: customMenuApp.tweenBeginColor,
-                                  end: customMenuApp.tweenEndColor),
-                              duration: const Duration(milliseconds: 300),
-                              builder: (_, value, ___) {
-                                if (value < 0) {
-                                  value = 0;
-                                }
-                                return Container(
-                                  width: context.width,
-                                  height: context.height,
-                                  color: Colors.black.withOpacity(value),
-                                );
-                              }),
+                                      ));
+                                }),
+                            HomeScreenMenuStructure(
+                              tBeginColor:
+                              mangeCustomMenuApp.tweenBeginColor,
+                              tEndColor: mangeCustomMenuApp.tweenEndColor,
+                              normalizedXPosition:
+                              mangeCustomMenuApp.normalizedXPosition,
+                              xPosition: mangeCustomMenuApp.xPosition,
+                              onTapBlackBackGround: () {
+                                setState(() {
+                                  mangeCustomMenuApp.closeMenu(context);
+                                });
+                              },
+                            ),
+                          ],
                         ),
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        // Set the duration for the animation
-                        curve: Curves.easeOut,
-                        // Set the easing function for the animation
-                        transform: Matrix4.translationValues(
-                            customMenuApp.xPosition, 0, 0),
-                        // Use translation instead of Offset for AnimatedContainer
-                        width: context.width * .7,
-                        child: const HomeScreenMenu(),
-                      )
-                    ],
-                  )
-                ],
+                      );
+                    }),
               ),
-            ),
+              NotificationScreen(
+                homeScreenCubit: homeScreenCubit,
+                animatedContainerOnEndMethod: () {
+                  if (homeScreenCubit.notificationScreenHeight ==
+                      context.height * .75) {
+                    homeScreenCubit
+                        .setTheNotificationsScreenBodyVisibility(true);
+                  }
+                },
+              )
+            ],
+          )
+              : WaitingScreen(
+            appMainScreenCubit: appMainScreenCubit,
+            action: () {
+              homeScreenCubit.getData(uId!);
+            },
           );
         },
         listener: (context, state) {});

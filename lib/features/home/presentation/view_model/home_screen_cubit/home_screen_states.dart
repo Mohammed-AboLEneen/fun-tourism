@@ -22,10 +22,14 @@ class GetHomeScreenDataFailureState extends HomeScreenStates {
   GetHomeScreenDataFailureState(this.message);
 }
 
-class ChangeBottomNavigationBarIndex extends HomeScreenStates {}
-
 class GetLocalAppDataSuccessState extends HomeScreenStates {}
 
 class GetLocalAppDataFailureState extends HomeScreenStates {}
 
 class GetTheUserLocationName extends HomeScreenStates {}
+
+class OpenNotificationsScreenState extends HomeScreenStates {}
+
+class CloseNotificationsScreenState extends HomeScreenStates {}
+
+class ChangeNotificationScreenBodyVisibilityState extends HomeScreenStates {}

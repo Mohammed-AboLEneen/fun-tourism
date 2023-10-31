@@ -8,13 +8,15 @@ import 'package:google_fonts/google_fonts.dart';
 class CustomAppBar extends StatelessWidget {
   final void Function()? locationAction;
   final void Function()? menuAction;
+  final void Function()? notificationAction;
   final String locationName;
 
   const CustomAppBar(
       {super.key,
       this.locationAction,
       required this.locationName,
-      this.menuAction});
+      this.menuAction,
+      this.notificationAction});
 
   @override
   Widget build(BuildContext context) {
@@ -75,25 +77,22 @@ class CustomAppBar extends StatelessWidget {
                       ),
                       Expanded(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 5.0.w),
-                              child: CircleAvatar(
-                                  backgroundColor: Colors.white.withOpacity(.4),
-                                  child: GestureDetector(
-                                    onTap: () {},
-                                    child: FaIcon(
-                                      FontAwesomeIcons.magnifyingGlass,
-                                      color: Colors.white.withOpacity(.9),
-                                      size: 20.h,
-                                    ),
-                                  )),
-                            ),
                             CircleAvatar(
                                 backgroundColor: Colors.white.withOpacity(.4),
                                 child: GestureDetector(
                                   onTap: () {},
+                                  child: FaIcon(
+                                    FontAwesomeIcons.magnifyingGlass,
+                                    color: Colors.white.withOpacity(.9),
+                                    size: 20.h,
+                                  ),
+                                )),
+                            CircleAvatar(
+                                backgroundColor: Colors.white.withOpacity(.4),
+                                child: GestureDetector(
+                                  onTap: notificationAction,
                                   child: FaIcon(
                                     FontAwesomeIcons.bell,
                                     color: Colors.white.withOpacity(.9),

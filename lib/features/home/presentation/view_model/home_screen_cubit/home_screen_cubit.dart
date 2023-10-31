@@ -9,9 +9,11 @@ import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.d
 import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.dart';
 import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
 import 'package:fun_adventure/cores/utils/firestore_service.dart';
+import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 
 import '../../../../../cores/methods/download_image.dart';
+import '../../../../../cores/utils/internet_connection.dart';
 import 'home_screen_states.dart';
 
 class HomeScreenCubit extends Cubit<HomeScreenStates> {
@@ -20,6 +22,13 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
   late AppMainScreenCubit appMainScreenCubit;
 
   static HomeScreenCubit get(context) => BlocProvider.of(context);
+
+
+  double notificationScreenHeight = 0;
+  bool notificationScreenIsOpened = false;
+  bool notificationScreenBodyVisible = false;
+
+  InternetConnectionState internetConnectionState = InternetConnectionState();
 
   Future<void> blocOperations(String uId, BuildContext context) async {
     // init AppMainScreenCubit object to use it in this cubit
@@ -35,18 +44,16 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
   }
 
   Future<void> getData(String uId) async {
-    if (appMainScreenCubit.hotTravels.isEmpty &&
-        appMainScreenCubit.recentNews.isEmpty) {
-      if (appMainScreenCubit.internetConnection.connectionStatus.name !=
-          'none') {
-        getUserData(uId);
-        getHomeScreen();
-      } else {
-        showToast(
-            msg: 'Please turn on wifi or mobile data',
-            bgColor: Colors.red,
-            txColor: Colors.white);
-      }
+    if (appMainScreenCubit.internetConnection.connectionStatus.name != 'none') {
+      clearHomeScreenData();
+
+      getUserData(uId);
+      getHomeScreen();
+    } else {
+      showToast(
+          msg: 'Please turn on wifi or mobile data',
+          bgColor: Colors.red,
+          txColor: Colors.white);
     }
   }
 
@@ -110,6 +117,29 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
 
       emit(GetHomeScreenDataFailureState(e.toString()));
     }
+  }
+
+  void openNotificationScreen(BuildContext context) {
+    notificationScreenIsOpened = true;
+    changeNotificationsScreenHeight(context);
+    emit(OpenNotificationsScreenState());
+  }
+
+  void closeNotificationScreen(BuildContext context) {
+    setTheNotificationsScreenBodyVisibility(false);
+    notificationScreenIsOpened = false;
+    changeNotificationsScreenHeight(context);
+    emit(CloseNotificationsScreenState());
+  }
+
+  void setTheNotificationsScreenBodyVisibility(bool state) {
+    notificationScreenBodyVisible = state;
+    emit(ChangeNotificationScreenBodyVisibilityState());
+  }
+
+  void changeNotificationsScreenHeight(BuildContext context) {
+    notificationScreenHeight =
+    notificationScreenIsOpened ? context.height * .75 : 0;
   }
 
   Future<void> getUserLocation() async {

@@ -7,7 +7,6 @@ import '../../../../../cores/models/recent_news_model/recent_news_model.dart';
 import '../../../../../cores/models/user_app_data/user_app_data.dart';
 import '../../../../../cores/utils/get_location.dart';
 import '../../../../../cores/utils/internet_connection.dart';
-import '../../../../../cores/utils/wating_screen.dart';
 import '../../view/home_screen.dart';
 import '../../view/widgets/chats_screen_widgets/chat_screen_widget.dart';
 import 'main_screen_states.dart';
@@ -19,7 +18,6 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
 
   InternetConnectionState internetConnection = InternetConnectionState();
 
-
   UserAppData? userData;
 
   int currentIndex = 0;
@@ -27,9 +25,13 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   List<Widget> screens = [
     const HomeScreen(),
     const ChatScreenWidget(),
-    const WaitingScreen(),
+    const HomeScreen(),
     const HomeScreen(),
   ];
+
+  void listenInternetConnectionState() {
+    emit(InternetConnectionStateChangedState());
+  }
 
   List<IconData> bottomNavigationBarIcons = [
     FontAwesomeIcons.house,
@@ -38,12 +40,10 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     FontAwesomeIcons.plus,
   ];
 
-
   List<RecentNewsModel> recentNews = [];
   List<HotTravelModel> hotTravels = [];
 
   UserLocation userLocation = UserLocation();
-
 
   void setUserData(UserAppData uAppData) {
     userData = uAppData;

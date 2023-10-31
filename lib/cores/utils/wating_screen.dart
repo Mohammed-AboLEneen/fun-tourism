@@ -1,75 +1,101 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
+import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
+import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_states.dart';
 
-class WaitingScreen extends StatefulWidget {
-  const WaitingScreen({super.key});
+class WaitingScreen extends StatelessWidget {
+  final AppMainScreenCubit appMainScreenCubit;
+  final void Function()? action;
 
-  @override
-  State<WaitingScreen> createState() => _WaitingScreenState();
-}
+  const WaitingScreen(
+      {super.key, required this.appMainScreenCubit, this.action});
 
-class _WaitingScreenState extends State<WaitingScreen> {
-  double begin = 0;
-  double end = 1;
-  int sliderBannerCurrentIndex = 0;
-  Color color = Colors.white.withOpacity(.9);
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  final Color color = Colors.white;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: SizedBox(
-                    height: context.height * .3,
-                    width: context.width,
-                    child: Card(color: color)),
-              ),
-              const SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 20,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: context.height * .32,
-                  child: ListView.builder(
-                    itemBuilder: (context, index) => SizedBox(
-                      width: context.width * .8,
-                      child: Card(
-                        color: color,
+    return BlocConsumer<AppMainScreenCubit, AppMainScreenStates>(
+        builder: (context, state) {
+          return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SafeArea(
+                child: appMainScreenCubit
+                            .internetConnection.connectionStatus.name !=
+                        'none'
+                    ? CustomScrollView(
+                        slivers: [
+                          SliverToBoxAdapter(
+                            child: SizedBox(
+                                height: context.height * .3,
+                                width: context.width,
+                                child: Card(color: color)),
+                          ),
+                          const SliverToBoxAdapter(
+                            child: SizedBox(
+                              height: 20,
+                            ),
+                          ),
+                          SliverToBoxAdapter(
+                            child: SizedBox(
+                              height: context.height * .32,
+                              child: ListView.builder(
+                                itemBuilder: (context, index) => SizedBox(
+                                  width: context.width * .8,
+                                  child: Card(
+                                    color: color,
+                                  ),
+                                ),
+                                itemCount: 5,
+                                scrollDirection: Axis.horizontal,
+                              ),
+                            ),
+                          ),
+                          const SliverToBoxAdapter(
+                            child: SizedBox(
+                              height: 20,
+                            ),
+                          ),
+                          SliverToBoxAdapter(
+                            child: SizedBox(
+                                height: context.height * .3,
+                                width: context.width,
+                                child: Card(color: color)),
+                          ),
+                          SliverToBoxAdapter(
+                            child: SizedBox(
+                              height: context.height * .13,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Center(
+                        child: SizedBox(
+                          height: context.height * .17,
+                          width: context.width * .5,
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                children: [
+                                  const Text('There Is No Connection'),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  TextButton(
+                                      onPressed: action,
+                                      child: const Text(
+                                        'Retry',
+                                        style: TextStyle(color: Colors.black),
+                                      ))
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    itemCount: 5,
-                    scrollDirection: Axis.horizontal,
-                  ),
-                ),
-              ),
-              const SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 20,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                    height: context.height * .3,
-                    width: context.width,
-                    child: Card(color: color)),
-              ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: context.height * .13,
-                ),
-              ),
-            ],
-          ),
-        ));
+              ));
+        },
+        listener: (context, state) {});
   }
 }

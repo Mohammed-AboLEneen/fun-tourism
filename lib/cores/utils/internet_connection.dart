@@ -44,12 +44,17 @@ class InternetConnectionState {
       return;
     }
 
+
     if ((temp == 'none' &&
         (result.name == 'wifi' || result.name == 'mobile'))) {
       showToast(
           msg: 'Internet is back, Refresh ...',
           bgColor: Colors.green,
           txColor: Colors.white);
+
+      return;
     }
+
+    appMainScreenCubit.listenInternetConnectionState();
   }
 }
