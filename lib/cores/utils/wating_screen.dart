@@ -4,12 +4,12 @@ import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_states.dart';
 
+import 'locator_manger.dart';
+
 class WaitingScreen extends StatelessWidget {
-  final AppMainScreenCubit appMainScreenCubit;
   final void Function()? action;
 
-  const WaitingScreen(
-      {super.key, required this.appMainScreenCubit, this.action});
+  const WaitingScreen({super.key, this.action});
 
   final Color color = Colors.white;
 
@@ -20,9 +20,15 @@ class WaitingScreen extends StatelessWidget {
           return Padding(
               padding: const EdgeInsets.all(8.0),
               child: SafeArea(
-                child: appMainScreenCubit
-                            .internetConnection.connectionStatus.name !=
-                        'none'
+                child: (LocatorManager.locator<AppMainScreenCubit>()
+                                .internetConnection
+                                .connectionStatus
+                                .name !=
+                            'none' ||
+                        LocatorManager.locator<AppMainScreenCubit>()
+                                .internetConnection
+                                .finishedInit ==
+                            false)
                     ? CustomScrollView(
                         slivers: [
                           SliverToBoxAdapter(

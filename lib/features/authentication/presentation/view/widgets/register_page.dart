@@ -102,17 +102,11 @@ class _RegisterPageState extends State<RegisterPage> {
       },
       listener: (context, state) {
         if (state is RegisterSuccessState) {
-          showToast(
-              msg: 'verify your email',
-              bgColor: Colors.green.withOpacity(.7),
-              txColor: Colors.white.withOpacity(.7));
+          showToast(msg: 'verify your email', isFailure: false);
 
           navigateTo(page: const EmailVerificationPage(), context: context);
         } else if (state is RegisterFailureState) {
-          showToast(
-              msg: state.message,
-              bgColor: Colors.red.withOpacity(.7),
-              txColor: Colors.white.withOpacity(.7));
+          showToast(msg: state.message, isFailure: true);
         }
       },
     );

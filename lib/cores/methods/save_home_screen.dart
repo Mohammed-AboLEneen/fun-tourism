@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
-import 'package:hive/hive.dart';
 import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
+import 'package:hive/hive.dart';
 
 import '../../constants.dart';
 import '../models/recent_news_model/recent_news_model.dart';
@@ -28,10 +27,7 @@ Future<void> saveHomeScreenData(
     box1.close();
     box2.close();
   } catch (e, s) {
-    showToast(
-        msg: 'Something wrong while saving data',
-        bgColor: Colors.red,
-        txColor: Colors.white);
+    showToast(msg: 'Something wrong while saving data', isFailure: true);
     if (kDebugMode) {
       print(e.toString());
     }

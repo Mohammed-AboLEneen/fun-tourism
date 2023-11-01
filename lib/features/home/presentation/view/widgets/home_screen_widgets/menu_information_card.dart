@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
+
+import '../../../../../../cores/utils/locator_manger.dart';
 
 class MenuInfoCard extends StatelessWidget {
   const MenuInfoCard({
@@ -20,7 +21,7 @@ class MenuInfoCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width * .5,
               child: ListTile(
                 title: Text(
-                  BlocProvider.of<AppMainScreenCubit>(context)
+                  LocatorManager.locator<AppMainScreenCubit>()
                           .userData
                           ?.userInfoData
                           .displayName ??

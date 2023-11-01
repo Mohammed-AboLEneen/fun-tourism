@@ -30,6 +30,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   ];
 
   void listenInternetConnectionState() {
+    print('this is jjadajd : ${internetConnection.finishedInit}');
     emit(InternetConnectionStateChangedState());
   }
 

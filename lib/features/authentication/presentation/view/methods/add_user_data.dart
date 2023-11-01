@@ -24,9 +24,6 @@ Future<void> addNewUserInFireStore(
 
     navigateToAndRemove(page: const AppMainScreen(), context: context);
   } catch (e) {
-    showToast(
-        msg: 'There is an error, sign in again.',
-        bgColor: Colors.red.withOpacity(.7),
-        txColor: Colors.white.withOpacity(.7));
+    showToast(msg: 'There is an error, sign in again.', isFailure: true);
   }
 }

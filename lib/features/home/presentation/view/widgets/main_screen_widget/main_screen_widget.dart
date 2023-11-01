@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fun_adventure/constants.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
+import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/button_navegation_bar_item.dart';
@@ -24,25 +25,34 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
   MangeCustomMenuApp customMenuApp = MangeCustomMenuApp();
 
   @override
-  void initState() {
-    super.initState();
-    FirebaseApi().initNotifications();
-    initInternetConnectionCubitObject();
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
 
+    LocatorManager.locateAppMainScreenCubit();
     uId = SharedPreferenceHelper.getString(key: uIdKey);
+
+    FirebaseApi().initNotifications();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppMainScreenCubit, AppMainScreenStates>(
       builder: (context, state) {
-        AppMainScreenCubit appMainScreenCubit = AppMainScreenCubit.get(context);
-
+        print(LocatorManager
+            .locator<AppMainScreenCubit>()
+            .internetConnection
+            .finishedInit);
         return Scaffold(
           backgroundColor: Colors.white.withLightness(.94),
           body: Stack(
             children: [
-              appMainScreenCubit.screens[appMainScreenCubit.currentIndex],
+              LocatorManager
+                  .locator<AppMainScreenCubit>()
+                  .screens[
+              LocatorManager
+                  .locator<AppMainScreenCubit>()
+                  .currentIndex],
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
                 child: Align(
@@ -57,18 +67,23 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
                         decoration: BoxDecoration(
                             color: const Color(0xff313745).withOpacity(.8),
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(20))),
+                            const BorderRadius.all(Radius.circular(20))),
                         child: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) =>
                                 CustomBottomNavigationBarItem(
-                                  icon: appMainScreenCubit
+                                  icon: LocatorManager
+                                      .locator<
+                                      AppMainScreenCubit>()
                                       .bottomNavigationBarIcons[index],
                                   index: index,
-                                  currentIndex: appMainScreenCubit.currentIndex,
+                                  currentIndex: LocatorManager
+                                      .locator<
+                                      AppMainScreenCubit>()
+                                      .currentIndex,
                                   onTap: () {
-                                    appMainScreenCubit
+                                    LocatorManager.locator<AppMainScreenCubit>()
                                         .changeNavigationBar(index);
                                   },
                                 ),
@@ -84,11 +99,5 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
       },
       listener: (context, state) {},
     );
-  }
-
-  void initInternetConnectionCubitObject() {
-    BlocProvider.of<AppMainScreenCubit>(context)
-        .internetConnection
-        .initCubitObject(BlocProvider.of<AppMainScreenCubit>(context));
   }
 }

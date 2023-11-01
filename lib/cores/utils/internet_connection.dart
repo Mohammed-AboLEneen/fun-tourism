@@ -1,21 +1,16 @@
 import 'dart:developer' as developer;
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
-
-import '../../features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
+import 'package:fun_adventure/cores/utils/locator_manger.dart';
+import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 
 class InternetConnectionState {
-  late AppMainScreenCubit appMainScreenCubit;
   ConnectivityResult connectionStatus = ConnectivityResult.none;
   final Connectivity connectivity = Connectivity();
-  bool appJustBegin = true;
 
-  void initCubitObject(AppMainScreenCubit cubit) {
-    appMainScreenCubit = cubit;
-  }
+  bool finishedInit = false;
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initConnectivity() async {
@@ -30,31 +25,25 @@ class InternetConnectionState {
       return;
     }
 
-    appJustBegin = true;
+    LocatorManager.locator<AppMainScreenCubit>()
+        .internetConnection
+        .finishedInit = true;
 
     _updateConnectionStatus(result);
   }
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     String temp = connectionStatus.name;
-    connectionStatus = result;
+    LocatorManager.locator<AppMainScreenCubit>()
+        .internetConnection
+        .connectionStatus = result;
 
-    if (appJustBegin == true) {
-      appJustBegin = false;
-      return;
+    if (temp == 'none' &&
+        (result.name == 'wifi' || result.name == 'mobile') &&
+        LocatorManager.locator<AppMainScreenCubit>()
+            .internetConnection
+            .finishedInit) {
+      showToast(msg: 'Refresh ...', isFailure: false);
     }
-
-
-    if ((temp == 'none' &&
-        (result.name == 'wifi' || result.name == 'mobile'))) {
-      showToast(
-          msg: 'Internet is back, Refresh ...',
-          bgColor: Colors.green,
-          txColor: Colors.white);
-
-      return;
-    }
-
-    appMainScreenCubit.listenInternetConnectionState();
   }
 }

@@ -225,10 +225,7 @@ class _LoginPageState extends State<LoginPage> {
             }
           }
         } else if (state is LoginFailureState) {
-          showToast(
-              msg: state.message,
-              bgColor: Colors.red.withOpacity(.7),
-              txColor: Colors.white.withOpacity(.7));
+          showToast(msg: state.message, isFailure: true);
         }
       },
     );
@@ -251,9 +248,6 @@ void checkIsThisNewUser({
     if (!context.mounted) return;
     navigateToAndRemove(page: const AppMainScreen(), context: context);
   } else {
-    showToast(
-        msg: 'Something is wrong, try again.',
-        bgColor: Colors.green.withOpacity(.7),
-        txColor: Colors.white.withOpacity(.7));
+    showToast(msg: 'Something is wrong, try again.', isFailure: true);
   }
 }
