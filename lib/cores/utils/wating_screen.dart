@@ -20,6 +20,8 @@ class WaitingScreen extends StatelessWidget {
           return Padding(
               padding: const EdgeInsets.all(8.0),
               child: SafeArea(
+
+                // if internet connection its init not done or the internet connection state is wifi or mobile data
                 child: (LocatorManager
                     .locator<AppMainScreenCubit>()
                     .internetConnection

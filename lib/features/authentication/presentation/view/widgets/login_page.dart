@@ -220,8 +220,7 @@ class _LoginPageState extends State<LoginPage> {
                     userInfoData: state.user, context: context);
               }
             } else {
-              context.go(
-                  '${RoutersClass.authenticationScreenPath}/${RoutersClass.emailVerificationScreenPath}');
+              context.go(RoutersClass.fromAuthScreenToEmailVerificationScreen);
             }
           }
         } else if (state is LoginFailureState) {

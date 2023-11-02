@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/constants.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
+import 'package:fun_adventure/features/home/presentation/view_model/notification_circle_red_provider/notification_circle_red_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class CustomAppBar extends StatelessWidget {
   final void Function()? locationAction;
@@ -89,15 +91,53 @@ class CustomAppBar extends StatelessWidget {
                                     size: 20.h,
                                   ),
                                 )),
-                            CircleAvatar(
-                                backgroundColor: Colors.white.withOpacity(.4),
-                                child: GestureDetector(
-                                  onTap: notificationAction,
-                                  child: FaIcon(
-                                    FontAwesomeIcons.bell,
-                                    color: Colors.white.withOpacity(.9),
-                                  ),
-                                ))
+                            GestureDetector(
+                              onTap: notificationAction,
+                              child: Stack(
+                                children: [
+                                  CircleAvatar(
+                                      backgroundColor:
+                                          Colors.white.withOpacity(.4),
+                                      child: Stack(
+                                        children: [
+                                          FaIcon(
+                                            FontAwesomeIcons.bell,
+                                            color: Colors.white.withOpacity(.9),
+                                          ),
+                                        ],
+                                      )),
+                                  Positioned(
+                                    top: 0,
+                                    child: SizedBox(
+                                      height: 16.h,
+                                      width: 16.w,
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.red,
+                                        child: ChangeNotifierProvider(
+                                          create: (context) =>
+                                              NotificationRedCircleProvider()
+                                                ..initNotificationsListener()
+                                                ..setNotificationsNumber(0),
+                                          child: Consumer<
+                                              NotificationRedCircleProvider>(
+                                            builder: (_, model, __) {
+                                              return Text(
+                                                '${model.notificationsNumber}',
+                                                style: TextStyle(
+                                                    fontSize: 10.sp,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       )

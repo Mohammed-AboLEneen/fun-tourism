@@ -15,12 +15,11 @@ import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../../../constants.dart';
-import '../../../../../../cores/utils/firebase_api.dart';
 import '../../../../../../cores/utils/images.dart';
 import '../../../../../../cores/utils/locator_manger.dart';
 import '../../../view_model/home_screen_cubit/home_screen_cubit.dart';
 import '../../../view_model/home_screen_cubit/home_screen_states.dart';
-import '../../../view_model/tops_banner_provider/recent_news_banner_provider.dart';
+import '../../../view_model/recent_news_banner_provider/recent_news_banner_provider.dart';
 import 'custom_appbar.dart';
 import 'custom_banner.dart';
 import 'custom_header.dart';
@@ -322,18 +321,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
                                       });
                                     },
                                   ),
-                                  ValueListenableBuilder(
-                                      valueListenable:
-                                          LocatorManager.locator<FirebaseApi>()
-                                              .notification,
-                                      builder: (context, value, __) {
-                                        print(
-                                            'Notification Title : ${value.title}');
-                                        return Text(
-                                          value.title,
-                                          style: const TextStyle(fontSize: 30),
-                                        );
-                                      })
                                 ],
                               ),
                             );

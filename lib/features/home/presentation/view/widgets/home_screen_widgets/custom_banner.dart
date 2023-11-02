@@ -8,7 +8,7 @@ import 'package:fun_adventure/features/home/presentation/view/widgets/home_scree
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../view_model/tops_banner_provider/recent_news_banner_provider.dart';
+import '../../../view_model/recent_news_banner_provider/recent_news_banner_provider.dart';
 
 class CustomRecentNewsBanner extends StatelessWidget {
   final Uint8List? image;

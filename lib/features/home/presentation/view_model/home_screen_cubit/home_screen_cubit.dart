@@ -53,6 +53,7 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
     try {
       DocumentSnapshot<Object?> data =
           await FireStoreServices.getUserData(uId: uId);
+      print('this is get user data and this is uId : $uId');
 
       LocatorManager.locator<AppMainScreenCubit>().setUserData(
           UserAppData.fromJson(data.data() as Map<String, dynamic>));

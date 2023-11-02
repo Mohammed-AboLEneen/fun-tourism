@@ -12,6 +12,8 @@ class RoutersClass {
   static const String onBoardingPagePath = "/onBoarding";
   static const String authenticationScreenPath = "/authenticationScreen";
   static const String emailVerificationScreenPath = "emailVerificationScreen";
+  static const String fromAuthScreenToEmailVerificationScreen =
+      "$authenticationScreenPath/$emailVerificationScreenPath";
   static const String mainAppScreenPath = "/mainAppScreen";
   static const String homeScreenPath = "homeScreen";
 
@@ -38,7 +40,6 @@ class RoutersClass {
           GoRoute(
             path: 'emailVerificationScreen',
             builder: (BuildContext context, GoRouterState state) {
-              print('return this page');
               return const EmailVerificationPage();
             },
           ),

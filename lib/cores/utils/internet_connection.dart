@@ -24,13 +24,6 @@ class InternetConnectionState {
       developer.log('Couldn\'t check connectivity status', error: e);
       return;
     }
-
-    LocatorManager
-        .locator<AppMainScreenCubit>()
-        .internetConnection
-        .finishedInit = true;
-
-    _updateConnectionStatus(result);
   }
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
@@ -40,13 +33,22 @@ class InternetConnectionState {
         .internetConnection
         .connectionStatus = result;
 
+
     if (temp == 'none' &&
-        (result.name == 'wifi' || result.name == 'mobile') &&
+        (result.name == 'wifi' || result.name == 'mobile')) {
+      if (LocatorManager
+          .locator<AppMainScreenCubit>()
+          .internetConnection
+          .finishedInit == false) {
         LocatorManager
             .locator<AppMainScreenCubit>()
             .internetConnection
-            .finishedInit) {
-      showToast(msg: 'Refresh ...', isFailure: false);
+            .finishedInit = true;
+
+        return;
+      } else {
+        showToast(msg: 'Refresh ...', isFailure: false);
+      }
     }
 
     LocatorManager.locator<AppMainScreenCubit>()

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 String onBoardingKey = 'onBoardingx';
-String loginKey = 'loginKeyb110112wqd';
+String loginKey = 'loginKey0156';
 String uIdKey = 'UserEmailKey';
 String userDataKey = 'userAppDataKey'; // key of userAppData object in hive box.
 String hotTravelsKey = 'hotTravelsKe1';
