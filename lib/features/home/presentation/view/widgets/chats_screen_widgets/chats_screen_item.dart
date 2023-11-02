@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fun_adventure/cores/methods/navigate_to.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../cores/utils/images.dart';
-import 'chat_content.dart';
 
 class ChatScreenItem extends StatelessWidget {
   const ChatScreenItem({super.key});
@@ -18,7 +16,7 @@ class ChatScreenItem extends StatelessWidget {
         height: context.height * .09,
         child: InkWell(
           onTap: () {
-            navigateTo(page: const ChatContent(), context: context);
+
           },
           child: Row(
             children: [

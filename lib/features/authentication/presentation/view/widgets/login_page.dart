@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/cores/methods/navigate_pageview.dart';
-import 'package:fun_adventure/cores/methods/navigate_to.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
 import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
 import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
-import 'package:fun_adventure/features/authentication/presentation/view/widgets/verification_page.dart';
+import 'package:fun_adventure/cores/utils/routers.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../constants.dart';
 import '../../../../../cores/utils/sheard_preferance_helper.dart';
-import '../../../../home/presentation/view/main_screen.dart';
 import '../../view_model/login_cubit/login_cubit.dart';
 import '../../view_model/login_cubit/login_states.dart';
 import '../methods/add_user_data.dart';
@@ -211,17 +210,18 @@ class _LoginPageState extends State<LoginPage> {
             if (state.emailVerified) {
               bool isExist =
                   await FireStoreServices.checkIfDocumentExists(uId!);
+
               if (!context.mounted) return;
 
               if (isExist) {
-                navigateToAndRemove(
-                    page: const AppMainScreen(), context: context);
+                context.go(RoutersClass.mainAppScreenPath);
               } else {
                 await addNewUserInFireStore(
                     userInfoData: state.user, context: context);
               }
             } else {
-              navigateTo(page: const EmailVerificationPage(), context: context);
+              context.go(
+                  '${RoutersClass.authenticationScreenPath}/${RoutersClass.emailVerificationScreenPath}');
             }
           }
         } else if (state is LoginFailureState) {
@@ -246,7 +246,7 @@ void checkIsThisNewUser({
     await SharedPreferenceHelper.setString(key: uIdKey, value: user.uid ?? '');
 
     if (!context.mounted) return;
-    navigateToAndRemove(page: const AppMainScreen(), context: context);
+    context.go(RoutersClass.mainAppScreenPath);
   } else {
     showToast(msg: 'Something is wrong, try again.', isFailure: true);
   }

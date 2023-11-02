@@ -10,7 +10,6 @@ import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.d
 import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.dart';
 import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
 import 'package:fun_adventure/cores/utils/firestore_service.dart';
-import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 
 import '../../../../../cores/methods/download_image.dart';
@@ -21,10 +20,6 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
   HomeScreenCubit() : super(HomeScreenInitState());
 
   static HomeScreenCubit get(context) => BlocProvider.of(context);
-
-  double notificationScreenHeight = 0;
-  bool notificationScreenIsOpened = false;
-  bool notificationScreenBodyVisible = false;
 
   Future<void> blocOperations(String uId, BuildContext context) async {
     // init AppMainScreenCubit object to use it in this cubit
@@ -120,29 +115,6 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       }
       emit(GetUserDataFailureState('Something Is Wrong. Please Try Again'));
     }
-  }
-
-  void openNotificationScreen(BuildContext context) {
-    notificationScreenIsOpened = true;
-    changeNotificationsScreenHeight(context);
-    emit(OpenNotificationsScreenState());
-  }
-
-  void closeNotificationScreen(BuildContext context) {
-    setTheNotificationsScreenBodyVisibility(false);
-    notificationScreenIsOpened = false;
-    changeNotificationsScreenHeight(context);
-    emit(CloseNotificationsScreenState());
-  }
-
-  void setTheNotificationsScreenBodyVisibility(bool state) {
-    notificationScreenBodyVisible = state;
-    emit(ChangeNotificationScreenBodyVisibilityState());
-  }
-
-  void changeNotificationsScreenHeight(BuildContext context) {
-    notificationScreenHeight =
-        notificationScreenIsOpened ? context.height * .75 : 0;
   }
 
   Future<void> getUserLocation() async {

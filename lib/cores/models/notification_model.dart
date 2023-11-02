@@ -1,16 +1,23 @@
-class NotificationModel {
+import 'notification_data.dart';
 
-  late String contentId;
-  late String body;
-  late String title;
-  late String imageUrl;
+class NotificationModel {
+  String body = '';
+  String title = '';
+
+  NotificationData notificationData = NotificationData();
 
   NotificationModel();
 
-  NotificationModel.fromJson(Map<String, dynamic> json){
-    contentId = json['contentId'];
-    body = json['body'];
-    title = json['title'];
-    imageUrl = json['imageUrl'];
+  NotificationModel.fromNotification(
+      {required String notificationTitle,
+      required String notificationBody,
+      required Map<String, dynamic> notData}) {
+    body = notificationBody;
+    title = notificationTitle;
+    notificationData = NotificationData.fromJson(notData);
+
+    print('title : $title');
+    print('body : $body');
+    print('data : ${notificationData.contentId}');
   }
 }

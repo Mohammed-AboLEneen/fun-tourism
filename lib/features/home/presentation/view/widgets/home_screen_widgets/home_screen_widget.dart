@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../../../constants.dart';
+import '../../../../../../cores/utils/firebase_api.dart';
 import '../../../../../../cores/utils/images.dart';
 import '../../../../../../cores/utils/locator_manger.dart';
 import '../../../view_model/home_screen_cubit/home_screen_cubit.dart';
@@ -23,8 +24,9 @@ import '../../../view_model/tops_banner_provider/recent_news_banner_provider.dar
 import 'custom_appbar.dart';
 import 'custom_banner.dart';
 import 'custom_header.dart';
-import 'mange_custom_menu.dart';
+import 'custom_menu_manger.dart';
 import 'notification_screen.dart';
+import 'notification_screen_ui_manger.dart';
 import 'slider_banner.dart';
 
 class HomeScreenWidget extends StatefulWidget {
@@ -38,6 +40,9 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
     with SingleTickerProviderStateMixin {
   int sliderBannerCurrentIndex = 0;
   double notification = 0;
+
+  NotificationsScreenUiManger notificationsScreenUiManger =
+      NotificationsScreenUiManger();
   MangeCustomMenuApp mangeCustomMenuApp = MangeCustomMenuApp();
 
   List<String> categoriesTitles = [
@@ -65,8 +70,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
     // this BlocConsumer to listen the internet connection status change
     return BlocConsumer<HomeScreenCubit, HomeScreenStates>(
         builder: (context, state) {
-          print(
-              'i am in home screen : ${LocatorManager.locator<AppMainScreenCubit>().internetConnection.finishedInit}');
           HomeScreenCubit homeScreenCubit = HomeScreenCubit.get(context);
 
           return LocatorManager.locator<AppMainScreenCubit>()
@@ -130,9 +133,11 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
                                                         },
                                                         notificationAction:
                                                             () async {
-                                                          homeScreenCubit
-                                                              .openNotificationScreen(
-                                                                  context);
+                                                          setState(() {
+                                                            notificationsScreenUiManger
+                                                                .openNotificationScreen(
+                                                                    context);
+                                                          });
                                                         },
                                                         locationName:
                                                             LocatorManager.locator<
@@ -317,19 +322,40 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
                                       });
                                     },
                                   ),
+                                  ValueListenableBuilder(
+                                      valueListenable:
+                                          LocatorManager.locator<FirebaseApi>()
+                                              .notification,
+                                      builder: (context, value, __) {
+                                        print(
+                                            'Notification Title : ${value.title}');
+                                        return Text(
+                                          value.title,
+                                          style: const TextStyle(fontSize: 30),
+                                        );
+                                      })
                                 ],
                               ),
                             );
                           }),
                     ),
                     NotificationScreen(
-                      homeScreenCubit: homeScreenCubit,
+                      notificationsScreenUiManger: notificationsScreenUiManger,
+                      onTapBlackContainer: () {
+                        setState(() {
+                          notificationsScreenUiManger
+                              .closeNotificationScreen(context);
+                        });
+                      },
                       animatedContainerOnEndMethod: () {
-                        if (homeScreenCubit.notificationScreenHeight ==
-                            context.height * .75) {
-                          homeScreenCubit
-                              .setTheNotificationsScreenBodyVisibility(true);
-                        }
+                        setState(() {
+                          if (notificationsScreenUiManger
+                                  .notificationScreenHeight ==
+                              context.height * .75) {
+                            notificationsScreenUiManger
+                                .setTheNotificationsScreenBodyVisibility(true);
+                          }
+                        });
                       },
                     )
                   ],

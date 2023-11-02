@@ -20,86 +20,89 @@ class WaitingScreen extends StatelessWidget {
           return Padding(
               padding: const EdgeInsets.all(8.0),
               child: SafeArea(
-                child: (LocatorManager.locator<AppMainScreenCubit>()
-                                .internetConnection
-                                .connectionStatus
-                                .name !=
-                            'none' ||
-                        LocatorManager.locator<AppMainScreenCubit>()
-                                .internetConnection
-                                .finishedInit ==
-                            false)
+                child: (LocatorManager
+                    .locator<AppMainScreenCubit>()
+                    .internetConnection
+                    .connectionStatus
+                    .name !=
+                    'none' ||
+                    LocatorManager
+                        .locator<AppMainScreenCubit>()
+                        .internetConnection
+                        .finishedInit ==
+                        false)
                     ? CustomScrollView(
-                        slivers: [
-                          SliverToBoxAdapter(
-                            child: SizedBox(
-                                height: context.height * .3,
-                                width: context.width,
-                                child: Card(color: color)),
-                          ),
-                          const SliverToBoxAdapter(
-                            child: SizedBox(
-                              height: 20,
-                            ),
-                          ),
-                          SliverToBoxAdapter(
-                            child: SizedBox(
-                              height: context.height * .32,
-                              child: ListView.builder(
-                                itemBuilder: (context, index) => SizedBox(
-                                  width: context.width * .8,
-                                  child: Card(
-                                    color: color,
-                                  ),
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: SizedBox(
+                          height: context.height * .3,
+                          width: context.width,
+                          child: Card(color: color)),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 20,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: context.height * .32,
+                        child: ListView.builder(
+                          itemBuilder: (context, index) =>
+                              SizedBox(
+                                width: context.width * .8,
+                                child: Card(
+                                  color: color,
                                 ),
-                                itemCount: 5,
-                                scrollDirection: Axis.horizontal,
                               ),
-                            ),
-                          ),
-                          const SliverToBoxAdapter(
-                            child: SizedBox(
-                              height: 20,
-                            ),
-                          ),
-                          SliverToBoxAdapter(
-                            child: SizedBox(
-                                height: context.height * .3,
-                                width: context.width,
-                                child: Card(color: color)),
-                          ),
-                          SliverToBoxAdapter(
-                            child: SizedBox(
-                              height: context.height * .13,
-                            ),
-                          ),
-                        ],
-                      )
-                    : Center(
-                        child: SizedBox(
-                          height: context.height * .17,
-                          width: context.width * .5,
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Column(
-                                children: [
-                                  const Text('There Is No Connection'),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  TextButton(
-                                      onPressed: action,
-                                      child: const Text(
-                                        'Retry',
-                                        style: TextStyle(color: Colors.black),
-                                      ))
-                                ],
-                              ),
-                            ),
-                          ),
+                          itemCount: 5,
+                          scrollDirection: Axis.horizontal,
                         ),
                       ),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 20,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: SizedBox(
+                          height: context.height * .3,
+                          width: context.width,
+                          child: Card(color: color)),
+                    ),
+                    SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: context.height * .13,
+                      ),
+                    ),
+                  ],
+                )
+                    : Center(
+                  child: SizedBox(
+                    height: context.height * .17,
+                    width: context.width * .5,
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          children: [
+                            const Text('There Is No Connection'),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextButton(
+                                onPressed: action,
+                                child: const Text(
+                                  'Retry',
+                                  style: TextStyle(color: Colors.black),
+                                ))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ));
         },
         listener: (context, state) {});

@@ -19,7 +19,7 @@ class CustomHomeHeader extends StatelessWidget {
       child: Row(
         children: [
           ClipPath(
-            clipper: HotTravelContainerClipper(),
+            clipper: CustomHeaderClipper(),
             child: Container(
               color: Colors.cyan,
               height: h,

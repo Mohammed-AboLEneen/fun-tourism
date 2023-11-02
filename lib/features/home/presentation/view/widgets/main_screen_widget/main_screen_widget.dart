@@ -8,7 +8,7 @@ import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/button_navegation_bar_item.dart';
-import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/mange_custom_menu.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/custom_menu_manger.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_states.dart';
 
 import '../../../../../../cores/utils/firebase_api.dart';
@@ -32,27 +32,23 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
     LocatorManager.locateAppMainScreenCubit();
     uId = SharedPreferenceHelper.getString(key: uIdKey);
 
-    FirebaseApi().initNotifications();
+    LocatorManager.locateFirebaseMessagingObject();
+    LocatorManager.locator<FirebaseApi>().initNotifications();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppMainScreenCubit, AppMainScreenStates>(
       builder: (context, state) {
-        print(LocatorManager
-            .locator<AppMainScreenCubit>()
+        print(LocatorManager.locator<AppMainScreenCubit>()
             .internetConnection
             .finishedInit);
         return Scaffold(
           backgroundColor: Colors.white.withLightness(.94),
           body: Stack(
             children: [
-              LocatorManager
-                  .locator<AppMainScreenCubit>()
-                  .screens[
-              LocatorManager
-                  .locator<AppMainScreenCubit>()
-                  .currentIndex],
+              LocatorManager.locator<AppMainScreenCubit>().screens[
+                  LocatorManager.locator<AppMainScreenCubit>().currentIndex],
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
                 child: Align(
@@ -67,20 +63,18 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
                         decoration: BoxDecoration(
                             color: const Color(0xff313745).withOpacity(.8),
                             borderRadius:
-                            const BorderRadius.all(Radius.circular(20))),
+                                const BorderRadius.all(Radius.circular(20))),
                         child: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) =>
                                 CustomBottomNavigationBarItem(
-                                  icon: LocatorManager
-                                      .locator<
-                                      AppMainScreenCubit>()
+                                  icon: LocatorManager.locator<
+                                          AppMainScreenCubit>()
                                       .bottomNavigationBarIcons[index],
                                   index: index,
-                                  currentIndex: LocatorManager
-                                      .locator<
-                                      AppMainScreenCubit>()
+                                  currentIndex: LocatorManager.locator<
+                                          AppMainScreenCubit>()
                                       .currentIndex,
                                   onTap: () {
                                     LocatorManager.locator<AppMainScreenCubit>()

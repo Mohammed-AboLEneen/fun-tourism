@@ -2,28 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
-import 'package:fun_adventure/features/home/presentation/view_model/home_screen_cubit/home_screen_cubit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'notification_screen_ui_manger.dart';
+
 class NotificationScreen extends StatelessWidget {
-  final HomeScreenCubit homeScreenCubit;
+  final NotificationsScreenUiManger notificationsScreenUiManger;
   final void Function()? animatedContainerOnEndMethod;
+  final void Function()? onTapBlackContainer;
 
   const NotificationScreen(
       {super.key,
-      required this.homeScreenCubit,
-      this.animatedContainerOnEndMethod});
+      this.animatedContainerOnEndMethod,
+      required this.notificationsScreenUiManger,
+      this.onTapBlackContainer});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Visibility(
-          visible: homeScreenCubit.notificationScreenIsOpened,
+          visible: notificationsScreenUiManger.notificationScreenIsOpened,
           child: GestureDetector(
-            onTap: () {
-              homeScreenCubit.closeNotificationScreen(context);
-            },
+            onTap: onTapBlackContainer,
             child: Container(
               width: context.width,
               height: context.height,
@@ -36,13 +37,14 @@ class NotificationScreen extends StatelessWidget {
           child: AnimatedContainer(
             onEnd: animatedContainerOnEndMethod,
             duration: const Duration(milliseconds: 300),
-            height: homeScreenCubit.notificationScreenHeight,
+            height: notificationsScreenUiManger.notificationScreenHeight,
             width: context.width * .9,
             decoration: BoxDecoration(
                 color: Colors.indigo.withLightness(.95),
                 borderRadius: const BorderRadius.all(Radius.circular(20))),
             child: Visibility(
-              visible: homeScreenCubit.notificationScreenBodyVisible,
+              visible:
+                  notificationsScreenUiManger.notificationScreenBodyVisible,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(

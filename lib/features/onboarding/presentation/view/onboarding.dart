@@ -3,11 +3,12 @@ import 'package:fun_adventure/constants.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
 import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 import 'package:fun_adventure/cores/utils/smooth_dots.dart';
-import 'package:fun_adventure/features/authentication/presentation/view/authentcation.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/widgets/custom_button.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/widgets/pageview_item.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../cores/methods/navigate_pageview.dart';
+import '../../../../cores/utils/routers.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
@@ -49,8 +50,14 @@ class _OnBoardingPageState extends State<OnBoardingPage>
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
+    double h = MediaQuery
+        .of(context)
+        .size
+        .height;
+    double w = MediaQuery
+        .of(context)
+        .size
+        .width;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
@@ -141,27 +148,7 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                       SharedPreferenceHelper.setBool(
                           key: onBoardingKey, value: true);
 
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (context, _, __) =>
-                              const AuthenticationScreen(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            const begin = Offset(0.0, 1.0);
-                            const end = Offset.zero;
-                            const curve = Curves.linear;
-
-                            var tween = Tween(begin: begin, end: end)
-                                .chain(CurveTween(curve: curve));
-
-                            return SlideTransition(
-                              position: animation.drive(tween),
-                              child: child,
-                            );
-                          },
-                        ),
-                      );
+                      context.go(RoutersClass.authenticationScreenPath);
                     }
                   },
                   color: Color.lerp(beginColor, endColor, progress),

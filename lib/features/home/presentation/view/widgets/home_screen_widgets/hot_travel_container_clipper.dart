@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class HotTravelContainerClipper extends CustomClipper<Path> {
+class CustomHeaderClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();

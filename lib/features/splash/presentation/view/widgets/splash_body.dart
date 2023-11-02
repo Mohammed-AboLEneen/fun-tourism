@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fun_adventure/features/home/presentation/view/main_screen.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/onboarding.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../constants.dart';
 import '../../../../../cores/utils/images.dart';
+import '../../../../../cores/utils/routers.dart';
 import '../../../../../cores/utils/sheard_preferance_helper.dart';
 import '../../../../authentication/presentation/view/authentcation.dart';
 
@@ -18,6 +20,8 @@ class SplashViewBody extends StatefulWidget {
 class _SplashViewBodyState extends State<SplashViewBody>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
+
+  String theNextScreen = '';
 
   @override
   void initState() {
@@ -74,25 +78,25 @@ class _SplashViewBodyState extends State<SplashViewBody>
     Future.delayed(const Duration(seconds: 5), () {
       Widget beginWidget = beginWidgetApp();
 
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => beginWidget),
-          (route) => false);
+      context.go(theNextScreen);
     });
   }
-}
 
-Widget beginWidgetApp() {
-  bool? onBoarding = SharedPreferenceHelper.getBool(key: onBoardingKey);
+  Widget beginWidgetApp() {
+    bool? onBoarding = SharedPreferenceHelper.getBool(key: onBoardingKey);
 
-  if (onBoarding == null) {
-    return const OnBoardingPage();
-  } else {
-    bool? login = SharedPreferenceHelper.getBool(key: loginKey);
-    if (login == null) {
-      return const AuthenticationScreen();
+    if (onBoarding == null) {
+      theNextScreen = RoutersClass.onBoardingPagePath;
+      return const OnBoardingPage();
     } else {
-      return const AppMainScreen();
+      bool? login = SharedPreferenceHelper.getBool(key: loginKey);
+      if (login == null) {
+        theNextScreen = RoutersClass.authenticationScreenPath;
+        return const AuthenticationScreen();
+      } else {
+        theNextScreen = RoutersClass.mainAppScreenPath;
+        return const AppMainScreen();
+      }
     }
   }
 }
