@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/constants.dart';
+import 'package:fun_adventure/cores/utils/fcm_sender.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/notification_circle_red_provider/notification_circle_red_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -84,7 +85,10 @@ class CustomAppBar extends StatelessWidget {
                             CircleAvatar(
                                 backgroundColor: Colors.white.withOpacity(.4),
                                 child: GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    FirebaseFcmSender.sendFCMMessage(
+                                        '', '', 'هلا بالغلا', 'G1G5');
+                                  },
                                   child: FaIcon(
                                     FontAwesomeIcons.magnifyingGlass,
                                     color: Colors.white.withOpacity(.9),
@@ -115,7 +119,6 @@ class CustomAppBar extends StatelessWidget {
                                         backgroundColor: Colors.red,
                                         child: Consumer<NotificationProvider>(
                                           builder: (_, model, __) {
-                                            print(model.notificationsNumber);
                                             return Text(
                                               '${model.notificationsNumber}',
                                               style: TextStyle(
