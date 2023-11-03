@@ -1,17 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fun_adventure/constants.dart';
 
 class FireStoreServices {
-  static final _usersCollection =
-      FirebaseFirestore.instance.collection('users');
+  static final fireStore = FirebaseFirestore.instance;
   static final _homeScreenCollection =
       FirebaseFirestore.instance.collection('appData');
 
   static Future<DocumentSnapshot> getUserData({required String uId}) async {
-    return await _usersCollection.doc(uId).get();
+    return await fireStore.collection('users').doc(uId).get();
   }
 
   static Future<bool> checkIfDocumentExists(String uId) async {
-    final DocumentReference documentRef = _usersCollection.doc(uId);
+    final DocumentReference documentRef =
+        fireStore.collection('users').doc(uId);
 
     final DocumentSnapshot documentSnapshot = await documentRef.get();
 
@@ -27,7 +28,8 @@ class FireStoreServices {
   }) {
     // Call the user's CollectionReference to add a new user
 
-    return _usersCollection
+    return fireStore
+        .collection('users')
         .doc(uId)
         .set({
           'email': email,
@@ -47,5 +49,15 @@ class FireStoreServices {
 
   static Future<DocumentSnapshot> getHomeScreenData(String doc) async {
     return await _homeScreenCollection.doc(doc).get();
+  }
+
+  static Future<int> countUserNotifications() async {
+    AggregateQuerySnapshot query = await fireStore
+        .collection('users')
+        .doc(uId)
+        .collection('notifications')
+        .count()
+        .get();
+    return query.count;
   }
 }

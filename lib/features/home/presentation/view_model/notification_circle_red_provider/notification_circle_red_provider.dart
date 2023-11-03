@@ -3,12 +3,10 @@ import 'package:fun_adventure/cores/utils/locator_manger.dart';
 
 import '../../../../../cores/utils/firebase_api.dart';
 
-class NotificationRedCircleProvider extends ChangeNotifier {
-  late int notificationsNumber;
-
+class NotificationProvider extends ChangeNotifier {
+  int notificationsNumber = 0;
 
   void initNotificationsListener() {
-    print('-------------------------------');
     LocatorManager
         .locator<FirebaseApi>()
         .notification
@@ -19,6 +17,7 @@ class NotificationRedCircleProvider extends ChangeNotifier {
   }
 
   void setNotificationsNumber(int count) {
+    print('its geeeeeeeet it');
     notificationsNumber = count;
     notifyListeners();
   }

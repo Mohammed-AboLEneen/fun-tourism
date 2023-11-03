@@ -9,30 +9,19 @@ import 'locator_manger.dart';
 
 Future<void> handleBackgroundNotificaitions(RemoteMessage message) async {
   print('this is Background notification');
-  LocatorManager
-      .locator<FirebaseApi>()
-      .notification
-      .value
-      .title =
+  LocatorManager.locator<FirebaseApi>().notification.value.title =
       message.notification?.title ?? 'Nothing to';
 }
 
 Future<void> handleTerminateNotificaitions(RemoteMessage message) async {
   print('this is Terminate notification');
-  LocatorManager
-      .locator<FirebaseApi>()
-      .notification
-      .value
-      .title =
+  LocatorManager.locator<FirebaseApi>().notification.value.title =
       message.notification?.title ?? 'Nothing to';
 }
 
 Future<void> handleRealNotificaitions(RemoteMessage message) async {
   print('this is real notification');
-  LocatorManager
-      .locator<FirebaseApi>()
-      .notification
-      .value =
+  LocatorManager.locator<FirebaseApi>().notification.value =
       NotificationModel.fromNotification(
           notificationBody: message.notification?.body ?? 'nothing',
           notificationTitle: message.notification?.title ?? 'Nothing to',
@@ -40,9 +29,11 @@ Future<void> handleRealNotificaitions(RemoteMessage message) async {
 }
 
 class FirebaseApi {
+  bool initIsFinished = false;
+
   final _firebaseMessaging = FirebaseMessaging.instance;
   ValueNotifier<NotificationModel> notification =
-  ValueNotifier<NotificationModel>(NotificationModel());
+      ValueNotifier<NotificationModel>(NotificationModel());
 
   final androidChannel = const AndroidNotificationChannel(
       'high_importance_channel', 'High_Importance_Notification',
@@ -57,18 +48,17 @@ class FirebaseApi {
 
     await _localNotification.initialize(settings,
         onDidReceiveNotificationResponse: (payload) {
-          if (payload.payload == null) return;
+      if (payload.payload == null) return;
 
-          final message = RemoteMessage.fromMap(jsonDecode(payload.payload!));
-          print(
-              'get the notification is gogggggggggggggggggggggod : ${message
-                  .notification?.title}');
-        });
+      final message = RemoteMessage.fromMap(jsonDecode(payload.payload!));
+      print(
+          'get the notification is gogggggggggggggggggggggod : ${message.notification?.title}');
+    });
   }
 
   Future<void> initPushNotifications() async {
     FirebaseMessaging.instance.getInitialMessage().then((value) =>
-    handleBackgroundNotificaitions); // when app opened form notification
+        handleBackgroundNotificaitions); // when app opened form notification
 
     // when a user presses a notification message displayed
     FirebaseMessaging.onMessageOpenedApp.listen(handleBackgroundNotificaitions);
@@ -78,10 +68,7 @@ class FirebaseApi {
 
       if (messageNotification == null) return;
 
-      LocatorManager
-          .locator<FirebaseApi>()
-          .notification
-          .value =
+      LocatorManager.locator<FirebaseApi>().notification.value =
           NotificationModel.fromNotification(
               notificationBody: message.notification?.body ?? 'nothing',
               notificationTitle: message.notification?.title ?? 'Nothing to',

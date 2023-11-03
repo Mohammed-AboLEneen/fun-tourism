@@ -12,7 +12,6 @@ class LocatorManager {
   }
 
   static void locateFirebaseMessagingObject() {
-    locator
-        .registerLazySingleton<FirebaseApi>(() => FirebaseApi());
+    locator.registerLazySingleton<FirebaseApi>(() => FirebaseApi());
   }
 }

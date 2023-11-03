@@ -11,6 +11,8 @@ import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.d
 import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
 import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
+import 'package:fun_adventure/features/home/presentation/view_model/notification_circle_red_provider/notification_circle_red_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../cores/methods/download_image.dart';
 import '../../../../../cores/utils/locator_manger.dart';
@@ -22,24 +24,24 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
   static HomeScreenCubit get(context) => BlocProvider.of(context);
 
   Future<void> blocOperations(String uId, BuildContext context) async {
-    // init AppMainScreenCubit object to use it in this cubit
-
+    getUserNotificationNumber(context);
     await getUserLocation();
     getData(uId);
   }
 
-  void clearHomeScreenData() {
-    LocatorManager.locator<AppMainScreenCubit>().hotTravels.clear();
-    LocatorManager.locator<AppMainScreenCubit>().recentNews.clear();
-  }
-
   Future<void> getData(String uId) async {
+    // 1- first part of condition for internet connection state,
+    // so when wifi is off or mobile data it will not request to get data from fireStore.
+    // 2- second and third part of condition when open home screen more than once and creating its bloc
+    // not request data again until user scroll up screen to refresh data
+
     if (LocatorManager.locator<AppMainScreenCubit>()
-            .internetConnection
-            .connectionStatus
-            .name !=
-        'none') {
-      clearHomeScreenData();
+                .internetConnection
+                .connectionStatus
+                .name !=
+            'none' &&
+        (LocatorManager.locator<AppMainScreenCubit>().recentNews.isEmpty &&
+            LocatorManager.locator<AppMainScreenCubit>().hotTravels.isEmpty)) {
       getUserData(uId);
       getHomeScreen();
     } else {
@@ -73,9 +75,6 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
     }
   }
 
-  // this function is called when get the state of the internet,
-  // so when open wifi or mobile after close it,
-  // this function will be called again to get the new data.
   Future<void> getHomeScreen() async {
     try {
       List<RecentNewsModel> recentNews = [];
@@ -123,5 +122,18 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
         .userLocation
         .getUserLocation();
     emit(GetTheUserLocationName());
+  }
+
+  void clearHomeScreenData() {
+    LocatorManager.locator<AppMainScreenCubit>().hotTravels.clear();
+    LocatorManager.locator<AppMainScreenCubit>().recentNews.clear();
+  }
+
+  Future<void> getUserNotificationNumber(BuildContext context) async {
+    int number = await FireStoreServices.countUserNotifications();
+
+    if (!context.mounted) return;
+    Provider.of<NotificationProvider>(context, listen: false)
+        .setNotificationsNumber(number);
   }
 }

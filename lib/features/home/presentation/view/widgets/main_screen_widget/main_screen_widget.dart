@@ -11,7 +11,6 @@ import 'package:fun_adventure/features/home/presentation/view/widgets/home_scree
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/custom_menu_manger.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_states.dart';
 
-import '../../../../../../cores/utils/firebase_api.dart';
 import '../../../view_model/main_screen_cubit/main_screen_cubit.dart';
 
 class AppMainScreenWidget extends StatefulWidget {
@@ -29,20 +28,14 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
 
-    LocatorManager.locateAppMainScreenCubit();
     uId = SharedPreferenceHelper.getString(key: uIdKey);
-
-    LocatorManager.locateFirebaseMessagingObject();
-    LocatorManager.locator<FirebaseApi>().initNotifications();
+    LocatorManager.locateAppMainScreenCubit();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppMainScreenCubit, AppMainScreenStates>(
       builder: (context, state) {
-        print(LocatorManager.locator<AppMainScreenCubit>()
-            .internetConnection
-            .finishedInit);
         return Scaffold(
           backgroundColor: Colors.white.withLightness(.94),
           body: Stack(

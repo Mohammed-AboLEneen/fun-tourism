@@ -111,6 +111,8 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
                                             scale: (1 - value),
                                             child: RefreshIndicator(
                                               onRefresh: () async {
+                                                homeScreenCubit
+                                                    .clearHomeScreenData();
                                                 homeScreenCubit.getData(uId!);
                                               },
                                               child: Scaffold(

@@ -113,24 +113,17 @@ class CustomAppBar extends StatelessWidget {
                                       width: 16.w,
                                       child: CircleAvatar(
                                         backgroundColor: Colors.red,
-                                        child: ChangeNotifierProvider(
-                                          create: (context) =>
-                                              NotificationRedCircleProvider()
-                                                ..initNotificationsListener()
-                                                ..setNotificationsNumber(0),
-                                          child: Consumer<
-                                              NotificationRedCircleProvider>(
-                                            builder: (_, model, __) {
-                                              return Text(
-                                                '${model.notificationsNumber}',
-                                                style: TextStyle(
-                                                    fontSize: 10.sp,
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              );
-                                            },
-                                          ),
+                                        child: Consumer<NotificationProvider>(
+                                          builder: (_, model, __) {
+                                            print(model.notificationsNumber);
+                                            return Text(
+                                              '${model.notificationsNumber}',
+                                              style: TextStyle(
+                                                  fontSize: 10.sp,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            );
+                                          },
                                         ),
                                       ),
                                     ),
