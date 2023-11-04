@@ -8,6 +8,8 @@ import 'package:fun_adventure/features/home/presentation/view_model/notification
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../../cores/models/env/env.dart';
+
 class CustomAppBar extends StatelessWidget {
   final void Function()? locationAction;
   final void Function()? menuAction;
@@ -87,7 +89,10 @@ class CustomAppBar extends StatelessWidget {
                                 child: GestureDetector(
                                   onTap: () {
                                     FirebaseFcmSender.sendFCMMessage(
-                                        '', '', 'هلا بالغلا', 'G1G5');
+                                        EnvClass.authorizationKey,
+                                        'dsL5DijFQGiVs5YgPmFj-A:APA91bHjnalACHV0Dy0CorgBTa-2tSHASfpvebODYlZNkLc1glHIfz-8Ylg3TiII3b4sKonl3vItSz9AQIMos8JUptcTY611x28lSrvXhUZvJf9MBOOXTx8BIvC_G1G5lOJ9lotFDxcT',
+                                        'هلا بالغلا',
+                                        'G1G5');
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.magnifyingGlass,
