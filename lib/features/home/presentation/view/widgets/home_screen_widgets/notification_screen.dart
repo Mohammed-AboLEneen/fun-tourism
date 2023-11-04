@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_adventure/cores/models/notification_model.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
+import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
+import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
+import 'package:fun_adventure/features/home/presentation/view_model/notification_screen_provider.dart';
+import 'package:fun_adventure/features/home/presentation/view_model/notifications_listener_provider/notification_listener_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import 'notification_screen_ui_manger.dart';
 
@@ -11,11 +17,10 @@ class NotificationScreen extends StatelessWidget {
   final void Function()? animatedContainerOnEndMethod;
   final void Function()? onTapBlackContainer;
 
-  const NotificationScreen(
-      {super.key,
-      this.animatedContainerOnEndMethod,
-      required this.notificationsScreenUiManger,
-      this.onTapBlackContainer});
+  const NotificationScreen({super.key,
+    this.animatedContainerOnEndMethod,
+    required this.notificationsScreenUiManger,
+    this.onTapBlackContainer});
 
   @override
   Widget build(BuildContext context) {
@@ -42,103 +47,136 @@ class NotificationScreen extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.indigo.withLightness(.95),
                 borderRadius: const BorderRadius.all(Radius.circular(20))),
-            child: Visibility(
-              visible:
-                  notificationsScreenUiManger.notificationScreenBodyVisible,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Notifications',
-                      style: GoogleFonts.abel().copyWith(
-                          fontSize: 30.sp, fontWeight: FontWeight.w500),
-                    ),
-                    Expanded(
-                      child: ListView.separated(
-                        itemBuilder: (context, index) {
-                          return SizedBox(
-                            height: context.height * .1,
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  height: context.height,
-                                  width: context.width * .17,
-                                  child: const CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        'https://th.bing.com/th/id/R.10f2a49c0941a8cd3d1ac373142b75e6?rik=EOj%2f4XT4DYN%2bOw&riu=http%3a%2f%2fimages4.fanpop.com%2fimage%2fphotos%2f16200000%2fGogeta-wallpaper-1-dragonball-z-movie-characters-16255512-1024-768.jpg&ehk=rUAz6nuX0%2bq50k3aYpgnDERm1GE7cpb2RHftpMaoLT4%3d&risl=&pid=ImgRaw&r=0'),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'This Is Just A Test' * 3,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.abel()
-                                            .copyWith(fontSize: 15.sp),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              'no man is in the life man' * 3,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: GoogleFonts.abel()
-                                                  .copyWith(
-                                                      fontSize: 14.sp,
-                                                      color: Colors.grey
-                                                          .withLightness(.4)),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                              width: 60.w,
-                                              child: Text(
-                                                '18:23 Am',
-                                                style:
-                                                    GoogleFonts.akayaKanadaka()
-                                                        .copyWith(
-                                                            fontSize: 15.sp),
-                                              ))
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
+            child: ChangeNotifierProvider(
+              create: (context) =>
+              NotificationScreenProvider()
+                ..requestUserNotifications(context),
+              child: Consumer<NotificationScreenProvider>(
+                builder: (_, model, __) {
+                  if (model.getNotification) {
+                    return Visibility(
+                      visible: notificationsScreenUiManger
+                          .notificationScreenBodyVisible,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Notifications',
+                              style: GoogleFonts.abel().copyWith(
+                                  fontSize: 30.sp, fontWeight: FontWeight.w500),
                             ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: context.width * .01),
-                            child: Container(
-                              height: 1,
-                              color: Colors.grey,
-                            ),
-                          );
-                        },
-                        itemCount: 10,
+                            Consumer<NotificationListenerProvider>(
+                              builder: (_, model, __) {
+                                return Expanded(
+                                  child: ListView.separated(
+                                    itemBuilder: (context, index) {
+                                      return NotificationScreenItem(
+                                        notificationModel: LocatorManager
+                                            .locator<AppMainScreenCubit>()
+                                            .userNotifications[index],
+                                      );
+                                    },
+
+                                    separatorBuilder: (context, index) {
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: context.width * .01),
+                                        child: Container(
+                                          height: 1,
+                                          color: Colors.grey,
+                                        ),
+                                      );
+                                    },
+                                    itemCount: LocatorManager
+                                        .locator<
+                                        AppMainScreenCubit>()
+                                        .userNotifications
+                                        .length,
+                                  ),
+                                );
+                              },
+                            )
+                          ],
+                        ),
                       ),
-                    )
-                  ],
-                ),
+                    );
+                  } else {
+                    return const Center(
+                      child: LinearProgressIndicator(),
+                    );
+                  }
+                },
               ),
             ),
           ),
         )
       ],
+    );
+  }
+}
+
+class NotificationScreenItem extends StatelessWidget {
+  final NotificationModel notificationModel;
+
+  const NotificationScreenItem({super.key, required this.notificationModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: context.height * .1,
+      child: Row(
+        children: [
+          SizedBox(
+            height: context.height,
+            width: context.width * .17,
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  notificationModel.notificationData.imageUrl ?? ''),
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  notificationModel.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.abel().copyWith(fontSize: 15.sp),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        notificationModel.body,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.abel().copyWith(
+                            fontSize: 14.sp,
+                            color: Colors.grey.withLightness(.4)),
+                      ),
+                    ),
+                    const Spacer(),
+                    SizedBox(
+                        width: 40.w,
+                        child: Text(
+                          notificationModel.notificationData.time ?? '---',
+                          style: GoogleFonts.akayaKanadaka()
+                              .copyWith(fontSize: 15.sp),
+                        ))
+                  ],
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

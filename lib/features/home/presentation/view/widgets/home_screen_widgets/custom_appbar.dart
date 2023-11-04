@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/constants.dart';
+import 'package:fun_adventure/cores/models/env/env.dart';
 import 'package:fun_adventure/cores/utils/fcm_sender.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
-import 'package:fun_adventure/features/home/presentation/view_model/notification_circle_red_provider/notification_circle_red_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../../cores/models/env/env.dart';
+import '../../../view_model/notifications_listener_provider/notification_listener_provider.dart';
 
 class CustomAppBar extends StatelessWidget {
   final void Function()? locationAction;
@@ -91,8 +91,8 @@ class CustomAppBar extends StatelessWidget {
                                     FirebaseFcmSender.sendFCMMessage(
                                         EnvClass.authorizationKey,
                                         'dsL5DijFQGiVs5YgPmFj-A:APA91bHjnalACHV0Dy0CorgBTa-2tSHASfpvebODYlZNkLc1glHIfz-8Ylg3TiII3b4sKonl3vItSz9AQIMos8JUptcTY611x28lSrvXhUZvJf9MBOOXTx8BIvC_G1G5lOJ9lotFDxcT',
-                                        'هلا بالغلا',
-                                        'G1G5');
+                                        'New Follower',
+                                        'Ahmed Follow U Now !');
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.magnifyingGlass,
@@ -122,7 +122,8 @@ class CustomAppBar extends StatelessWidget {
                                       width: 16.w,
                                       child: CircleAvatar(
                                         backgroundColor: Colors.red,
-                                        child: Consumer<NotificationProvider>(
+                                        child: Consumer<
+                                            NotificationListenerProvider>(
                                           builder: (_, model, __) {
                                             return Text(
                                               '${model.notificationsNumber}',

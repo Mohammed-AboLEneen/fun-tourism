@@ -3,8 +3,6 @@ import 'package:fun_adventure/constants.dart';
 
 class FireStoreServices {
   static final fireStore = FirebaseFirestore.instance;
-  static final _homeScreenCollection =
-  FirebaseFirestore.instance.collection('appData');
 
   static Future<DocumentSnapshot> getUserData({required String uId}) async {
     return await fireStore.collection('users').doc(uId).get();
@@ -48,7 +46,7 @@ class FireStoreServices {
   }
 
   static Future<DocumentSnapshot> getHomeScreenData(String doc) async {
-    return await _homeScreenCollection.doc(doc).get();
+    return await fireStore.collection('appData').doc(doc).get();
   }
 
   static Future<int> countUserNotifications() async {
@@ -61,5 +59,14 @@ class FireStoreServices {
     return query.count;
   }
 
+  static Future<void> saveNewNotification(Map<String, dynamic> data) async {
+    fireStore.collection('users').doc(uId).collection('notifications')
+        .doc()
+        .set(data);
+  }
 
+  static Future<QuerySnapshot> requestUserNotifications() async {
+    return await fireStore.collection('users').doc(uId).collection(
+        'notifications').get();
+  }
 }

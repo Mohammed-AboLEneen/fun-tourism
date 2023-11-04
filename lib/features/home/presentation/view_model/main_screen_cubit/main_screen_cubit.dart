@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fun_adventure/cores/models/notification_model.dart';
 
 import '../../../../../cores/models/hot_travels_model/hot_travels_model.dart';
 import '../../../../../cores/models/recent_news_model/recent_news_model.dart';
@@ -42,6 +43,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
 
   List<RecentNewsModel> recentNews = [];
   List<HotTravelModel> hotTravels = [];
+  List<NotificationModel> userNotifications = [];
 
   UserLocation userLocation = UserLocation();
 

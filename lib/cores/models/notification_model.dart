@@ -4,7 +4,7 @@ class NotificationModel {
   String body = '';
   String title = '';
 
-  NotificationData notificationData = NotificationData();
+  late NotificationData notificationData;
 
   NotificationModel();
 
@@ -14,10 +14,8 @@ class NotificationModel {
       required Map<String, dynamic> notData}) {
     body = notificationBody;
     title = notificationTitle;
-    notificationData = NotificationData.fromJson(notData);
 
-    print('title : $title');
-    print('body : $body');
-    print('data : ${notificationData.contentId}');
+    print(notData);
+    notificationData = NotificationData.fromJson(notData);
   }
 }

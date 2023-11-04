@@ -21,6 +21,7 @@ Future<void> handleTerminateNotificaitions(RemoteMessage message) async {
 
 Future<void> handleRealNotificaitions(RemoteMessage message) async {
   print('this is real notification');
+
   LocatorManager.locator<FirebaseApi>().notification.value =
       NotificationModel.fromNotification(
           notificationBody: message.notification?.body ?? 'nothing',
@@ -29,11 +30,19 @@ Future<void> handleRealNotificaitions(RemoteMessage message) async {
 }
 
 class FirebaseApi {
-  bool initIsFinished = false;
-
   final _firebaseMessaging = FirebaseMessaging.instance;
   ValueNotifier<NotificationModel> notification =
       ValueNotifier<NotificationModel>(NotificationModel());
+
+  ValueNotifier<bool> initIsFinished = ValueNotifier<bool>(false);
+
+  Future<void> initNotifications() async {
+    await _firebaseMessaging.requestPermission();
+    String? token = await _firebaseMessaging.getToken();
+    print('token : ${token}');
+    await initPushNotifications();
+    initIsFinished.value = true;
+  }
 
   final androidChannel = const AndroidNotificationChannel(
       'high_importance_channel', 'High_Importance_Notification',
@@ -68,6 +77,8 @@ class FirebaseApi {
 
       if (messageNotification == null) return;
 
+      print('this sis ifhsfsif ${message.data['imgeUrl']}');
+
       LocatorManager.locator<FirebaseApi>().notification.value =
           NotificationModel.fromNotification(
               notificationBody: message.notification?.body ?? 'nothing',
@@ -88,13 +99,5 @@ class FirebaseApi {
           ),
           payload: jsonEncode(message.toMap()));
     });
-  }
-
-  Future<void> initNotifications() async {
-    await _firebaseMessaging.requestPermission();
-
-    String? token = await _firebaseMessaging.getToken();
-    print('token : ${token}');
-    await initPushNotifications();
   }
 }
