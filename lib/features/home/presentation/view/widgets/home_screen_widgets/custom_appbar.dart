@@ -125,6 +125,7 @@ class CustomAppBar extends StatelessWidget {
                                         child: Consumer<
                                             NotificationListenerProvider>(
                                           builder: (_, model, __) {
+                                            print('l,;l;l;;');
                                             return Text(
                                               '${model.notificationsNumber}',
                                               style: TextStyle(

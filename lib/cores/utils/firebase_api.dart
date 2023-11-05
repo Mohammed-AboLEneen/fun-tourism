@@ -1,5 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 import '../models/notification_model.dart';
 import 'locator_manger.dart';
@@ -32,19 +32,26 @@ class FirebaseApi {
   ValueNotifier<NotificationModel> notification =
       ValueNotifier<NotificationModel>(NotificationModel());
 
+  int notificationHashCode = 0;
+
+  ValueNotifier<bool> initIsFinished = ValueNotifier<bool>(false);
+
   Future<void> initNotifications() async {
     await _firebaseMessaging.requestPermission();
     String? token = await _firebaseMessaging.getToken();
-    print('token : ${token}');
+    if (kDebugMode) {
+      print('token : $token');
+    }
+
     await initPushNotifications();
+    initIsFinished.value = true;
   }
 
   Future<void> initPushNotifications() async {
     FirebaseMessaging.instance.getInitialMessage().then((value) =>
         handleBackgroundNotificaitions); // when app opened form notification
 
-    await NotificationService.initNotification();
-
+    // when a user presses a notification message displayed
     FirebaseMessaging.onMessageOpenedApp.listen(handleBackgroundNotificaitions);
     FirebaseMessaging.onBackgroundMessage(handleBackgroundNotificaitions);
     FirebaseMessaging.onMessage.listen((message) {
@@ -52,10 +59,18 @@ class FirebaseApi {
 
       if (messageNotification == null) return;
 
+      notificationHashCode = messageNotification.hashCode;
+
+      LocatorManager.locator<FirebaseApi>().notification.value =
+          NotificationModel.fromNotification(
+              notificationBody: messageNotification.body ?? 'nothing',
+              notificationTitle: messageNotification.title ?? 'Nothing to',
+              notData: message.data);
+
       NotificationService.showNotification(
-        title: message.notification?.title,
-        body: message.notification?.body,
-      );
+          title: messageNotification.title,
+          body: messageNotification.body,
+          id: messageNotification.hashCode);
     });
   }
 }

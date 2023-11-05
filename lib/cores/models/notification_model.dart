@@ -14,8 +14,6 @@ class NotificationModel {
       required Map<String, dynamic> notData}) {
     body = notificationBody;
     title = notificationTitle;
-
-    print(notData);
     notificationData = NotificationData.fromJson(notData);
   }
 }
