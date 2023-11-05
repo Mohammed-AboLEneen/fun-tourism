@@ -27,19 +27,14 @@ class _AppMainScreenState extends State<AppMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: LocatorManager.locator<FirebaseApi>().initIsFinished,
-      builder: (context, _, __) {
-        return ChangeNotifierProvider(
-          create: (context) =>
-              NotificationListenerProvider()..initNotificationsListener(),
-          child: BlocProvider(
-            create: (context) =>
-                AppMainScreenCubit()..internetConnection.initConnectivity(),
-            child: const AppMainScreenWidget(),
-          ),
-        );
-      },
+    return ChangeNotifierProvider(
+      create: (context) =>
+          NotificationListenerProvider()..initNotificationsListener(context),
+      child: BlocProvider(
+        create: (context) =>
+            AppMainScreenCubit()..internetConnection.initConnectivity(),
+        child: const AppMainScreenWidget(),
+      ),
     );
   }
 }
