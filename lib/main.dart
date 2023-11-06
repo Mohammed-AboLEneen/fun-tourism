@@ -3,10 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
-import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.dart';
-import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
-import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
 import 'package:fun_adventure/cores/utils/routers.dart';
 import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,17 +18,6 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await SharedPreferenceHelper.initSharedPreference();
   await Hive.initFlutter();
-
-  Hive.registerAdapter(
-    UserAppDataAdapter(),
-  );
-  Hive.registerAdapter(
-    UserInfoDataAdapter(),
-  );
-  Hive.registerAdapter(
-    HotTravelModelAdapter(),
-  );
-  Hive.registerAdapter(RecentNewsModelAdapter());
 
   runApp(const MyApp());
 }

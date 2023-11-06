@@ -149,6 +149,7 @@ class _HotTravelScreenState extends State<HotTravelScreen> {
                                   ],
                                 )),
 
+                            // make space between TextButton and the last widget in Column
                             if(isOpened)
                               SizedBox(height: context.height * .07,)
                           ],

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/constants.dart';
-import 'package:fun_adventure/cores/models/env/env.dart';
 import 'package:fun_adventure/cores/utils/fcm_sender.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../../cores/utils/env/env.dart';
 import '../../../view_model/notifications_listener_provider/notification_listener_provider.dart';
 
 class CustomAppBar extends StatelessWidget {
