@@ -7,7 +7,7 @@ import 'package:fun_adventure/cores/utils/catched_image.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/cores/utils/wating_screen.dart';
-import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/home_screen_menu_structure.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/home_menu/home_screen_menu_structure.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/sliver_sizedbox.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,17 +15,17 @@ import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../../../constants.dart';
+import '../../../../../../cores/utils/custom_banner.dart';
 import '../../../../../../cores/utils/images.dart';
 import '../../../../../../cores/utils/locator_manger.dart';
 import '../../../view_model/home_screen_cubit/home_screen_cubit.dart';
 import '../../../view_model/home_screen_cubit/home_screen_states.dart';
 import '../../../view_model/recent_news_banner_provider/recent_news_banner_provider.dart';
 import 'custom_appbar.dart';
-import 'custom_banner.dart';
 import 'custom_header.dart';
-import 'custom_menu_manger.dart';
-import 'notification_screen.dart';
-import 'notification_screen_ui_manger.dart';
+import 'home_menu/custom_menu_manger.dart';
+import 'notification/notification_screen.dart';
+import 'notification/notification_screen_ui_manger.dart';
 import 'slider_banner.dart';
 
 class HomeScreenWidget extends StatefulWidget {

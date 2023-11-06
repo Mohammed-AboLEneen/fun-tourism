@@ -7,7 +7,7 @@ import 'package:fun_adventure/features/onboarding/presentation/view/onboarding.d
 import 'package:fun_adventure/features/splash/presentation/view/splash.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/home/presentation/view/widgets/home_screen_widgets/hot_travel_screen.dart';
+import '../../features/home/presentation/view/widgets/home_screen_widgets/hot_travel/hot_travel_screen/hot_travel_screen.dart';
 
 class RoutersClass {
   static const String splashScreenPath = "/splashScreen";
@@ -59,7 +59,8 @@ class RoutersClass {
               path: 'hotTravelScreen',
               builder: (BuildContext context, GoRouterState state) {
                 return HotTravelScreen(
-                  hotTravelModel: state.extra as HotTravelModel,);
+                  hotTravelModel: state.extra as HotTravelModel,
+                );
               },
             ),
           ]),

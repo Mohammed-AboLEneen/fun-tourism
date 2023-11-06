@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
-import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/hot_travel_card.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/hot_travel/hot_travel_card.dart';
 
 class SliderBanner extends StatelessWidget {
   final double height;

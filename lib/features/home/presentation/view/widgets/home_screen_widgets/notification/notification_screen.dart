@@ -17,10 +17,11 @@ class NotificationScreen extends StatelessWidget {
   final void Function()? animatedContainerOnEndMethod;
   final void Function()? onTapBlackContainer;
 
-  const NotificationScreen({super.key,
-    this.animatedContainerOnEndMethod,
-    required this.notificationsScreenUiManger,
-    this.onTapBlackContainer});
+  const NotificationScreen(
+      {super.key,
+      this.animatedContainerOnEndMethod,
+      required this.notificationsScreenUiManger,
+      this.onTapBlackContainer});
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +49,7 @@ class NotificationScreen extends StatelessWidget {
                 color: Colors.indigo.withLightness(.95),
                 borderRadius: const BorderRadius.all(Radius.circular(20))),
             child: ChangeNotifierProvider(
-              create: (context) =>
-              NotificationScreenProvider()
+              create: (context) => NotificationScreenProvider()
                 ..requestUserNotifications(context),
               child: Consumer<NotificationScreenProvider>(
                 builder: (_, model, __) {
@@ -74,11 +74,10 @@ class NotificationScreen extends StatelessWidget {
                                     itemBuilder: (context, index) {
                                       return NotificationScreenItem(
                                         notificationModel: LocatorManager
-                                            .locator<AppMainScreenCubit>()
+                                                .locator<AppMainScreenCubit>()
                                             .userNotifications[index],
                                       );
                                     },
-
                                     separatorBuilder: (context, index) {
                                       return Padding(
                                         padding: EdgeInsets.symmetric(
@@ -89,9 +88,8 @@ class NotificationScreen extends StatelessWidget {
                                         ),
                                       );
                                     },
-                                    itemCount: LocatorManager
-                                        .locator<
-                                        AppMainScreenCubit>()
+                                    itemCount: LocatorManager.locator<
+                                            AppMainScreenCubit>()
                                         .userNotifications
                                         .length,
                                   ),

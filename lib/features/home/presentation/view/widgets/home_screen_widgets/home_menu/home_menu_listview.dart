@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-import '../../../view_model/menu_provider/menu_provider.dart';
-import 'item_menu.dart';
+import '../../../../view_model/menu_provider/menu_provider.dart';
+import 'home_menu_item.dart';
 
 class MenuListView extends StatelessWidget {
   final List<String> titles;

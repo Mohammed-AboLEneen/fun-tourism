@@ -3,12 +3,12 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:fun_adventure/constants.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
-import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/recent_news__banner_title_clippath.dart';
-import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/recent_news_banner_item_button.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/recent_news/recent_news__banner_title_clippath.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/recent_news/recent_news_banner_item_button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../view_model/recent_news_banner_provider/recent_news_banner_provider.dart';
+import '../../features/home/presentation/view_model/recent_news_banner_provider/recent_news_banner_provider.dart';
 
 class CustomRecentNewsBanner extends StatelessWidget {
   final Uint8List? image;

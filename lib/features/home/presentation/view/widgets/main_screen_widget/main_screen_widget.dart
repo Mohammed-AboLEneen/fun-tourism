@@ -8,7 +8,7 @@ import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/button_navegation_bar_item.dart';
-import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/custom_menu_manger.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/home_menu/custom_menu_manger.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_states.dart';
 
 import '../../../view_model/main_screen_cubit/main_screen_cubit.dart';

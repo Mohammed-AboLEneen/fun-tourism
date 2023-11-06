@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 
-import 'home_screen_menu_item.dart';
+import 'home_screen_menu_body.dart';
 
 class HomeScreenMenuStructure extends StatelessWidget {
   final double tBeginColor;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 
-import '../../../../../../cores/utils/locator_manger.dart';
+import '../../../../../../../cores/utils/locator_manger.dart';
 
 class MenuInfoCard extends StatelessWidget {
   const MenuInfoCard({

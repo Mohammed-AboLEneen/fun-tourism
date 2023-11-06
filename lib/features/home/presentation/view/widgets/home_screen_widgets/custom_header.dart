@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'hot_travel_container_clipper.dart';
+import 'hot_travel/hot_travel_container_clipper.dart';
 
 class CustomHomeHeader extends StatelessWidget {
   final double h;
