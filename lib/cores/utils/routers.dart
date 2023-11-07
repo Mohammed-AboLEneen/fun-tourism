@@ -56,13 +56,28 @@ class RoutersClass {
           },
           routes: [
             GoRoute(
-              path: 'hotTravelScreen',
-              builder: (BuildContext context, GoRouterState state) {
-                return HotTravelScreen(
-                  hotTravelModel: state.extra as HotTravelModel,
-                );
-              },
-            ),
+                path: 'hotTravelScreen',
+                pageBuilder: (context, state) => CustomTransitionPage(
+                    child: HotTravelScreen(
+                      hotTravelModel: state.extra as HotTravelModel,
+                    ),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      final tween = Tween<Offset>(
+                        begin: const Offset(1.0, 0.0),
+                        end: Offset.zero,
+                      );
+                      final curvedAnimation = CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.ease,
+                      );
+
+                      print(animation.value);
+                      return SlideTransition(
+                        position: tween.animate(curvedAnimation),
+                        child: child,
+                      );
+                    })),
           ]),
     ],
   );

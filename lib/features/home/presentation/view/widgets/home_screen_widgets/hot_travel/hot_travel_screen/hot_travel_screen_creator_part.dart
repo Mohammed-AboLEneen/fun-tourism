@@ -34,6 +34,7 @@ class HotTravelScreenCreatorPart extends StatelessWidget {
                   creator ?? '-----',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
                   style: GoogleFonts.akayaKanadaka()
                       .copyWith(fontSize: 17.sp, fontWeight: FontWeight.w400),
                 ),
