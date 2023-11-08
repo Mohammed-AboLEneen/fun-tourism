@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/constants.dart';
 import 'package:fun_adventure/cores/utils/fcm_sender.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
+import 'package:fun_adventure/features/home/presentation/view_model/menu_logic_provider/menu_logic_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -11,8 +12,8 @@ import '../../../../../../cores/utils/env/env.dart';
 import '../../../view_model/notifications_listener_provider/notification_listener_provider.dart';
 
 class CustomAppBar extends StatelessWidget {
-  final void Function()? locationAction;
-  final void Function()? menuAction;
+  final Future<void> Function()? locationAction;
+
   final void Function()? notificationAction;
   final String locationName;
 
@@ -20,7 +21,6 @@ class CustomAppBar extends StatelessWidget {
       {super.key,
       this.locationAction,
       required this.locationName,
-      this.menuAction,
       this.notificationAction});
 
   @override
@@ -49,7 +49,10 @@ class CustomAppBar extends StatelessWidget {
                   child: Row(
                     children: [
                       GestureDetector(
-                        onTap: menuAction,
+                        onTap: () {
+                          Provider.of<MenuLogicProvider>(context, listen: false)
+                              .openCustomMenu();
+                        },
                         child: FaIcon(
                           FontAwesomeIcons.bars,
                           color: Colors.white.withOpacity(.9),
@@ -64,7 +67,10 @@ class CustomAppBar extends StatelessWidget {
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.symmetric(horizontal: 4.w),
                             ),
-                            onPressed: locationAction,
+                            onPressed: () {
+                              print('Press');
+                              locationAction;
+                            },
                             child: locationName.isEmpty
                                 ? Center(
                                     child: Text('. . .',

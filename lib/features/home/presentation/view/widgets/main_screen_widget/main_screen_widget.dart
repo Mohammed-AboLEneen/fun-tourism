@@ -21,7 +21,7 @@ class AppMainScreenWidget extends StatefulWidget {
 }
 
 class _AppMainScreenState extends State<AppMainScreenWidget> {
-  MangeCustomMenuApp customMenuApp = MangeCustomMenuApp();
+  CustomMenuAppManger customMenuApp = CustomMenuAppManger();
 
   @override
   void didChangeDependencies() {

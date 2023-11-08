@@ -15,6 +15,8 @@ import 'package:provider/provider.dart';
 
 import '../../../../../cores/methods/download_image.dart';
 import '../../../../../cores/utils/locator_manger.dart';
+import '../../view/widgets/home_page.dart';
+import '../../view/widgets/home_screen_widgets/profile_screen.dart';
 import '../notifications_listener_provider/notification_listener_provider.dart';
 import 'home_screen_states.dart';
 
@@ -23,13 +25,18 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
 
   static HomeScreenCubit get(context) => BlocProvider.of(context);
 
+  late List<Widget> homeMenuPages = [const HomePage(), const ProfileScreen()];
+  int currentPage = 0;
+
   Future<void> blocOperations(String uId, BuildContext context) async {
     getUserNotificationNumber(context);
     await getUserLocation();
-    getData(uId);
+
+    if (!context.mounted) return;
+    getData(uId, context);
   }
 
-  Future<void> getData(String uId) async {
+  Future<void> getData(String uId, BuildContext context) async {
     // 1- first part of condition for internet connection state,
     // so when wifi is off or mobile data it will not request to get data from fireStore.
     // 2- second and third part of condition when open home screen more than once and creating its bloc
@@ -49,6 +56,7 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
                 .locator<AppMainScreenCubit>()
                 .hotTravels
                 .isEmpty)) {
+      getUserNotificationNumber(context);
       getUserData(uId);
       getHomeScreen();
     } else {
@@ -150,7 +158,16 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       Provider.of<NotificationListenerProvider>(context, listen: false)
           .setNotificationsNumber(number);
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
     }
+  }
+
+  void changeTheCurrentHomeScreenPage(int index) {
+    currentPage = index;
+
+    print(currentPage);
+    emit(ChangeTheCurrentHomeScreenPage());
   }
 }

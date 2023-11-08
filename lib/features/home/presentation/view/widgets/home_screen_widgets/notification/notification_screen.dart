@@ -53,7 +53,9 @@ class NotificationScreen extends StatelessWidget {
                 ..requestUserNotifications(context),
               child: Consumer<NotificationScreenProvider>(
                 builder: (_, model, __) {
-                  if (model.getNotification) {
+                  if (LocatorManager.locator<AppMainScreenCubit>()
+                      .userNotifications
+                      .isNotEmpty) {
                     return Visibility(
                       visible: notificationsScreenUiManger
                           .notificationScreenBodyVisible,

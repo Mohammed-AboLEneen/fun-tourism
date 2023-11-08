@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class MangeCustomMenuApp {
+class CustomMenuAppManger {
   late double xPosition;
   late double normalizedXPosition;
   late final window;

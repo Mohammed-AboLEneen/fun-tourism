@@ -3,9 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 
-class MenuItem extends StatefulWidget {
+class MenuItem extends StatelessWidget {
   final String text;
   final IconData icon;
+  final void Function()? action;
 
   final bool isSelected;
 
@@ -14,13 +15,9 @@ class MenuItem extends StatefulWidget {
     required this.text,
     required this.icon,
     required this.isSelected,
+    this.action,
   });
 
-  @override
-  State<MenuItem> createState() => _MenuItemState();
-}
-
-class _MenuItemState extends State<MenuItem> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -38,22 +35,20 @@ class _MenuItemState extends State<MenuItem> {
                     color: Colors.white.withOpacity(.6),
                     borderRadius: BorderRadius.circular(10)),
                 height: MediaQuery.of(context).size.height * .075,
-                width: widget.isSelected
-                    ? MediaQuery.of(context).size.width * .7
-                    : 0,
+                width: isSelected ? MediaQuery.of(context).size.width * .7 : 0,
               ),
               Padding(
                 padding: EdgeInsets.all(7.h),
                 child: Row(
                   children: [
                     FaIcon(
-                      widget.icon,
+                      icon,
                       color: Colors.black.withOpacity(.7),
                     ),
                     const SizedBox(
                       width: 15,
                     ),
-                    Text(widget.text,
+                    Text(text,
                         style: TextStyle(fontSize: context.height * .033))
                   ],
                 ),

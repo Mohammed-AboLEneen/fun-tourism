@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../view_model/menu_provider/menu_provider.dart';
+import '../../../../view_model/menu_ui_provider/menu_ui_provider.dart';
 import 'home_menu_information_card.dart';
 import 'home_menu_listview.dart';
 
@@ -21,8 +21,8 @@ class _HomeScreenMenuState extends State<HomeScreenMenu> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => MenuProvider(),
-      child: Consumer<MenuProvider>(
+      create: (context) => MenuUIProvider()..initListsActions(context),
+      child: Consumer<MenuUIProvider>(
         builder: (_, model, __) {
           return Drawer(
             key: _globalKey,
@@ -61,6 +61,7 @@ class _HomeScreenMenuState extends State<HomeScreenMenu> {
                       MenuListView(
                         titles: model.listTitles1,
                         icons: model.listIcons1,
+                        actions: model.list1actions,
                         h: MediaQuery.of(context).size.height * .43,
                       ),
                       const Align(
@@ -73,6 +74,7 @@ class _HomeScreenMenuState extends State<HomeScreenMenu> {
                         titles: model.listTitles2,
                         icons: model.listIcons2,
                         h: MediaQuery.of(context).size.height * .2,
+                        actions: model.list2actions,
                       )
                     ],
                   ),

@@ -33,3 +33,5 @@ class OpenNotificationsScreenState extends HomeScreenStates {}
 class CloseNotificationsScreenState extends HomeScreenStates {}
 
 class ChangeNotificationScreenBodyVisibilityState extends HomeScreenStates {}
+
+class ChangeTheCurrentHomeScreenPage extends HomeScreenStates {}

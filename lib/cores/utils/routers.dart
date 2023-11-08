@@ -8,6 +8,7 @@ import 'package:fun_adventure/features/splash/presentation/view/splash.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/home/presentation/view/widgets/home_screen_widgets/hot_travel/hot_travel_screen/hot_travel_screen.dart';
+import '../../features/home/presentation/view/widgets/home_screen_widgets/profile_screen.dart';
 
 class RoutersClass {
   static const String splashScreenPath = "/splashScreen";
@@ -17,6 +18,7 @@ class RoutersClass {
   static const String fromAuthScreenToEmailVerificationScreen =
       "$authenticationScreenPath/$emailVerificationScreenPath";
   static const String mainAppScreenPath = "/mainAppScreen";
+  static const String profileScreenPath = "/profileScreenPath";
   static const String hotTravelScreenPath = "hotTravelScreen";
   static const String fromMainScreenToHotTravelScreen =
       "$mainAppScreenPath/$hotTravelScreenPath";
@@ -79,6 +81,12 @@ class RoutersClass {
                       );
                     })),
           ]),
+      GoRoute(
+        path: '/profileScreenPath',
+        builder: (BuildContext context, GoRouterState state) {
+          return const ProfileScreen();
+        },
+      ),
     ],
   );
 }
