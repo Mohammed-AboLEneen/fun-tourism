@@ -69,7 +69,7 @@ class CustomAppBar extends StatelessWidget {
                             ),
                             onPressed: () {
                               print('Press');
-                              locationAction;
+                              locationAction!();
                             },
                             child: locationName.isEmpty
                                 ? Center(

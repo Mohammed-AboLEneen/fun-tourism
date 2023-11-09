@@ -42,20 +42,13 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
     // 2- second and third part of condition when open home screen more than once and creating its bloc
     // not request data again until user scroll up screen to refresh data
 
-    if (LocatorManager
-        .locator<AppMainScreenCubit>()
-        .internetConnection
-        .connectionStatus
-        .name !=
-        'none' &&
-        (LocatorManager
-            .locator<AppMainScreenCubit>()
-            .recentNews
-            .isEmpty &&
-            LocatorManager
-                .locator<AppMainScreenCubit>()
-                .hotTravels
-                .isEmpty)) {
+    if (LocatorManager.locator<AppMainScreenCubit>()
+                .internetConnection
+                .connectionStatus
+                .name !=
+            'none' &&
+        (LocatorManager.locator<AppMainScreenCubit>().recentNews.isEmpty &&
+            LocatorManager.locator<AppMainScreenCubit>().hotTravels.isEmpty)) {
       getUserNotificationNumber(context);
       getUserData(uId);
       getHomeScreen();
@@ -69,11 +62,15 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
 
     try {
       DocumentSnapshot<Object?> data =
-      await FireStoreServices.getUserData(uId: uId);
+          await FireStoreServices.getUserData(uId: uId);
 
       LocatorManager.locator<AppMainScreenCubit>().setUserData(
           UserAppData.fromJson(data.data() as Map<String, dynamic>));
 
+      print(LocatorManager.locator<AppMainScreenCubit>()
+          .userData
+          ?.userInfoData
+          .photoURL);
       emit(GetUserDataSuccessState());
     } on SocketException catch (e) {
       if (kDebugMode) {
@@ -97,9 +94,9 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       emit(GetHomeScreenDataLoadingState());
 
       DocumentSnapshot<Object?> data1 =
-      await FireStoreServices.getHomeScreenData('last travels');
+          await FireStoreServices.getHomeScreenData('last travels');
       DocumentSnapshot<Object?> data2 =
-      await FireStoreServices.getHomeScreenData('recent news');
+          await FireStoreServices.getHomeScreenData('recent news');
 
       Map<String, dynamic> dataList1 = data1.data() as Map<String, dynamic>;
       Map<String, dynamic> dataList2 = data2.data() as Map<String, dynamic>;
@@ -132,22 +129,15 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
   }
 
   Future<void> getUserLocation() async {
-    await LocatorManager
-        .locator<AppMainScreenCubit>()
+    await LocatorManager.locator<AppMainScreenCubit>()
         .userLocation
         .getUserLocation();
     emit(GetTheUserLocationName());
   }
 
   void clearHomeScreenData() {
-    LocatorManager
-        .locator<AppMainScreenCubit>()
-        .hotTravels
-        .clear();
-    LocatorManager
-        .locator<AppMainScreenCubit>()
-        .recentNews
-        .clear();
+    LocatorManager.locator<AppMainScreenCubit>().hotTravels.clear();
+    LocatorManager.locator<AppMainScreenCubit>().recentNews.clear();
   }
 
   Future<void> getUserNotificationNumber(BuildContext context) async {
@@ -165,9 +155,9 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
   }
 
   void changeTheCurrentHomeScreenPage(int index) {
-    currentPage = index;
+    if (currentPage == index) return;
 
-    print(currentPage);
+    currentPage = index;
     emit(ChangeTheCurrentHomeScreenPage());
   }
 }
