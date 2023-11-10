@@ -23,7 +23,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-
     print(widget.id);
   }
 
