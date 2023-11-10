@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_adventure/cores/methods/google_sign_out.dart';
 import 'package:fun_adventure/cores/methods/navigate_pageview.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
 import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
@@ -87,6 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                           height: MediaQuery.of(context).size.height * .06,
                           child: TextButton(
                               onPressed: () async {
+                                await googleSignOut();
                                 loginCubit.createOrSignInWithGoogle();
                               },
                               style: ButtonStyle(

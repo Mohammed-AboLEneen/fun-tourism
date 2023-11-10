@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../cores/utils/firebase_api.dart';
 import '../../../../cores/utils/locator_manger.dart';
+import '../../../../cores/utils/notification_services.dart';
 import '../view_model/notifications_listener_provider/notification_listener_provider.dart';
 
 class AppMainScreen extends StatefulWidget {
@@ -17,11 +18,10 @@ class AppMainScreen extends StatefulWidget {
 
 class _AppMainScreenState extends State<AppMainScreen> {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     LocatorManager.locateFirebaseMessagingObject();
+    NotificationService.initNotification(context);
     LocatorManager.locator<FirebaseApi>().initNotifications();
   }
 

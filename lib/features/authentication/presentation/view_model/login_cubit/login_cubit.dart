@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
@@ -29,7 +30,13 @@ class LoginCubit extends Cubit<LoginStates> {
       final credential = await googleAuth();
 
       final UserCredential authResult =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+
+      FirebaseMessaging.instance
+          .subscribeToTopic('user_${authResult.user?.uid}').then((value) {
+        print('doneeeeeeeeeeeeeeeeee');
+      });
 
       emit(LoginSuccessState(
           emailVerified: FirebaseAuth.instance.currentUser!.emailVerified,

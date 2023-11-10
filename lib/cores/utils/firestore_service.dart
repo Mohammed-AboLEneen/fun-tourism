@@ -10,7 +10,7 @@ class FireStoreServices {
 
   static Future<bool> checkIfDocumentExists(String uId) async {
     final DocumentReference documentRef =
-    fireStore.collection('users').doc(uId);
+        fireStore.collection('users').doc(uId);
 
     final DocumentSnapshot documentSnapshot = await documentRef.get();
 
@@ -30,17 +30,16 @@ class FireStoreServices {
         .collection('users')
         .doc(uId)
         .set({
-      'email': email,
-      // John Doe
-      'phoneNumber': phoneNumber,
-      // John Doe
-      'displayName': displayName,
-      // Stokes and Sons
-      'photoURL':
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyGdwrHRr5hroz-7f_fWYxMNphZj0N1wh3qA&usqp=CAU',
-      'friends': [],
-      'chats': []
-    })
+          'email': email,
+          // John Doe
+          'phoneNumber': phoneNumber,
+          // John Doe
+          'displayName': displayName,
+          // Stokes and Sons
+          'photoURL':
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyGdwrHRr5hroz-7f_fWYxMNphZj0N1wh3qA&usqp=CAU',
+          'userTopic': '/topics/user_$uId'
+        })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
   }
@@ -60,13 +59,19 @@ class FireStoreServices {
   }
 
   static Future<void> saveNewNotification(Map<String, dynamic> data) async {
-    fireStore.collection('users').doc(uId).collection('notifications')
+    fireStore
+        .collection('users')
+        .doc(uId)
+        .collection('notifications')
         .doc()
         .set(data);
   }
 
   static Future<QuerySnapshot> requestUserNotifications() async {
-    return await fireStore.collection('users').doc(uId).collection(
-        'notifications').get();
+    return await fireStore
+        .collection('users')
+        .doc(uId)
+        .collection('notifications')
+        .get();
   }
 }

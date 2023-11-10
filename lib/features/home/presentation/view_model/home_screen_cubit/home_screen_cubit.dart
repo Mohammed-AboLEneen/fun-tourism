@@ -13,6 +13,7 @@ import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../constants.dart';
 import '../../../../../cores/methods/download_image.dart';
 import '../../../../../cores/utils/locator_manger.dart';
 import '../../view/widgets/home_page.dart';
@@ -25,7 +26,12 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
 
   static HomeScreenCubit get(context) => BlocProvider.of(context);
 
-  late List<Widget> homeMenuPages = [const HomePage(), const ProfileScreen()];
+  late List<Widget> homeMenuPages = [
+    const HomePage(),
+    ProfileScreen(
+      id: uId ?? '',
+    )
+  ];
   int currentPage = 0;
 
   Future<void> blocOperations(String uId, BuildContext context) async {
@@ -67,10 +73,6 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       LocatorManager.locator<AppMainScreenCubit>().setUserData(
           UserAppData.fromJson(data.data() as Map<String, dynamic>));
 
-      print(LocatorManager.locator<AppMainScreenCubit>()
-          .userData
-          ?.userInfoData
-          .photoURL);
       emit(GetUserDataSuccessState());
     } on SocketException catch (e) {
       if (kDebugMode) {

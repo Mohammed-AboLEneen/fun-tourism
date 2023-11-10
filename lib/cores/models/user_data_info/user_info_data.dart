@@ -8,6 +8,7 @@ class UserInfoData extends HiveObject {
   String? photoURL;
   String? phoneNumber;
   String? uid;
+  String? userTopic;
 
   UserInfoData();
 

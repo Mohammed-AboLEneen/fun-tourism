@@ -96,8 +96,8 @@ class CustomAppBar extends StatelessWidget {
                                   onTap: () {
                                     FirebaseFcmSender.sendFCMMessage(
                                         EnvClass.authorizationKey,
-                                        'dsL5DijFQGiVs5YgPmFj-A:APA91bHjnalACHV0Dy0CorgBTa-2tSHASfpvebODYlZNkLc1glHIfz-8Ylg3TiII3b4sKonl3vItSz9AQIMos8JUptcTY611x28lSrvXhUZvJf9MBOOXTx8BIvC_G1G5lOJ9lotFDxcT',
-                                        'New Follower',
+                                        '/topics/user_RwWYcS7BZXXSMWXBIACts6nsnrk1',
+                                        'New c',
                                         'Ahmed Follow U Now !');
                                   },
                                   child: FaIcon(
@@ -131,7 +131,6 @@ class CustomAppBar extends StatelessWidget {
                                         child: Consumer<
                                             NotificationListenerProvider>(
                                           builder: (_, model, __) {
-                                            print('l,;l;l;;');
                                             return Text(
                                               '${model.notificationsNumber}',
                                               style: TextStyle(
