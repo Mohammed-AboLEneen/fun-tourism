@@ -85,8 +85,8 @@ class RoutersClass {
               path: 'profileScreenPath',
               pageBuilder: (BuildContext context, GoRouterState state) =>
                   CustomTransitionPage(
-                      child: const ProfileScreen(
-                        id: '',
+                      child: ProfileScreen(
+                        id: state.extra as String,
                       ),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {

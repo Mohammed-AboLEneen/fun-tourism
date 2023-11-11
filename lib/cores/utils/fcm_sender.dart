@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
+import '../../constants.dart';
 import 'firestore_service.dart';
 
 class FirebaseFcmSender {
@@ -19,7 +20,7 @@ class FirebaseFcmSender {
 
     final Map<String, dynamic> data = {
       "type": "f",
-      "contentId": "notification",
+      "contentId": uId,
       "time": formattedTime,
       "imageUrl":
           "https://th.bing.com/th/id/R.0b7bb2deb7735e7d9d55240d9d75afe8?rik=6dSZzezsXTVR2w&riu=http%3a%2f%2fs1.picswalls.com%2fwallpapers%2f2015%2f09%2f27%2fdragon-ball-z-hd-wallpaper_125243743_276.jpg&ehk=Otx7HLQDK%2bgr66sjRlJFESBG%2bGmu5yAOxInOoWq0Nvc%3d&risl=&pid=ImgRaw&r=0",
