@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
-import 'package:fun_adventure/cores/utils/env/env.dart';
-import 'package:fun_adventure/cores/utils/fcm_sender.dart';
 import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/cores/utils/routers.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
@@ -13,42 +11,28 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../constants.dart';
-import '../../../../../../cores/models/hot_travels_model/hot_travels_model.dart';
 import '../../../view_model/profile_cubit/profile_states.dart';
 import '../custom_textbutton.dart';
 import 'hot_travel/travel_item.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   final String id;
 
   const ProfileScreen({super.key, required this.id});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  List<HotTravelModel>? travels;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-      ProfileScreenCubit()
-        ..getUserData(widget.id),
+      create: (context) => ProfileScreenCubit()..getUserData(id),
       child: BlocConsumer<ProfileScreenCubit, ProfileScreenStates>(
           builder: (context, state) {
             ProfileScreenCubit profileScreenCubit =
-            ProfileScreenCubit.get(context);
+                ProfileScreenCubit.get(context);
 
             print(profileScreenCubit.userName);
             print(profileScreenCubit.imageUrl);
-            if (state is SuccessProfileScreenState) {
+            if (profileScreenCubit.userName != null ||
+                profileScreenCubit.imageUrl != null) {
               return Scaffold(
                 backgroundColor: Colors.white.withLightness(.95),
                 body: SingleChildScrollView(
@@ -68,11 +52,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 image: DecorationImage(
                                   image: NetworkImage(
-                                    LocatorManager
-                                        .locator<AppMainScreenCubit>()
-                                        .userData
-                                        ?.userInfoData
-                                        .photoURL ??
+                                    LocatorManager.locator<AppMainScreenCubit>()
+                                            .userData
+                                            ?.userInfoData
+                                            .photoURL ??
                                         '',
                                   ),
                                   fit: BoxFit.cover,
@@ -111,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             textAlign: TextAlign.center),
                       ),
-                      if (widget.id != uId)
+                      if (id != uId)
                         Padding(
                           padding: EdgeInsets.only(top: 20.h),
                           child: Row(
@@ -119,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Expanded(
                                 child: Padding(
                                   padding:
-                                  EdgeInsets.symmetric(horizontal: 10.0.w),
+                                      EdgeInsets.symmetric(horizontal: 10.0.w),
                                   child: CustomTextButton(
                                     text: 'Follow',
                                     buttonColor: Colors.indigo,
@@ -127,11 +110,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     topLeft: const Radius.circular(20),
                                     textSize: 17,
                                     onPressed: () {
-                                      FirebaseFcmSender.sendFCMMessage(
-                                          EnvClass.authorizationKey,
-                                          '/topics/user_${widget.id}',
-                                          'New Follower',
-                                          'Mohammed Abo L Eneen');
+                                      profileScreenCubit
+                                          .sendFollowDataToFireStore(id);
                                     },
                                   ),
                                 ),
@@ -139,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Expanded(
                                 child: Padding(
                                   padding:
-                                  EdgeInsets.symmetric(horizontal: 10.0.w),
+                                      EdgeInsets.symmetric(horizontal: 10.0.w),
                                   child: CustomTextButton(
                                     text: 'Send Message',
                                     buttonColor: Colors.indigo,
@@ -160,24 +140,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Friends : ',
-                                      style: GoogleFonts.abel().copyWith(
-                                          fontSize: 20.sp,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      '122',
-                                      style: GoogleFonts.abel().copyWith(
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ],
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Friends : ',
+                                  style: GoogleFonts.abel().copyWith(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                              )),
+                                Text(
+                                  '122',
+                                  style: GoogleFonts.abel().copyWith(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ],
+                            ),
+                          )),
                         ],
                       ),
                       const SizedBox(
@@ -196,7 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                               child: Padding(
                                   padding:
-                                  EdgeInsets.symmetric(horizontal: 10.0.w),
+                                      EdgeInsets.symmetric(horizontal: 10.0.w),
                                   child: SizedBox(
                                     width: context.width * .2,
                                     child: Column(
@@ -222,7 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             Padding(
                                 padding:
-                                EdgeInsets.symmetric(horizontal: 10.0.w),
+                                    EdgeInsets.symmetric(horizontal: 10.0.w),
                                 child: SizedBox(
                                   width: context.width * .2,
                                   child: Column(
@@ -264,24 +244,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Travels : ',
-                                      style: GoogleFonts.abel().copyWith(
-                                          fontSize: 20.sp,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      '${travels?.length}',
-                                      style: GoogleFonts.abel().copyWith(
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ],
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Travels : ',
+                                  style: GoogleFonts.abel().copyWith(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                              )),
+                                Text(
+                                  '10',
+                                  style: GoogleFonts.abel().copyWith(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ],
+                            ),
+                          )),
                         ],
                       ),
                       const SizedBox(
@@ -295,13 +275,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               padding: const EdgeInsets.all(10),
                               child: TravelItem(
                                 hotTravelModel:
-                                LocatorManager
-                                    .locator<AppMainScreenCubit>()
-                                    .hotTravels[0],
+                                    LocatorManager.locator<AppMainScreenCubit>()
+                                        .hotTravels[0],
                               ),
                             );
                           },
-                          itemCount: travels?.length,
+                          itemCount: 10,
                           scrollDirection: Axis.horizontal,
                         ),
                       ),
@@ -312,7 +291,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               );
-            } else if (state is FailureProfileScreenState) {
+            } else if (state is FailureGetProfileScreenDataState) {
               return Center(
                 child: Text(
                   'There is a failure',

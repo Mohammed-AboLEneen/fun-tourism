@@ -2,8 +2,14 @@ abstract class ProfileScreenStates {}
 
 class InitProfileScreenState extends ProfileScreenStates {}
 
-class LoadingProfileScreenState extends ProfileScreenStates {}
+class LoadingGetProfileScreenDataState extends ProfileScreenStates {}
 
-class SuccessProfileScreenState extends ProfileScreenStates {}
+class SuccessGetProfileScreenDataState extends ProfileScreenStates {}
 
-class FailureProfileScreenState extends ProfileScreenStates {}
+class FailureGetProfileScreenDataState extends ProfileScreenStates {}
+
+class LoadingSendFollowToFireStoreState extends ProfileScreenStates {}
+
+class SuccessSendFollowToFireStoreState extends ProfileScreenStates {}
+
+class FailureSendFollowToFireStoreState extends ProfileScreenStates {}
