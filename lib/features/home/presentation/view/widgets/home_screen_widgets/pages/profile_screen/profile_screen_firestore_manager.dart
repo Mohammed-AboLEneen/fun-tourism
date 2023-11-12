@@ -64,4 +64,15 @@ class ProfileScreenFireStore {
 
     return doc.exists;
   }
+
+  static Future<QuerySnapshot> getProfileFollowerFromFireStore(
+      String profileUId) async {
+    QuerySnapshot doc = await FireStoreServices.fireStore
+        .collection('users')
+        .doc(profileUId)
+        .collection('followers')
+        .get();
+
+    return doc;
+  }
 }

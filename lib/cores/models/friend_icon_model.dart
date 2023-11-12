@@ -1,14 +1,12 @@
-class FriendIconModel {
-
-
+class FollowerIconModel {
   String? name;
   String? imageUrl;
   String? uId;
 
-  FriendIconModel();
+  FollowerIconModel();
 
-  FriendIconModel.fromJson(Map<String, dynamic> json, String id){
-    name = json['name'];
+  FollowerIconModel.fromJson(Map<String, dynamic> json, String id) {
+    name = json['displayName'];
     imageUrl = json['imageUrl'];
     uId = id;
   }

@@ -23,10 +23,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileScreenCubit()
-        ..getUserData(id)
-        ..initFollowButtonTextAndColor(id)
-        ..checkIfThisProfileFollowCurrentUser(id),
+      create: (context) => ProfileScreenCubit()..profileCubitOperations(id),
       child: BlocConsumer<ProfileScreenCubit, ProfileScreenStates>(
           builder: (context, state) {
             ProfileScreenCubit profileScreenCubit =
@@ -182,7 +179,7 @@ class ProfileScreen extends StatelessWidget {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          '122',
+                                          '${profileScreenCubit.followers.length}',
                                           style: GoogleFonts.abel().copyWith(
                                               fontSize: 15.sp,
                                               fontWeight: FontWeight.w600),
@@ -196,77 +193,57 @@ class ProfileScreen extends StatelessWidget {
                                 height: 10,
                               ),
                               SizedBox(
-                                height: context.height * .15,
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
+                                height: context.height * .19,
+                                child: ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  itemBuilder: (context, index) => Padding(
+                                    padding: EdgeInsets.only(left: 15.0.w),
+                                    child: GestureDetector(
                                       onTap: () {
                                         context.go(
                                             RoutersClass
                                                 .fromMainAppScreenToProfileScreen,
-                                            extra:
-                                                '08iLv9b16EXZTJGURmT4TRPzq7n1');
+                                            extra: profileScreenCubit
+                                                .followers[index].uId);
                                       },
-                                      child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10.0.w),
-                                          child: SizedBox(
-                                            width: context.width * .2,
-                                            child: Column(
-                                              children: [
-                                                CircleAvatar(
-                                                  radius: context.width * .1,
-                                                  backgroundImage:
-                                                      const NetworkImage(
-                                                          'https://i.pinimg.com/originals/32/db/ad/32dbadaa9bf670b5258cbebce3ecd240.jpg'),
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    'Mohammed Abo L Eneen Ali',
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: GoogleFonts.abel()
-                                                        .copyWith(
-                                                            fontSize: 15.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                  ),
-                                                )
-                                              ],
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                              profileScreenCubit
+                                                      .followers[index]
+                                                      .imageUrl ??
+                                                  '',
                                             ),
-                                          )),
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10.0.w),
-                                        child: SizedBox(
-                                          width: context.width * .2,
-                                          child: Column(
-                                            children: [
-                                              CircleAvatar(
-                                                radius: context.width * .1,
-                                                backgroundImage: const NetworkImage(
-                                                    'https://i.pinimg.com/originals/32/db/ad/32dbadaa9bf670b5258cbebce3ecd240.jpg'),
-                                              ),
-                                              Expanded(
-                                                child: Text(
-                                                  'Mohammed Abo L Eneen Ali',
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: GoogleFonts.abel()
-                                                      .copyWith(
-                                                          fontSize: 15.sp,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                ),
-                                              )
-                                            ],
+                                            radius: context.width * .11,
                                           ),
-                                        ))
-                                  ],
+                                          SizedBox(
+                                            height: 5.h,
+                                          ),
+                                          SizedBox(
+                                            width: context.width * .23,
+                                            child: Text(
+                                              profileScreenCubit
+                                                      .followers[index].name ??
+                                                  '',
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: GoogleFonts.abel()
+                                                  .copyWith(
+                                                      fontSize: 18.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  itemCount:
+                                      profileScreenCubit.followers.length,
                                 ),
                               ),
                               const SizedBox(
