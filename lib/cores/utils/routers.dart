@@ -3,7 +3,7 @@ import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.d
 import 'package:fun_adventure/features/authentication/presentation/view/authentcation.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/verification_page.dart';
 import 'package:fun_adventure/features/home/presentation/view/main_screen.dart';
-import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/profile_screen.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/onboarding.dart';
 import 'package:fun_adventure/features/splash/presentation/view/splash.dart';
 import 'package:go_router/go_router.dart';

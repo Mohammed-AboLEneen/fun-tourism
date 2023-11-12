@@ -10,10 +10,10 @@ import 'package:fun_adventure/features/home/presentation/view_model/profile_cubi
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../../../constants.dart';
-import '../../../view_model/profile_cubit/profile_states.dart';
-import '../custom_textbutton.dart';
-import 'hot_travel/travel_item.dart';
+import '../../../../../../../../constants.dart';
+import '../../../../../view_model/profile_cubit/profile_states.dart';
+import '../../../custom_textbutton.dart';
+import '../../hot_travel/travel_item.dart';
 
 class ProfileScreen extends StatelessWidget {
   final String id;
@@ -23,16 +23,16 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileScreenCubit()..getUserData(id),
+      create: (context) => ProfileScreenCubit()
+        ..getUserData(id)
+        ..initFollowButtonTextAndColor(id),
       child: BlocConsumer<ProfileScreenCubit, ProfileScreenStates>(
           builder: (context, state) {
             ProfileScreenCubit profileScreenCubit =
                 ProfileScreenCubit.get(context);
 
-            print(profileScreenCubit.userName);
-            print(profileScreenCubit.imageUrl);
-            if (profileScreenCubit.userName != null ||
-                profileScreenCubit.imageUrl != null) {
+            if (profileScreenCubit.userName.isNotEmpty ||
+                profileScreenCubit.imageUrl.isNotEmpty) {
               return Scaffold(
                 backgroundColor: Colors.white.withLightness(.95),
                 body: SingleChildScrollView(
@@ -74,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
                                   CircleAvatar(
                                     radius: context.width * .14,
                                     backgroundImage: NetworkImage(
-                                        profileScreenCubit.imageUrl ?? ''),
+                                        profileScreenCubit.imageUrl),
                                   ),
                                 ],
                               ),
@@ -86,7 +86,7 @@ class ProfileScreen extends StatelessWidget {
                         padding: EdgeInsets.only(
                           top: 10.0.h,
                         ),
-                        child: Text(profileScreenCubit.userName ?? '',
+                        child: Text(profileScreenCubit.userName,
                             style: GoogleFonts.abel().copyWith(
                               color: Colors.black,
                               fontWeight: FontWeight.w600,
@@ -104,14 +104,15 @@ class ProfileScreen extends StatelessWidget {
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 10.0.w),
                                   child: CustomTextButton(
-                                    text: 'Follow',
-                                    buttonColor: Colors.indigo,
+                                    text: profileScreenCubit.followButtonText,
+                                    buttonColor:
+                                        profileScreenCubit.followButtonColor,
                                     topRight: const Radius.circular(20),
                                     topLeft: const Radius.circular(20),
                                     textSize: 17,
                                     onPressed: () {
                                       profileScreenCubit
-                                          .sendFollowDataToFireStore(id);
+                                          .chooseTheFollowButtonAction(id);
                                     },
                                   ),
                                 ),

@@ -17,7 +17,7 @@ import '../../../../../constants.dart';
 import '../../../../../cores/methods/download_image.dart';
 import '../../../../../cores/utils/locator_manger.dart';
 import '../../view/widgets/home_page.dart';
-import '../../view/widgets/home_screen_widgets/profile_screen.dart';
+import '../../view/widgets/home_screen_widgets/pages/profile_screen/profile_screen.dart';
 import '../notifications_listener_provider/notification_listener_provider.dart';
 import 'home_screen_states.dart';
 

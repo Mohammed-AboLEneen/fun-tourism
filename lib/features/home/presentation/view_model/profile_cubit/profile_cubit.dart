@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fun_adventure/cores/methods/toast.dart';
+import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/firestore_service.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_firestore_manager.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/profile_cubit/profile_states.dart';
 
-import '../../../../../constants.dart';
-import '../../../../../cores/utils/app_fcm_actions.dart';
 import '../../../../../cores/utils/locator_manger.dart';
 import '../main_screen_cubit/main_screen_cubit.dart';
 
@@ -14,20 +16,22 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   static ProfileScreenCubit get(context) => BlocProvider.of(context);
 
-  String? userName;
-  String? imageUrl;
+  String userName = '';
+  String imageUrl = '';
+  String followButtonText = 'follow';
+  Color followButtonColor = Colors.indigo;
 
   Future<void> getUserData(String id) async {
     emit(LoadingGetProfileScreenDataState());
 
     try {
       await getUserDisplayNameAndImageUrl(id);
+
       emit(SuccessGetProfileScreenDataState());
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-
       emit(FailureGetProfileScreenDataState());
     }
   }
@@ -40,48 +44,80 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
     imageUrl = data.data()?['photoURL'];
   }
 
-  Future<void> sendFollowDataToFireStore(String id) async {
-    emit(LoadingSendFollowToFireStoreState());
+  Future<void> initFollowButtonTextAndColor(String id) async {
+    bool result =
+        await ProfileScreenFireStore.checkIfCurrentUserFollowThisProfile(id);
 
-    _sendFollowerToFireStore(id).then((value) {
-      _sendFollowingToFireStore(id);
+    if (result) {
+      followButtonText = 'unFollow';
+      followButtonColor = Colors.grey;
+    } else {
+      followButtonText = 'follow';
+      followButtonColor = Colors.indigo;
+    }
+
+    emit(InitFollowButtonTextAndColorState());
+  }
+
+  void chooseTheFollowButtonAction(String id) {
+    if (LocatorManager.locator<AppMainScreenCubit>()
+            .internetConnection
+            .connectionStatus
+            .name !=
+        'none') {
+      if (followButtonText == 'unFollow') {
+        removeFollowDataFromFireStore(id);
+      } else {
+        sendFollowDataToFireStore(id);
+      }
+    } else {
+      showToast(msg: 'No Internet Connection', isFailure: true);
+    }
+  }
+
+  Future<void> sendFollowDataToFireStore(String id) async {
+    followButtonText = '. . .';
+    followButtonColor = Colors.cyan.withLightness(.7);
+    emit(LoadingSendFollowToFireStoreState());
+    ProfileScreenFireStore.sendFollowerToFireStore(id).then((value) {
+      ProfileScreenFireStore.sendFollowingToFireStore(id, userName, imageUrl);
+      followButtonText = 'unFollow';
+      followButtonColor = Colors.grey;
+
+      showToast(msg: 'Follow', isFailure: false);
       emit(SuccessSendFollowToFireStoreState());
     }).catchError((error) {
       if (kDebugMode) {
         print(error.toString());
+        followButtonText = 'Follow';
+        followButtonColor = Colors.indigo;
+        showToast(msg: 'Fail to Follow, Try Again', isFailure: true);
+        emit(FailureSendFollowToFireStoreState());
       }
     });
   }
 
-  Future<void> _sendFollowerToFireStore(String id) async {
-    FireStoreServices.fireStore
-        .collection('users')
-        .doc(id)
-        .collection('followers')
-        .doc(uId)
-        .set({
-      'displayName': LocatorManager.locator<AppMainScreenCubit>()
-          .userData
-          ?.userInfoData
-          .displayName,
-      'imageUrl': LocatorManager.locator<AppMainScreenCubit>()
-          .userData
-          ?.userInfoData
-          .photoURL,
+  Future<void> removeFollowDataFromFireStore(String id) async {
+    followButtonText = '. . .';
+    followButtonColor = Colors.cyan.withLightness(.7);
+    emit(LoadingRemoveFollowToFireStoreState());
+    ProfileScreenFireStore.removeFollowerFromOtherUserFireStore(id)
+        .then((value) {
+      ProfileScreenFireStore.removeFollowedFromCurrentUserFireStore(
+        id,
+      );
+      followButtonText = 'Follow';
+      followButtonColor = Colors.indigo;
+      showToast(msg: 'unFollow', isFailure: false);
+      emit(SuccessRemoveFollowToFireStoreState());
+    }).catchError((error) {
+      if (kDebugMode) {
+        print(error.toString());
+        followButtonText = 'unFollow';
+        followButtonColor = Colors.grey;
+        showToast(msg: 'Fail to unFollow, Try Again', isFailure: true);
+        emit(FailureRemoveFollowToFireStoreState());
+      }
     });
-  }
-
-  Future<void> _sendFollowingToFireStore(String id) async {
-    await FireStoreServices.fireStore
-        .collection('users')
-        .doc(uId)
-        .collection('following')
-        .doc(id)
-        .set({
-      'displayName': userName,
-      'imageUrl': imageUrl,
-    });
-
-    AppFcmActions.sendFollowNotification(id);
   }
 }
