@@ -20,6 +20,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
   String imageUrl = '';
   String followButtonText = 'follow';
   Color followButtonColor = Colors.indigo;
+  bool isFollowU = false;
 
   Future<void> getUserData(String id) async {
     emit(LoadingGetProfileScreenDataState());
@@ -119,5 +120,11 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
         emit(FailureRemoveFollowToFireStoreState());
       }
     });
+  }
+
+  Future<void> checkIfThisProfileFollowCurrentUser(String id) async {
+    isFollowU =
+        await ProfileScreenFireStore.checkIfThisProfileFollowCurrentUser(id);
+    emit(CheckIfThisProfileFollowCurrentUser());
   }
 }

@@ -45,59 +45,44 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
                         onPanEnd: (de) {
                           model.leaveScreenWhenMenuMoving(context);
                         },
-                        child: TweenAnimationBuilder(
-                            tween: Tween<double>(begin: 0, end: 1),
-                            duration: const Duration(milliseconds: 1000),
-                            builder: (_, value, ___) {
-                              return Opacity(
-                                opacity: value,
-                                child: Stack(
-                                  children: [
-                                    TweenAnimationBuilder(
-                                        tween: Tween<double>(
-                                            begin: model.customMenuAppManger
-                                                .tweenBeginScale,
-                                            end: model.customMenuAppManger
-                                                .tweenEndScale),
-                                        duration:
-                                            const Duration(milliseconds: 150),
-                                        builder: (_, value, ___) {
-                                          return Transform.scale(
-                                              scale: (1 - value),
-                                              child: RefreshIndicator(
-                                                onRefresh: () async {
-                                                  homeScreenCubit
-                                                      .clearHomeScreenData();
-                                                  homeScreenCubit.getData(
-                                                      uId!, context);
-                                                },
-                                                child: homeScreenCubit
-                                                        .homeMenuPages[
-                                                    homeScreenCubit
-                                                        .currentPage],
-                                              ));
-                                        }),
-                                    HomeScreenMenuStructure(
-                                      tBeginColor: model
-                                          .customMenuAppManger.tweenBeginColor,
-                                      tEndColor: model
-                                          .customMenuAppManger.tweenEndColor,
-                                      normalizedXPosition: model
-                                          .customMenuAppManger
-                                          .normalizedXPosition,
-                                      xPosition:
-                                          model.customMenuAppManger.xPosition,
-                                      onTapBlackBackGround: () {
-                                        setState(() {
-                                          model.customMenuAppManger
-                                              .closeMenu(context);
-                                        });
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
+                        child: Stack(
+                          children: [
+                            TweenAnimationBuilder(
+                                tween: Tween<double>(
+                                    begin: model
+                                        .customMenuAppManger.tweenBeginScale,
+                                    end: model
+                                        .customMenuAppManger.tweenEndScale),
+                                duration: const Duration(milliseconds: 150),
+                                builder: (_, value, ___) {
+                                  return Transform.scale(
+                                      scale: (1 - value),
+                                      child: RefreshIndicator(
+                                        onRefresh: () async {
+                                          homeScreenCubit.clearHomeScreenData();
+                                          homeScreenCubit.getData(
+                                              uId!, context);
+                                        },
+                                        child: homeScreenCubit.homeMenuPages[
+                                            homeScreenCubit.currentPage],
+                                      ));
+                                }),
+                            HomeScreenMenuStructure(
+                              tBeginColor:
+                                  model.customMenuAppManger.tweenBeginColor,
+                              tEndColor:
+                                  model.customMenuAppManger.tweenEndColor,
+                              normalizedXPosition:
+                                  model.customMenuAppManger.normalizedXPosition,
+                              xPosition: model.customMenuAppManger.xPosition,
+                              onTapBlackBackGround: () {
+                                setState(() {
+                                  model.customMenuAppManger.closeMenu(context);
+                                });
+                              },
+                            ),
+                          ],
+                        ),
                       );
                     },
                   ),

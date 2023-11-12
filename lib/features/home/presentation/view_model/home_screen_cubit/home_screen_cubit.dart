@@ -47,7 +47,6 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
     // so when wifi is off or mobile data it will not request to get data from fireStore.
     // 2- second and third part of condition when open home screen more than once and creating its bloc
     // not request data again until user scroll up screen to refresh data
-
     if (LocatorManager.locator<AppMainScreenCubit>()
                 .internetConnection
                 .connectionStatus

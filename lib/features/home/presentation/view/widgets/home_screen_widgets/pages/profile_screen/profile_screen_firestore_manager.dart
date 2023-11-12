@@ -52,4 +52,16 @@ class ProfileScreenFireStore {
 
     return doc.exists;
   }
+
+  static Future<bool> checkIfThisProfileFollowCurrentUser(
+      String profileUId) async {
+    var doc = await FireStoreServices.fireStore
+        .collection('users')
+        .doc(profileUId)
+        .collection('following')
+        .doc(uId)
+        .get();
+
+    return doc.exists;
+  }
 }
