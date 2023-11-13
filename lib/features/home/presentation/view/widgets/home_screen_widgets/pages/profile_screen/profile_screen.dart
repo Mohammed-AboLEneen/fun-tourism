@@ -5,6 +5,7 @@ import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/cores/utils/routers.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_follower_item.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/profile_cubit/profile_cubit.dart';
 import 'package:go_router/go_router.dart';
@@ -43,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               SizedBox(
-                                height: context.height * .37,
+                                height: context.height * .38,
                                 child: Stack(
                                   children: [
                                     Container(
@@ -89,18 +90,25 @@ class ProfileScreen extends StatelessWidget {
                                         alignment: Alignment.bottomLeft,
                                         child: Container(
                                           margin: EdgeInsets.only(left: 7.w),
-                                          decoration: const BoxDecoration(
-                                              color: Colors.grey,
-                                              borderRadius: BorderRadius.only(
+                                          decoration: BoxDecoration(
+                                              color:
+                                                  Colors.cyan.withLightness(.4),
+                                              borderRadius:
+                                                  const BorderRadius.only(
                                                 topLeft: Radius.circular(10),
                                                 bottomRight:
                                                     Radius.circular(10),
                                               )),
                                           child: Padding(
-                                            padding: EdgeInsets.all(5.0.h),
+                                            padding: EdgeInsets.all(5.0.w),
                                             child: Text(
                                               'He Is Follow U',
-                                              style: GoogleFonts.aBeeZee(),
+                                              style: GoogleFonts.aBeeZee()
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.white
+                                                          .withLightness(.2)),
                                             ),
                                           ),
                                         ),
@@ -193,61 +201,30 @@ class ProfileScreen extends StatelessWidget {
                                 height: 10,
                               ),
                               SizedBox(
-                                height: context.height * .19,
+                                height: context.height * .23,
                                 child: ListView.builder(
                                   padding: EdgeInsets.zero,
-                                  itemBuilder: (context, index) => Padding(
-                                    padding: EdgeInsets.only(left: 15.0.w),
-                                    child: GestureDetector(
-                                      onTap: () {
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) => FollowerItem(
+                                    name: profileScreenCubit
+                                        .followers[index].name,
+                                    imageUrl: profileScreenCubit
+                                        .followers[index].imageUrl,
+                                    ontap: () {
+                                      if (profileScreenCubit
+                                              .followers[index].uId !=
+                                          uId) {
                                         context.go(
                                             RoutersClass
                                                 .fromMainAppScreenToProfileScreen,
                                             extra: profileScreenCubit
                                                 .followers[index].uId);
-                                      },
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                              profileScreenCubit
-                                                      .followers[index]
-                                                      .imageUrl ??
-                                                  '',
-                                            ),
-                                            radius: context.width * .11,
-                                          ),
-                                          SizedBox(
-                                            height: 5.h,
-                                          ),
-                                          SizedBox(
-                                            width: context.width * .23,
-                                            child: Text(
-                                              profileScreenCubit
-                                                      .followers[index].name ??
-                                                  '',
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: GoogleFonts.abel()
-                                                  .copyWith(
-                                                      fontSize: 18.sp,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                      }
+                                    },
                                   ),
                                   itemCount:
                                       profileScreenCubit.followers.length,
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 20,
                               ),
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20.0),

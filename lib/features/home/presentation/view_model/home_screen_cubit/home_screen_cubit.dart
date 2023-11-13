@@ -120,6 +120,9 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       emit(GetHomeScreenDataSuccessState());
     } on SocketException {
       showToast(msg: 'There Is An Network Error, Try Again', isFailure: true);
+      LocatorManager.locator<AppMainScreenCubit>()
+          .internetConnection
+          .connectionStatus;
       emit(GetUserDataFailureState('Failed To Connect To The Network'));
     } catch (e) {
       if (kDebugMode) {

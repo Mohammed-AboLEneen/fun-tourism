@@ -36,12 +36,12 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
   Widget build(BuildContext context) {
     return BlocConsumer<AppMainScreenCubit, AppMainScreenStates>(
       builder: (context, state) {
+        AppMainScreenCubit appMainScreenCubit = AppMainScreenCubit.get(context);
         return Scaffold(
           backgroundColor: Colors.white.withLightness(.94),
           body: Stack(
             children: [
-              LocatorManager.locator<AppMainScreenCubit>().screens[
-                  LocatorManager.locator<AppMainScreenCubit>().currentIndex],
+              appMainScreenCubit.screens[appMainScreenCubit.currentIndex],
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
                 child: Align(
@@ -62,15 +62,12 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) =>
                                 CustomBottomNavigationBarItem(
-                                  icon: LocatorManager.locator<
-                                          AppMainScreenCubit>()
+                                  icon: appMainScreenCubit
                                       .bottomNavigationBarIcons[index],
                                   index: index,
-                                  currentIndex: LocatorManager.locator<
-                                          AppMainScreenCubit>()
-                                      .currentIndex,
+                                  currentIndex: appMainScreenCubit.currentIndex,
                                   onTap: () {
-                                    LocatorManager.locator<AppMainScreenCubit>()
+                                    appMainScreenCubit
                                         .changeNavigationBar(index);
                                   },
                                 ),
