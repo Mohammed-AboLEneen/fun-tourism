@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/cores/methods/navigate_pageview.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/methods/auth_container_size.dart';
-import 'package:fun_adventure/features/authentication/presentation/view/utils/auth_icon_info.dart';
+import 'package:fun_adventure/features/authentication/presentation/view/widgets/auth_icon_info.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/custom_button.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/login_page.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/register_page.dart';

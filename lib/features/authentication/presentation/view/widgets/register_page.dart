@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../cores/methods/toast.dart';
+import '../../../../../cores/utils/custom_textformfield_underline.dart';
 import '../../../../../cores/utils/routers.dart';
 import '../../view_model/register_cubit/register_cubit.dart';
 import '../../view_model/register_cubit/register_states.dart';
-import 'custom_textformfield.dart';
 
 class RegisterPage extends StatefulWidget {
   final GlobalKey fromKey;
@@ -47,7 +47,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               fontWeight: FontWeight.bold,
                               color: Colors.white.withOpacity(1)),
                         ),
-                        CustomTextField(
+                        CustomTextFieldUnderline(
                           hint: 'Last Mame',
                           onChanged: (value) {
                             registerCubit.name = value;
@@ -59,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        CustomTextField(
+                        CustomTextFieldUnderline(
                           hint: 'Phone',
                           onChanged: (value) {
                             registerCubit.phone = value;
@@ -71,7 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        CustomTextField(
+                        CustomTextFieldUnderline(
                           hint: 'Email',
                           onChanged: (value) {
                             registerCubit.emailAddress = value;
@@ -83,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        CustomTextField(
+                        CustomTextFieldUnderline(
                           hint: 'Password',
                           onChanged: (value) {
                             registerCubit.accountPassword = value;

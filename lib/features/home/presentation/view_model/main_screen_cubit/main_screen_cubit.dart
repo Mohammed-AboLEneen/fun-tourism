@@ -9,6 +9,7 @@ import '../../../../../cores/models/user_app_data/user_app_data.dart';
 import '../../../../../cores/utils/get_location.dart';
 import '../../../../../cores/utils/internet_connection.dart';
 import '../../view/home_screen.dart';
+import '../../view/widgets/add_travel_screen.dart';
 import '../../view/widgets/chats_screen_widgets/chat_screen_widget.dart';
 import 'main_screen_states.dart';
 
@@ -27,7 +28,7 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     const HomeScreen(),
     const ChatScreenWidget(),
     const HomeScreen(),
-    const HomeScreen(),
+    const AddTravelScreen()
   ];
 
   void listenInternetConnectionState() {

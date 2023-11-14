@@ -11,11 +11,11 @@ import 'package:fun_adventure/cores/utils/routers.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../constants.dart';
+import '../../../../../cores/utils/custom_textformfield_underline.dart';
 import '../../../../../cores/utils/sheard_preferance_helper.dart';
 import '../../view_model/login_cubit/login_cubit.dart';
 import '../../view_model/login_cubit/login_states.dart';
 import '../methods/add_user_data.dart';
-import 'custom_textformfield.dart';
 
 class LoginPage extends StatefulWidget {
   final PageController pageController;
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                               fontWeight: FontWeight.bold,
                               color: Colors.white.withOpacity(1)),
                         ),
-                        CustomTextField(
+                        CustomTextFieldUnderline(
                           hint: 'Email',
                           onChanged: (value) {
                             loginCubit.putEmailAddress = value;
@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 30,
                         ),
-                        CustomTextField(
+                        CustomTextFieldUnderline(
                           hint: 'Password',
                           onChanged: (value) {
                             print(value);
