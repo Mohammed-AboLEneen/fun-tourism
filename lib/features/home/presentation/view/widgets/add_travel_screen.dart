@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_adventure/cores/utils/custom_textfield_rounded_border.dart';
 import 'package:fun_adventure/cores/utils/custom_textformfield_underline.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/custom_textbutton.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../../cores/methods/show_date_picker.dart';
 
 class AddTravelScreen extends StatefulWidget {
   const AddTravelScreen({super.key});
@@ -14,8 +18,15 @@ class AddTravelScreen extends StatefulWidget {
 
 class _AddTravelScreenState extends State<AddTravelScreen> {
   late DateTime date;
-  TextEditingController fromDateController = TextEditingController();
-  TextEditingController toDateController = TextEditingController();
+
+  final TextEditingController travelNameController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
+  final TextEditingController fromDateController = TextEditingController();
+  final TextEditingController toDateController = TextEditingController();
+  final TextEditingController durationController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController placesController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
 
   @override
   void initState() {
@@ -24,24 +35,10 @@ class _AddTravelScreenState extends State<AddTravelScreen> {
   }
 
   Future<void> _selectDate(BuildContext context, {DateTime? dateX}) async {
-    final DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: dateX ?? DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2100),
-        builder: (context, child) {
-          return Theme(
-              data: ThemeData.light().copyWith(
-                primaryColor: Colors.red, // Change OK button color
-                hintColor: Colors.green, // Change Cancel button color
-              ),
-              child: child!);
-        });
+    var x = await showDatePickerMethod(context, dateX: dateX);
 
-    if (pickedDate != null && pickedDate != date) {
-      setState(() {
-        date = pickedDate;
-      });
+    if (x != null) {
+      date = x;
     }
   }
 
@@ -55,91 +52,167 @@ class _AddTravelScreenState extends State<AddTravelScreen> {
           ),
         ),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                width: context.width,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    elevation: 2.5,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Fill This Fields :',
-                            style:
-                                GoogleFonts.aBeeZee().copyWith(fontSize: 20.sp),
-                          ),
-                          SizedBox(
-                            height: 30.h,
-                          ),
-                          SizedBox(
-                            height: context.height * .1,
-                            child: const CustomTextFieldUnderline(
+          child: SizedBox(
+            height: context.height * .9,
+            child: Column(
+              children: [
+                SizedBox(
+                  width: context.width,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      elevation: 2.5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Fill This Fields :',
+                              style: GoogleFonts.aBeeZee()
+                                  .copyWith(fontSize: 20.sp),
+                            ),
+                            SizedBox(
+                              height: 30.h,
+                            ),
+                            CustomTextFieldUnderline(
                               hint: 'Travel Name',
-                              icon: Icon(Icons.note_alt),
+                              icon: const Icon(Icons.note_alt),
                               textColor: Colors.black,
                               borderColor: Colors.black,
+                              controller: travelNameController,
                             ),
-                          ),
-                          SizedBox(
-                            height: 20.h,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10.0.w),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  height: context.height * .1,
-                                  width: context.width * .4,
-                                  child: CustomTextFieldUnderline(
-                                      hint: 'From',
+                            SizedBox(
+                              height: 15.h,
+                            ),
+                            CustomTextFieldUnderline(
+                              hint: 'Location',
+                              icon: const Icon(Icons.location_on),
+                              textColor: Colors.black,
+                              borderColor: Colors.black,
+                              controller: locationController,
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.0.w),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    height: context.height * .1,
+                                    width: context.width * .4,
+                                    child: CustomTextFieldUnderline(
+                                        hint: 'From',
+                                        icon: const Icon(Icons.timelapse),
+                                        textColor: Colors.black,
+                                        borderColor: Colors.black,
+                                        keyboardType: TextInputType.none,
+                                        controller: fromDateController,
+                                        onTap: () async {
+                                          if (fromDateController
+                                              .text.isNotEmpty) {
+                                            toDateController.text = '';
+                                          }
+
+                                          await _selectDate(context,
+                                              dateX: date);
+                                          fromDateController.text =
+                                              DateFormat('yyyy-MM-dd')
+                                                  .format(date);
+                                        }),
+                                  ),
+                                  const Spacer(),
+                                  SizedBox(
+                                    height: context.height * .1,
+                                    width: context.width * .4,
+                                    child: CustomTextFieldUnderline(
+                                      hint: 'To',
                                       icon: const Icon(Icons.timelapse),
                                       textColor: Colors.black,
                                       borderColor: Colors.black,
-                                      controller: fromDateController,
+                                      controller: toDateController,
+                                      keyboardType: TextInputType.none,
                                       onTap: () async {
-                                        await _selectDate(context, dateX: date);
-                                        fromDateController.text =
+                                        await _selectDate(context,
+                                            dateX: DateTime.parse(
+                                                fromDateController.text));
+                                        toDateController.text =
                                             DateFormat('yyyy-MM-dd')
                                                 .format(date);
-                                      }),
-                                ),
-                                const Spacer(),
-                                SizedBox(
-                                  height: context.height * .1,
-                                  width: context.width * .4,
-                                  child: CustomTextFieldUnderline(
-                                    hint: 'To',
-                                    icon: const Icon(Icons.timelapse),
-                                    textColor: Colors.black,
-                                    borderColor: Colors.black,
-                                    controller: toDateController,
-                                    onTap: () async {
-                                      await _selectDate(context,
-                                          dateX: DateTime.parse(
-                                              fromDateController.text));
-                                      toDateController.text =
-                                          DateFormat('yyyy-MM-dd').format(date);
-                                    },
-                                  ),
-                                )
-                              ],
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                          )
-                        ],
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.0.w),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    height: context.height * .1,
+                                    width: context.width * .45,
+                                    child: CustomTextFieldUnderline(
+                                      hint: 'Duration',
+                                      icon: const Icon(Icons.timelapse),
+                                      textColor: Colors.black,
+                                      borderColor: Colors.black,
+                                      controller: durationController,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  SizedBox(
+                                    height: context.height * .1,
+                                    width: context.width * .33,
+                                    child: CustomTextFieldUnderline(
+                                      hint: 'Price',
+                                      icon: const Icon(Icons.timelapse),
+                                      textColor: Colors.black,
+                                      borderColor: Colors.black,
+                                      controller: priceController,
+                                      keyboardType: TextInputType.number,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            CustomTextFieldRoundedBorder(
+                              hint: 'Description',
+                              icon: const Icon(Icons.description_outlined),
+                              textColor: Colors.black,
+                              borderColor: Colors.black,
+                              controller: descriptionController,
+                              maxLines: 4,
+                              minLines: 1,
+                              textInputAction: TextInputAction.newline,
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: CustomTextButton(
+                                  text: 'Add Travel',
+                                  textSize: 20.sp,
+                                  buttonColor: Colors.indigo,
+                                  topLeft: const Radius.circular(15),
+                                  bottomLeft: const Radius.circular(15),
+                                  bottomRight: const Radius.circular(15),
+                                  topRight: const Radius.circular(5),
+                                  onPressed: () {}),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: context.height * .1,
-              )
-            ],
+              ],
+            ),
           ),
         ));
   }

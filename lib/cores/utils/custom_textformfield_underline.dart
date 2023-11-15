@@ -9,6 +9,7 @@ class CustomTextFieldUnderline extends StatelessWidget {
   final Color? borderColor;
   final void Function(String)? onChanged;
   final TextEditingController? controller;
+  final TextInputType? keyboardType;
   final void Function()? onTap;
 
   const CustomTextFieldUnderline(
@@ -20,7 +21,8 @@ class CustomTextFieldUnderline extends StatelessWidget {
       this.textColor,
       this.borderColor,
       this.controller,
-      this.onTap});
+      this.onTap,
+      this.keyboardType});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class CustomTextFieldUnderline extends StatelessWidget {
         textInputAction: TextInputAction.next,
         controller: controller,
         onTap: onTap,
+        keyboardType: keyboardType,
         textAlignVertical: TextAlignVertical.top,
         cursorColor: Colors.grey,
         onChanged: onChanged,

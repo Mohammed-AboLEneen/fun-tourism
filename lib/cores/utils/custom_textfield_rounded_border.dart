@@ -8,6 +8,9 @@ class CustomTextFieldRoundedBorder extends StatelessWidget {
   final Icon? icon;
   final Color? textColor;
   final Color? borderColor;
+  final int? maxLines;
+  final int? minLines;
+  final TextInputAction? textInputAction;
   final void Function(String)? onChanged;
   final TextEditingController? controller;
 
@@ -20,15 +23,20 @@ class CustomTextFieldRoundedBorder extends StatelessWidget {
       this.textColor,
       this.borderColor,
       this.controller,
-      this.onTap});
+      this.onTap,
+      this.maxLines,
+      this.minLines,
+      this.textInputAction});
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return TextFormField(
-        textInputAction: TextInputAction.next,
+        textInputAction: textInputAction ?? TextInputAction.next,
         onTap: onTap,
         controller: controller,
+        maxLines: maxLines,
+        minLines: minLines,
         textAlignVertical: TextAlignVertical.top,
         cursorColor: Colors.grey,
         onChanged: onChanged,
@@ -46,6 +54,11 @@ class CustomTextFieldRoundedBorder extends StatelessWidget {
           hintText: hint,
           errorStyle:
               TextStyle(color: textColor ?? Colors.white.withOpacity(.7)),
+          border: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: borderColor ?? Colors.white.withOpacity(.7),
+              ),
+              borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: borderColor ?? Colors.white.withOpacity(.7),

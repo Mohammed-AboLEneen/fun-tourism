@@ -39,6 +39,7 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
         AppMainScreenCubit appMainScreenCubit = AppMainScreenCubit.get(context);
         return Scaffold(
           backgroundColor: Colors.white.withLightness(.94),
+          resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
               appMainScreenCubit.screens[appMainScreenCubit.currentIndex],
