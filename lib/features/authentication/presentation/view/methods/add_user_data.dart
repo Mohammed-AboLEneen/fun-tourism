@@ -24,6 +24,8 @@ Future<void> addNewUserInFireStore(
 
     context.go(RoutersClass.mainAppScreenPath);
   } catch (e) {
-    showToast(msg: 'There is an error, sign in again.', isFailure: true);
+    showToast(
+        msg: 'There is an error, sign in again.',
+        toastMessageType: ToastMessageType.failureMessage);
   }
 }

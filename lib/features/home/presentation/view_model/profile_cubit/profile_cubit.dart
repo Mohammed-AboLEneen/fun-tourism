@@ -94,7 +94,9 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
         sendFollowDataToFireStore(id);
       }
     } else {
-      showToast(msg: 'No Internet Connection', isFailure: true);
+      showToast(
+          msg: 'No Internet Connection',
+          toastMessageType: ToastMessageType.failureMessage);
     }
   }
 
@@ -107,14 +109,17 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
       followButtonText = 'unFollow';
       followButtonColor = Colors.grey;
 
-      showToast(msg: 'Follow', isFailure: false);
+      showToast(
+          msg: 'Follow', toastMessageType: ToastMessageType.successMessage);
       emit(SuccessSendFollowToFireStoreState());
     }).catchError((error) {
       if (kDebugMode) {
         print(error.toString());
         followButtonText = 'Follow';
         followButtonColor = Colors.indigo;
-        showToast(msg: 'Fail to Follow, Try Again', isFailure: true);
+        showToast(
+            msg: 'Fail to Follow, Try Again',
+            toastMessageType: ToastMessageType.failureMessage);
         emit(FailureSendFollowToFireStoreState());
       }
     });
@@ -131,14 +136,17 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
       );
       followButtonText = 'Follow';
       followButtonColor = Colors.indigo;
-      showToast(msg: 'unFollow', isFailure: false);
+      showToast(
+          msg: 'unFollow', toastMessageType: ToastMessageType.successMessage);
       emit(SuccessRemoveFollowToFireStoreState());
     }).catchError((error) {
       if (kDebugMode) {
         print(error.toString());
         followButtonText = 'unFollow';
         followButtonColor = Colors.grey;
-        showToast(msg: 'Fail to unFollow, Try Again', isFailure: true);
+        showToast(
+            msg: 'Fail to unFollow, Try Again',
+            toastMessageType: ToastMessageType.failureMessage);
         emit(FailureRemoveFollowToFireStoreState());
       }
     });

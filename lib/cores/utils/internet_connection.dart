@@ -25,8 +25,7 @@ class InternetConnectionState {
       return;
     }
 
-    LocatorManager
-        .locator<AppMainScreenCubit>()
+    LocatorManager.locator<AppMainScreenCubit>()
         .internetConnection
         .finishedInit = true;
 
@@ -35,13 +34,15 @@ class InternetConnectionState {
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     String temp = connectionStatus.name;
-    LocatorManager
-        .locator<AppMainScreenCubit>()
+    LocatorManager.locator<AppMainScreenCubit>()
         .internetConnection
         .connectionStatus = result;
 
     if (temp == 'none' && (result.name == 'wifi' || result.name == 'mobile')) {
-      showToast(msg: 'Refresh ...', isFailure: false);
+      showToast(
+        msg: 'Refresh ...',
+        toastMessageType: ToastMessageType.successMessage,
+      );
     }
 
     LocatorManager.locator<AppMainScreenCubit>()

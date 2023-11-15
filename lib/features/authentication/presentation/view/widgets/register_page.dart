@@ -102,10 +102,14 @@ class _RegisterPageState extends State<RegisterPage> {
       },
       listener: (context, state) {
         if (state is RegisterSuccessState) {
-          showToast(msg: 'verify your email', isFailure: false);
+          showToast(
+              msg: 'verify your email',
+              toastMessageType: ToastMessageType.waitingMessage);
           context.go(RoutersClass.fromAuthScreenToEmailVerificationScreen);
         } else if (state is RegisterFailureState) {
-          showToast(msg: state.message, isFailure: true);
+          showToast(
+              msg: state.message,
+              toastMessageType: ToastMessageType.failureMessage);
         }
       },
     );

@@ -58,7 +58,9 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       getUserData(uId);
       getHomeScreen();
     } else {
-      showToast(msg: 'Please turn on wifi or mobile data', isFailure: true);
+      showToast(
+          msg: 'Please turn on wifi or mobile data',
+          toastMessageType: ToastMessageType.failureMessage);
     }
   }
 
@@ -119,7 +121,9 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
 
       emit(GetHomeScreenDataSuccessState());
     } on SocketException {
-      showToast(msg: 'There Is An Network Error, Try Again', isFailure: true);
+      showToast(
+          msg: 'There Is An Network Error, Try Again',
+          toastMessageType: ToastMessageType.failureMessage);
       LocatorManager.locator<AppMainScreenCubit>()
           .internetConnection
           .connectionStatus;

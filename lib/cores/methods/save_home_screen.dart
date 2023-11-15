@@ -27,7 +27,9 @@ Future<void> saveHomeScreenData(
     box1.close();
     box2.close();
   } catch (e, s) {
-    showToast(msg: 'Something wrong while saving data', isFailure: true);
+    showToast(
+        msg: 'Something wrong while saving data',
+        toastMessageType: ToastMessageType.failureMessage);
     if (kDebugMode) {
       print(e.toString());
     }

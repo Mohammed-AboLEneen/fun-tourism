@@ -226,7 +226,9 @@ class _LoginPageState extends State<LoginPage> {
             }
           }
         } else if (state is LoginFailureState) {
-          showToast(msg: state.message, isFailure: true);
+          showToast(
+              msg: state.message,
+              toastMessageType: ToastMessageType.failureMessage);
         }
       },
     );
@@ -249,6 +251,8 @@ void checkIsThisNewUser({
     if (!context.mounted) return;
     context.go(RoutersClass.mainAppScreenPath);
   } else {
-    showToast(msg: 'Something is wrong, try again.', isFailure: true);
+    showToast(
+        msg: 'Something is wrong, try again.',
+        toastMessageType: ToastMessageType.failureMessage);
   }
 }
