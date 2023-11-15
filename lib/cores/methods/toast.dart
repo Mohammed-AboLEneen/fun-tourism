@@ -14,7 +14,7 @@ void showToast(
   late Color bgColor;
   if (toastMessageType == ToastMessageType.successMessage) {
     bgColor = Colors.green;
-  } else if (toastMessageType == ToastMessageType.successMessage) {
+  } else if (toastMessageType == ToastMessageType.failureMessage) {
     bgColor = Colors.red;
   } else {
     bgColor = Colors.yellow.withLightness(.5);

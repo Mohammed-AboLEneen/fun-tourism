@@ -58,181 +58,177 @@ class _AddTravelScreenState extends State<AddTravelScreen> {
             style: GoogleFonts.akayaKanadaka(),
           ),
         ),
-        body: SizedBox(
-          height: context.height * .8,
-          child: SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: context.width,
+        body: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              SizedBox(
+                width: context.width,
+                height: context.height * .75,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    elevation: 2.5,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Card(
-                        elevation: 2.5,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Fill This Fields :',
-                                style: GoogleFonts.aBeeZee()
-                                    .copyWith(fontSize: 20.sp),
-                              ),
-                              SizedBox(
-                                height: 30.h,
-                              ),
-                              CustomTextFieldUnderline(
-                                hint: 'Travel Name',
-                                icon: const Icon(Icons.note_alt),
-                                textColor: Colors.black,
-                                borderColor: Colors.black,
-                                controller: travelNameController,
-                              ),
-                              SizedBox(
-                                height: 15.h,
-                              ),
-                              CustomTextFieldUnderline(
-                                hint: 'Location',
-                                icon: const Icon(Icons.location_on),
-                                textColor: Colors.black,
-                                borderColor: Colors.black,
-                                controller: locationController,
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 10.0.w),
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      height: context.height * .1,
-                                      width: context.width * .4,
-                                      child: CustomTextFieldUnderline(
-                                          hint: 'From',
-                                          icon: const Icon(Icons.timelapse),
-                                          textColor: Colors.black,
-                                          borderColor: Colors.black,
-                                          keyboardType: TextInputType.none,
-                                          controller: fromDateController,
-                                          onTap: () async {
-                                            if (fromDateController
-                                                .text.isNotEmpty) {
-                                              toDateController.text = '';
-                                            }
-
-                                            await _selectDate(context,
-                                                dateX: date);
-                                            fromDateController.text =
-                                                DateFormat('yyyy-MM-dd')
-                                                    .format(date);
-                                          }),
-                                    ),
-                                    const Spacer(),
-                                    SizedBox(
-                                      height: context.height * .1,
-                                      width: context.width * .4,
-                                      child: CustomTextFieldUnderline(
-                                        hint: 'To',
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Fill This Fields :',
+                              style: GoogleFonts.aBeeZee()
+                                  .copyWith(fontSize: 20.sp),
+                            ),
+                            SizedBox(
+                              height: 15.h,
+                            ),
+                            CustomTextFieldUnderline(
+                              hint: 'Travel Name',
+                              icon: const Icon(Icons.note_alt),
+                              textColor: Colors.black,
+                              borderColor: Colors.black,
+                              controller: travelNameController,
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            CustomTextFieldUnderline(
+                              hint: 'Location',
+                              icon: const Icon(Icons.location_on),
+                              textColor: Colors.black,
+                              borderColor: Colors.black,
+                              controller: locationController,
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.0.w),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    height: context.height * .1,
+                                    width: context.width * .4,
+                                    child: CustomTextFieldUnderline(
+                                        hint: 'From',
                                         icon: const Icon(Icons.timelapse),
                                         textColor: Colors.black,
                                         borderColor: Colors.black,
-                                        controller: toDateController,
                                         keyboardType: TextInputType.none,
+                                        controller: fromDateController,
                                         onTap: () async {
+                                          if (fromDateController
+                                              .text.isNotEmpty) {
+                                            toDateController.text = '';
+                                          }
+
                                           await _selectDate(context,
-                                              dateX: DateTime.parse(
-                                                  fromDateController.text));
-                                          toDateController.text =
+                                              dateX: date);
+                                          fromDateController.text =
                                               DateFormat('yyyy-MM-dd')
                                                   .format(date);
-                                        },
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 10.0.w),
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      height: context.height * .1,
-                                      width: context.width * .45,
-                                      child: CustomTextFieldUnderline(
-                                        hint: 'Duration',
-                                        icon: const Icon(Icons.timelapse),
-                                        textColor: Colors.black,
-                                        borderColor: Colors.black,
-                                        controller: durationController,
-                                      ),
+                                        }),
+                                  ),
+                                  const Spacer(),
+                                  SizedBox(
+                                    height: context.height * .1,
+                                    width: context.width * .4,
+                                    child: CustomTextFieldUnderline(
+                                      hint: 'To',
+                                      icon: const Icon(Icons.timelapse),
+                                      textColor: Colors.black,
+                                      borderColor: Colors.black,
+                                      controller: toDateController,
+                                      keyboardType: TextInputType.none,
+                                      onTap: () async {
+                                        await _selectDate(context,
+                                            dateX: DateTime.parse(
+                                                fromDateController.text));
+                                        toDateController.text =
+                                            DateFormat('yyyy-MM-dd')
+                                                .format(date);
+                                      },
                                     ),
-                                    const Spacer(),
-                                    SizedBox(
-                                      height: context.height * .1,
-                                      width: context.width * .33,
-                                      child: CustomTextFieldUnderline(
-                                        hint: 'Price',
-                                        icon: const Icon(Icons.timelapse),
-                                        textColor: Colors.black,
-                                        borderColor: Colors.black,
-                                        controller: priceController,
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                  )
+                                ],
                               ),
-                              SizedBox(
-                                height: 10.h,
+                            ),
+                            SizedBox(
+                              height: 15.h,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.0.w),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    height: context.height * .1,
+                                    width: context.width * .45,
+                                    child: CustomTextFieldUnderline(
+                                      hint: 'Duration',
+                                      icon: const Icon(Icons.timelapse),
+                                      textColor: Colors.black,
+                                      borderColor: Colors.black,
+                                      controller: durationController,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  SizedBox(
+                                    height: context.height * .1,
+                                    width: context.width * .33,
+                                    child: CustomTextFieldUnderline(
+                                      hint: 'Price',
+                                      icon: const Icon(Icons.timelapse),
+                                      textColor: Colors.black,
+                                      borderColor: Colors.black,
+                                      controller: priceController,
+                                      keyboardType: TextInputType.number,
+                                    ),
+                                  )
+                                ],
                               ),
-                              CustomTextFieldRoundedBorder(
-                                hint: 'Description',
-                                icon: const Icon(Icons.description_outlined),
-                                textColor: Colors.black,
-                                borderColor: Colors.black,
-                                controller: descriptionController,
-                                maxLines: 4,
-                                minLines: 1,
-                                textInputAction: TextInputAction.newline,
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              Align(
-                                alignment: Alignment.center,
-                                child: CustomTextButton(
-                                    text: 'Add Travel',
-                                    textSize: 20.sp,
-                                    buttonColor: Colors.indigo,
-                                    topLeft: const Radius.circular(15),
-                                    bottomLeft: const Radius.circular(15),
-                                    bottomRight: const Radius.circular(15),
-                                    topRight: const Radius.circular(5),
-                                    onPressed: () {
-                                      if (formKey.currentState?.validate() ??
-                                          false) {
-                                        addNewTravel();
-                                      } else {}
-                                    }),
-                              )
-                            ],
-                          ),
+                            ),
+                            SizedBox(
+                              height: 15.h,
+                            ),
+                            CustomTextFieldRoundedBorder(
+                              hint: 'Description',
+                              icon: const Icon(Icons.description_outlined),
+                              textColor: Colors.black,
+                              borderColor: Colors.black,
+                              controller: descriptionController,
+                              maxLines: 4,
+                              minLines: 1,
+                              textInputAction: TextInputAction.newline,
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: CustomTextButton(
+                                  text: 'Add Travel',
+                                  textSize: 20.sp,
+                                  buttonColor: Colors.indigo,
+                                  topLeft: const Radius.circular(15),
+                                  bottomLeft: const Radius.circular(15),
+                                  bottomRight: const Radius.circular(15),
+                                  topRight: const Radius.circular(5),
+                                  onPressed: () {
+                                    if (formKey.currentState?.validate() ??
+                                        false) {
+                                      addNewTravel();
+                                    } else {}
+                                  }),
+                            )
+                          ],
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: context.height * .1,
-                  )
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         ));
   }
