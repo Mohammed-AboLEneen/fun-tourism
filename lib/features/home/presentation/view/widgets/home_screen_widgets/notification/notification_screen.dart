@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fun_adventure/cores/models/notification_model.dart';
+import 'package:fun_adventure/cores/models/notification_model/notification_model.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';

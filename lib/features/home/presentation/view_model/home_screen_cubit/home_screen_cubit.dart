@@ -11,12 +11,14 @@ import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.d
 import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
 import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../constants.dart';
 import '../../../../../cores/methods/download_image.dart';
 import '../../../../../cores/utils/locator_manger.dart';
 import '../../view/widgets/home_page.dart';
 import '../../view/widgets/home_screen_widgets/pages/profile_screen/profile_screen.dart';
+import '../notifications_listener_provider/notification_listener_provider.dart';
 import 'home_screen_states.dart';
 
 class HomeScreenCubit extends Cubit<HomeScreenStates> {
@@ -28,26 +30,15 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
     const HomePage(),
     ProfileScreen(
       id: uId ?? '',
-
     )
   ];
-  int currentPage = 0;
 
   Future<void> blocOperations(String uId, BuildContext context) async {
-    if (LocatorManager
-        .locator<AppMainScreenCubit>()
-        .internetConnection
-        .connectionStatus
-        .name != 'none') {
-      getUserNotificationNumber(context);
-      await getUserLocation();
+    getUserNotificationNumber(context);
+    await getUserLocation();
 
-      if (!context.mounted) return;
-      getData(uId, context);
-    } else {
-      showToast(msg: 'Please Turn On Wifi Or Mobile Data',
-          toastMessageType: ToastMessageType.failureMessage);
-    }
+    if (!context.mounted) return;
+    getData(uId, context);
   }
 
   Future<void> getData(String uId, BuildContext context) async {
@@ -55,22 +46,12 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
     // so when wifi is off or mobile data it will not request to get data from fireStore.
     // 2- second and third part of condition when open home screen more than once and creating its bloc
     // not request data again until user scroll up screen to refresh data
-    if (
-    (LocatorManager
-        .locator<AppMainScreenCubit>()
-        .recentNews
-        .isEmpty &&
-        LocatorManager
-            .locator<AppMainScreenCubit>()
-            .hotTravels
-            .isEmpty)) {
-      getUserNotificationNumber(context);
+
+    getUserNotificationNumber(context);
+    if ((LocatorManager.locator<AppMainScreenCubit>().recentNews.isEmpty &&
+        LocatorManager.locator<AppMainScreenCubit>().hotTravels.isEmpty)) {
       getUserData(uId);
       getHomeScreen();
-    } else {
-      showToast(
-          msg: 'Please turn on wifi or mobile data',
-          toastMessageType: ToastMessageType.failureMessage);
     }
   }
 
@@ -79,7 +60,7 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
 
     try {
       DocumentSnapshot<Object?> data =
-      await FireStoreServices.getUserData(uId: uId);
+          await FireStoreServices.getUserData(uId: uId);
 
       LocatorManager.locator<AppMainScreenCubit>().setUserData(
           UserAppData.fromJson(data.data() as Map<String, dynamic>));
@@ -107,9 +88,9 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       emit(GetHomeScreenDataLoadingState());
 
       DocumentSnapshot<Object?> data1 =
-      await FireStoreServices.getHomeScreenData('last travels');
+          await FireStoreServices.getHomeScreenData('last travels');
       DocumentSnapshot<Object?> data2 =
-      await FireStoreServices.getHomeScreenData('recent news');
+          await FireStoreServices.getHomeScreenData('recent news');
 
       Map<String, dynamic> dataList1 = data1.data() as Map<String, dynamic>;
       Map<String, dynamic> dataList2 = data2.data() as Map<String, dynamic>;
@@ -134,8 +115,7 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       showToast(
           msg: 'There Is An Network Error, Try Again',
           toastMessageType: ToastMessageType.failureMessage);
-      LocatorManager
-          .locator<AppMainScreenCubit>()
+      LocatorManager.locator<AppMainScreenCubit>()
           .internetConnection
           .connectionStatus;
       emit(GetUserDataFailureState('Failed To Connect To The Network'));
@@ -148,13 +128,11 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
   }
 
   Future<void> getUserLocation() async {
-    if (LocatorManager
-        .locator<AppMainScreenCubit>()
+    if (LocatorManager.locator<AppMainScreenCubit>()
         .userLocation
         .locationName
         .isEmpty) {
-      await LocatorManager
-          .locator<AppMainScreenCubit>()
+      await LocatorManager.locator<AppMainScreenCubit>()
           .userLocation
           .getUserLocation();
       emit(GetTheUserLocationName());
@@ -162,19 +140,31 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
   }
 
   void clearHomeScreenData() {
-    LocatorManager
-        .locator<AppMainScreenCubit>()
-        .hotTravels
-        .clear();
-    LocatorManager
-        .locator<AppMainScreenCubit>()
-        .recentNews
-        .clear();
+    LocatorManager.locator<AppMainScreenCubit>().hotTravels.clear();
+    LocatorManager.locator<AppMainScreenCubit>().recentNews.clear();
   }
 
   Future<void> getUserNotificationNumber(BuildContext context) async {
+    try {
+      AggregateQuerySnapshot query = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uId)
+          .collection('notifications')
+          .count()
+          .get();
 
+      int notificationsNumber = query.count;
+      if (!context.mounted) return;
+      Provider.of<NotificationListenerProvider>(context, listen: false)
+          .setNotificationsNumber(notificationsNumber);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
   }
+
+  int currentPage = 0;
 
   void changeTheCurrentHomeScreenPage(int index) {
     if (currentPage == index) return;

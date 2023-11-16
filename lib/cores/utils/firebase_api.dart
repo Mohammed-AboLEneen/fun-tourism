@@ -1,7 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
-import '../models/notification_model.dart';
+import '../models/notification_model/notification_model.dart';
 import 'locator_manger.dart';
 import 'notification_services.dart';
 

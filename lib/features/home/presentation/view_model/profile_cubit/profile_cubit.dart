@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
-import 'package:fun_adventure/cores/models/friend_icon_model.dart';
+import 'package:fun_adventure/cores/models/follower_icon_model/follower_icon_model.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_firestore_manager.dart';
