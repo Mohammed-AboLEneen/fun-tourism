@@ -48,11 +48,11 @@ class TravelsCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Travel Price: ${hotTravelModel.price}\$',
+                        'Travel Price: ${hotTravelModel.travelBriefModel?.price}\$',
                         style: TextStyle(fontSize: h * .021),
                       ),
                       Text(
-                        'Available Places: ${hotTravelModel.availablePlaces}',
+                        'Available Places: ${hotTravelModel.travelBriefModel?.availablePlaces}',
                         style: TextStyle(fontSize: h * .021),
                       ),
                     ],

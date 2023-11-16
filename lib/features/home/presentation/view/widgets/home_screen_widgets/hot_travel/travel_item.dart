@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,8 +20,8 @@ class TravelItem extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Image.memory(
-              hotTravelModel.image ?? Uint8List(0),
+            child: Image.network(
+              hotTravelModel.travelBriefModel?.image ?? '',
               fit: BoxFit.cover,
               width: context.width,
               height: context.height * .3,
@@ -41,7 +39,7 @@ class TravelItem extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
-                  hotTravelModel.title ?? '-----',
+                  hotTravelModel.travelBriefModel?.title ?? '-----',
                   style: GoogleFonts.lobster(
                     fontSize: context.height * .028,
                     color: Colors.white,

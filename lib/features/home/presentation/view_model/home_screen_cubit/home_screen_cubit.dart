@@ -14,7 +14,6 @@ import 'package:fun_adventure/features/home/presentation/view_model/main_screen_
 import 'package:provider/provider.dart';
 
 import '../../../../../constants.dart';
-import '../../../../../cores/methods/download_image.dart';
 import '../../../../../cores/utils/locator_manger.dart';
 import '../../view/widgets/home_page.dart';
 import '../../view/widgets/home_screen_widgets/pages/profile_screen/profile_screen.dart';
@@ -96,12 +95,10 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       Map<String, dynamic> dataList2 = data2.data() as Map<String, dynamic>;
 
       for (Map<String, dynamic> element in dataList1.values.toList()) {
-        element['image'] = await downloadAndStoreImage(element['image']);
         hotTravels.add(HotTravelModel.fromJson(element));
       }
 
       for (Map<String, dynamic> element in dataList2.values.toList()) {
-        element['image'] = await downloadAndStoreImage(element['image']);
         recentNews.add(RecentNewsModel.fromJson(element));
       }
 

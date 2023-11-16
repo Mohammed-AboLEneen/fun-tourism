@@ -62,8 +62,8 @@ class _HotTravelScreenState extends State<HotTravelScreen>
                           borderRadius: const BorderRadius.only(
                             bottomRight: Radius.circular(20),
                           ),
-                          child: Image.memory(
-                            widget.hotTravelModel.image!,
+                          child: Image.network(
+                            widget.hotTravelModel.travelBriefModel?.image ?? '',
                             height: context.height * .34,
                             width: context.width,
                             fit: BoxFit.cover,
@@ -77,7 +77,8 @@ class _HotTravelScreenState extends State<HotTravelScreen>
                                 child: Align(
                                   alignment: Alignment.bottomCenter,
                                   child: HotTravelScreenInfo(
-                                    price: widget.hotTravelModel.price,
+                                    price: widget
+                                        .hotTravelModel.travelBriefModel?.price,
                                     time: widget.hotTravelModel.time,
                                     rate: widget.hotTravelModel.rating,
                                   ),
@@ -115,7 +116,9 @@ class _HotTravelScreenState extends State<HotTravelScreen>
                           },
                           children: [
                             expansionPanelItem(
-                                isOpened, widget.hotTravelModel.description)
+                                isOpened,
+                                widget.hotTravelModel.travelBriefModel
+                                    ?.description)
                           ],
                         ),
                         const SizedBox(
@@ -139,7 +142,8 @@ class _HotTravelScreenState extends State<HotTravelScreen>
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              widget.hotTravelModel.title ?? '-------',
+                              widget.hotTravelModel.travelBriefModel?.title ??
+                                  '-------',
                               style: GoogleFonts.abel().copyWith(
                                 color: Colors.white,
                                 fontSize: 17.sp,
