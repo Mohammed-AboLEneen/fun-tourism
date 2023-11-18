@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/add_travel_cubit/add_travel_states.dart';
 
 import '../../../../../constants.dart';
+import '../../../../../cores/utils/internet_connection.dart';
 import '../../../../../cores/utils/locator_manger.dart';
 import '../main_screen_cubit/main_screen_cubit.dart';
 
@@ -18,8 +19,7 @@ class AddTravelCubit extends Cubit<AddTravelStates> {
     required String price,
     required String description,
   }) async {
-    if (LocatorManager.locator<AppMainScreenCubit>()
-            .internetConnection
+    if (LocatorManager.locator<InternetConnectionState>()
             .connectionStatus
             .name !=
         'none') {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fun_adventure/cores/utils/internet_connection.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_states.dart';
@@ -21,13 +22,11 @@ class WaitingScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: SafeArea(
                 // if internet connection its init not done or the internet connection state is wifi or mobile data
-                child: (LocatorManager.locator<AppMainScreenCubit>()
-                                .internetConnection
+                child: (LocatorManager.locator<InternetConnectionState>()
                                 .connectionStatus
                                 .name !=
                             'none' ||
-                        LocatorManager.locator<AppMainScreenCubit>()
-                                .internetConnection
+                        LocatorManager.locator<InternetConnectionState>()
                                 .finishedInit ==
                             false)
                     ? CustomScrollView(

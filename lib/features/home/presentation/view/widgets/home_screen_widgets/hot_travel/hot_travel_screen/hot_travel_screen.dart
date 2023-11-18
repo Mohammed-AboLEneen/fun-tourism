@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
@@ -32,14 +34,12 @@ class _HotTravelScreenState extends State<HotTravelScreen>
     super.initState();
 
     initControllersAndAnimations();
-
     _controller1.forward();
   }
 
   @override
   void dispose() {
     _controller1.dispose();
-
     super.dispose();
   }
 
@@ -62,8 +62,9 @@ class _HotTravelScreenState extends State<HotTravelScreen>
                           borderRadius: const BorderRadius.only(
                             bottomRight: Radius.circular(20),
                           ),
-                          child: Image.network(
-                            widget.hotTravelModel.travelBriefModel?.image ?? '',
+                          child: Image.memory(
+                            widget.hotTravelModel.travelBriefModel?.image ??
+                                Uint8List(0),
                             height: context.height * .34,
                             width: context.width,
                             fit: BoxFit.cover,

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,8 +22,8 @@ class TravelItem extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Image.network(
-              hotTravelModel.travelBriefModel?.image ?? '',
+            child: Image.memory(
+              hotTravelModel.travelBriefModel?.image ?? Uint8List(0),
               fit: BoxFit.cover,
               width: context.width,
               height: context.height * .3,

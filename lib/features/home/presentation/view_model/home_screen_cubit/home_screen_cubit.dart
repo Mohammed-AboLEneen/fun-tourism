@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fun_adventure/cores/methods/download_image.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
 import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
 import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.dart';
@@ -14,6 +15,7 @@ import 'package:fun_adventure/features/home/presentation/view_model/main_screen_
 import 'package:provider/provider.dart';
 
 import '../../../../../constants.dart';
+import '../../../../../cores/utils/internet_connection.dart';
 import '../../../../../cores/utils/locator_manger.dart';
 import '../../view/widgets/home_page.dart';
 import '../../view/widgets/home_screen_widgets/pages/profile_screen/profile_screen.dart';
@@ -95,10 +97,13 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       Map<String, dynamic> dataList2 = data2.data() as Map<String, dynamic>;
 
       for (Map<String, dynamic> element in dataList1.values.toList()) {
+        element['brief']['image'] =
+            await downloadAndStoreImage(element['brief']['image']);
         hotTravels.add(HotTravelModel.fromJson(element));
       }
 
       for (Map<String, dynamic> element in dataList2.values.toList()) {
+        element['image'] = await downloadAndStoreImage(element['image']);
         recentNews.add(RecentNewsModel.fromJson(element));
       }
 
@@ -112,15 +117,14 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       showToast(
           msg: 'There Is An Network Error, Try Again',
           toastMessageType: ToastMessageType.failureMessage);
-      LocatorManager.locator<AppMainScreenCubit>()
-          .internetConnection
-          .connectionStatus;
-      emit(GetUserDataFailureState('Failed To Connect To The Network'));
+      LocatorManager.locator<InternetConnectionState>().connectionStatus;
+      emit(GetHomeScreenDataFailureState('Failed To Connect To The Network'));
     } catch (e) {
       if (kDebugMode) {
         print(e.toString());
       }
-      emit(GetUserDataFailureState('Something Is Wrong. Please Try Again'));
+      emit(GetHomeScreenDataFailureState(
+          'Something Is Wrong. Please Try Again'));
     }
   }
 

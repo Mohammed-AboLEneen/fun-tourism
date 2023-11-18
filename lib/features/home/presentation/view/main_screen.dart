@@ -5,6 +5,7 @@ import 'package:fun_adventure/features/home/presentation/view_model/main_screen_
 import 'package:provider/provider.dart';
 
 import '../../../../cores/utils/firebase_api.dart';
+import '../../../../cores/utils/internet_connection.dart';
 import '../../../../cores/utils/locator_manger.dart';
 import '../../../../cores/utils/notification_services.dart';
 import '../view_model/notifications_listener_provider/notification_listener_provider.dart';
@@ -23,6 +24,8 @@ class _AppMainScreenState extends State<AppMainScreen> {
     LocatorManager.locateFirebaseMessagingObject();
     NotificationService.initNotification(context);
     LocatorManager.locator<FirebaseApi>().initNotifications();
+    LocatorManager.locateInternetConnectionStatus();
+    LocatorManager.locator<InternetConnectionState>().initConnectivity();
   }
 
   @override
@@ -31,8 +34,7 @@ class _AppMainScreenState extends State<AppMainScreen> {
       create: (context) =>
           NotificationListenerProvider()..initNotificationsListener(context),
       child: BlocProvider(
-        create: (context) =>
-            AppMainScreenCubit()..internetConnection.initConnectivity(),
+        create: (context) => AppMainScreenCubit(),
         child: const AppMainScreenWidget(),
       ),
     );

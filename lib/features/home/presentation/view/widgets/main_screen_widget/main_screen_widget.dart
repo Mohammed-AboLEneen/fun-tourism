@@ -24,7 +24,7 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
   CustomMenuAppManger customMenuApp = CustomMenuAppManger();
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
 

@@ -6,11 +6,11 @@ import 'package:fun_adventure/cores/methods/toast.dart';
 import 'package:fun_adventure/cores/models/follower_icon_model/follower_icon_model.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/firestore_service.dart';
+import 'package:fun_adventure/cores/utils/internet_connection.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_firestore_manager.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/profile_cubit/profile_states.dart';
 
 import '../../../../../cores/utils/locator_manger.dart';
-import '../main_screen_cubit/main_screen_cubit.dart';
 
 class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
   ProfileScreenCubit() : super(InitProfileScreenState());
@@ -83,8 +83,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
   }
 
   void chooseTheFollowButtonAction(String id) {
-    if (LocatorManager.locator<AppMainScreenCubit>()
-            .internetConnection
+    if (LocatorManager.locator<InternetConnectionState>()
             .connectionStatus
             .name !=
         'none') {

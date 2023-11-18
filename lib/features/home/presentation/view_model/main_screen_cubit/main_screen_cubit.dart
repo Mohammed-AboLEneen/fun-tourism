@@ -7,7 +7,6 @@ import '../../../../../cores/models/hot_travels_model/hot_travels_model.dart';
 import '../../../../../cores/models/recent_news_model/recent_news_model.dart';
 import '../../../../../cores/models/user_app_data/user_app_data.dart';
 import '../../../../../cores/utils/get_location.dart';
-import '../../../../../cores/utils/internet_connection.dart';
 import '../../view/home_screen.dart';
 import '../../view/widgets/add_travel_screen.dart';
 import '../../view/widgets/chats_screen_widgets/chat_screen_widget.dart';
@@ -17,8 +16,6 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   AppMainScreenCubit() : super(AppMainScreenInitState());
 
   static AppMainScreenCubit get(context) => BlocProvider.of(context);
-
-  InternetConnectionState internetConnection = InternetConnectionState();
 
   UserAppData? userData;
 

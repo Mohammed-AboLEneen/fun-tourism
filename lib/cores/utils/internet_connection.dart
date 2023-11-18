@@ -4,7 +4,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
 import 'package:fun_adventure/cores/utils/locator_manger.dart';
-import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 
 class InternetConnectionState {
   ConnectivityResult connectionStatus = ConnectivityResult.none;
@@ -25,18 +24,14 @@ class InternetConnectionState {
       return;
     }
 
-    LocatorManager.locator<AppMainScreenCubit>()
-        .internetConnection
-        .finishedInit = true;
+    LocatorManager.locator<InternetConnectionState>().finishedInit = true;
 
     _updateConnectionStatus(result);
   }
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     String temp = connectionStatus.name;
-    LocatorManager.locator<AppMainScreenCubit>()
-        .internetConnection
-        .connectionStatus = result;
+    LocatorManager.locator<InternetConnectionState>().connectionStatus = result;
 
     if (temp == 'none' && (result.name == 'wifi' || result.name == 'mobile')) {
       showToast(
@@ -44,8 +39,5 @@ class InternetConnectionState {
         toastMessageType: ToastMessageType.successMessage,
       );
     }
-
-    LocatorManager.locator<AppMainScreenCubit>()
-        .listenInternetConnectionState();
   }
 }
