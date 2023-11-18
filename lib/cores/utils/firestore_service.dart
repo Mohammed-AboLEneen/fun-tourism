@@ -36,8 +36,7 @@ class FireStoreServices {
           // John Doe
           'displayName': displayName,
           // Stokes and Sons
-          'photoURL':
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyGdwrHRr5hroz-7f_fWYxMNphZj0N1wh3qA&usqp=CAU',
+          'photoURL': '',
           'userTopic': '/topics/user_$uId'
         })
         .then((value) => print("User Added"))

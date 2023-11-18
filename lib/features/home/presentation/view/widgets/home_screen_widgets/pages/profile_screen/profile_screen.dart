@@ -13,6 +13,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../../../constants.dart';
+import '../../../../../../../../cores/methods/show_image_dialog.dart';
 import '../../../../../view_model/profile_cubit/profile_states.dart';
 import '../../../custom_textbutton.dart';
 import '../../hot_travel/travel_item.dart';
@@ -73,26 +74,46 @@ class ProfileScreen extends StatelessWidget {
                                       alignment: Alignment.bottomCenter,
                                       child: Stack(
                                         children: [
-                                          Stack(
-                                            alignment: Alignment.center,
-                                            children: [
-                                              CircleAvatar(
-                                                radius: context.width * .17,
-                                                backgroundColor: Colors.white,
-                                              ),
-                                              CircleAvatar(
-                                                radius: context.width * .16,
-                                                backgroundImage: NetworkImage(
-                                                    profileScreenCubit
-                                                        .imageUrl),
-                                              ),
-                                            ],
+                                          GestureDetector(
+                                            onTap: () {
+                                              showImageDialog(context,
+                                                  profileScreenCubit.imageUrl);
+                                            },
+                                            child: Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                CircleAvatar(
+                                                  radius: context.width * .17,
+                                                  backgroundColor: Colors.white,
+                                                ),
+                                                CircleAvatar(
+                                                  radius: context.width * .16,
+                                                  backgroundImage:
+                                                      profileScreenCubit
+                                                              .imageUrl
+                                                              .isNotEmpty
+                                                          ? NetworkImage(
+                                                              profileScreenCubit
+                                                                  .imageUrl)
+                                                          : null,
+                                                  child: profileScreenCubit
+                                                          .imageUrl.isEmpty
+                                                      ? FaIcon(
+                                                          FontAwesomeIcons.user,
+                                                          size: 30.h,
+                                                        )
+                                                      : null,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                           Positioned(
                                             bottom: 0,
                                             right: 0,
                                             child: CircleAvatar(
                                               radius: context.width * .06,
+                                              backgroundColor: Colors.indigo
+                                                  .withLightness(.8),
                                               child: GestureDetector(
                                                 onTap: () {
                                                   profileScreenCubit
@@ -205,14 +226,15 @@ class ProfileScreen extends StatelessWidget {
                                       children: [
                                         Text(
                                           'Followers : ',
-                                          style: GoogleFonts.abel().copyWith(
-                                              fontSize: 20.sp,
-                                              fontWeight: FontWeight.bold),
+                                          style: GoogleFonts.akayaKanadaka()
+                                              .copyWith(
+                                                  fontSize: 22.sp,
+                                                  fontWeight: FontWeight.bold),
                                         ),
                                         Text(
                                           '${profileScreenCubit.followers.length}',
                                           style: GoogleFonts.abel().copyWith(
-                                              fontSize: 15.sp,
+                                              fontSize: 17.sp,
                                               fontWeight: FontWeight.w600),
                                         ),
                                       ],
@@ -267,14 +289,15 @@ class ProfileScreen extends StatelessWidget {
                                       children: [
                                         Text(
                                           'Travels : ',
-                                          style: GoogleFonts.abel().copyWith(
-                                              fontSize: 20.sp,
-                                              fontWeight: FontWeight.bold),
+                                          style: GoogleFonts.akayaKanadaka()
+                                              .copyWith(
+                                                  fontSize: 22.sp,
+                                                  fontWeight: FontWeight.bold),
                                         ),
                                         Text(
                                           '10',
                                           style: GoogleFonts.abel().copyWith(
-                                              fontSize: 15.sp,
+                                              fontSize: 17.sp,
                                               fontWeight: FontWeight.w600),
                                         ),
                                       ],

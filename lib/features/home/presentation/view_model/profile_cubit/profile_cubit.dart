@@ -42,7 +42,6 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
     try {
       await getUserDisplayNameAndImageUrl(id);
-
       emit(SuccessGetProfileScreenDataState());
     } catch (e) {
       if (kDebugMode) {
@@ -54,17 +53,20 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   Future<void> getUserDisplayNameAndImageUrl(String id) async {
     DocumentSnapshot<Map<String, dynamic>> data =
-    await FireStoreServices.fireStore.collection('users').doc(id).get();
+        await FireStoreServices.fireStore.collection('users').doc(id).get();
     FirebaseStorage storage = FirebaseStorage.instance;
     Reference ref = storage.ref().child("users/$uId/userImage");
-
     userName = data.data()?['displayName'];
-    imageUrl = await ref.getDownloadURL();
+    await ref.getDownloadURL().then((value) {
+      imageUrl = value;
+    }).catchError((error) {
+      print(error);
+    });
   }
 
   Future<void> getProfileFollowers(String id) async {
     QuerySnapshot docs =
-    await ProfileScreenFireStore.getProfileFollowerFromFireStore(id);
+        await ProfileScreenFireStore.getProfileFollowerFromFireStore(id);
 
     for (var element in docs.docs) {
       followers.add(FollowerIconModel.fromJson(
@@ -76,7 +78,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   Future<void> initFollowButtonTextAndColor(String id) async {
     bool result =
-    await ProfileScreenFireStore.checkIfCurrentUserFollowThisProfile(id);
+        await ProfileScreenFireStore.checkIfCurrentUserFollowThisProfile(id);
 
     if (result) {
       followButtonText = 'unFollow';
@@ -90,10 +92,9 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
   }
 
   void chooseTheFollowButtonAction(String id) {
-    if (LocatorManager
-        .locator<InternetConnectionState>()
-        .connectionStatus
-        .name !=
+    if (LocatorManager.locator<InternetConnectionState>()
+            .connectionStatus
+            .name !=
         'none') {
       if (followButtonText == 'unFollow') {
         removeFollowDataFromFireStore(id);
@@ -161,7 +162,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   Future<void> checkIfThisProfileFollowCurrentUser(String id) async {
     isFollowU =
-    await ProfileScreenFireStore.checkIfThisProfileFollowCurrentUser(id);
+        await ProfileScreenFireStore.checkIfThisProfileFollowCurrentUser(id);
     emit(CheckIfThisProfileFollowCurrentUser());
   }
 
