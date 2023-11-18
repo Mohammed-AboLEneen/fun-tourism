@@ -49,8 +49,14 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
     // not request data again until user scroll up screen to refresh data
 
     getUserNotificationNumber(context);
-    if ((LocatorManager.locator<AppMainScreenCubit>().recentNews.isEmpty &&
-        LocatorManager.locator<AppMainScreenCubit>().hotTravels.isEmpty)) {
+    if ((LocatorManager
+        .locator<AppMainScreenCubit>()
+        .recentNews
+        .isEmpty &&
+        LocatorManager
+            .locator<AppMainScreenCubit>()
+            .hotTravels
+            .isEmpty)) {
       getUserData(uId);
       getHomeScreen();
     }
@@ -61,7 +67,7 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
 
     try {
       DocumentSnapshot<Object?> data =
-          await FireStoreServices.getUserData(uId: uId);
+      await FireStoreServices.getUserData(uId: uId);
 
       LocatorManager.locator<AppMainScreenCubit>().setUserData(
           UserAppData.fromJson(data.data() as Map<String, dynamic>));
@@ -89,16 +95,16 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       emit(GetHomeScreenDataLoadingState());
 
       DocumentSnapshot<Object?> data1 =
-          await FireStoreServices.getHomeScreenData('last travels');
+      await FireStoreServices.getHomeScreenData('last travels');
       DocumentSnapshot<Object?> data2 =
-          await FireStoreServices.getHomeScreenData('recent news');
+      await FireStoreServices.getHomeScreenData('recent news');
 
       Map<String, dynamic> dataList1 = data1.data() as Map<String, dynamic>;
       Map<String, dynamic> dataList2 = data2.data() as Map<String, dynamic>;
 
       for (Map<String, dynamic> element in dataList1.values.toList()) {
         element['brief']['image'] =
-            await downloadAndStoreImage(element['brief']['image']);
+        await downloadAndStoreImage(element['brief']['image']);
         hotTravels.add(HotTravelModel.fromJson(element));
       }
 
@@ -117,7 +123,9 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       showToast(
           msg: 'There Is An Network Error, Try Again',
           toastMessageType: ToastMessageType.failureMessage);
-      LocatorManager.locator<InternetConnectionState>().connectionStatus;
+      LocatorManager
+          .locator<InternetConnectionState>()
+          .connectionStatus;
       emit(GetHomeScreenDataFailureState('Failed To Connect To The Network'));
     } catch (e) {
       if (kDebugMode) {
@@ -129,11 +137,13 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
   }
 
   Future<void> getUserLocation() async {
-    if (LocatorManager.locator<AppMainScreenCubit>()
+    if (LocatorManager
+        .locator<AppMainScreenCubit>()
         .userLocation
         .locationName
         .isEmpty) {
-      await LocatorManager.locator<AppMainScreenCubit>()
+      await LocatorManager
+          .locator<AppMainScreenCubit>()
           .userLocation
           .getUserLocation();
       emit(GetTheUserLocationName());
@@ -141,8 +151,14 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
   }
 
   void clearHomeScreenData() {
-    LocatorManager.locator<AppMainScreenCubit>().hotTravels.clear();
-    LocatorManager.locator<AppMainScreenCubit>().recentNews.clear();
+    LocatorManager
+        .locator<AppMainScreenCubit>()
+        .hotTravels
+        .clear();
+    LocatorManager
+        .locator<AppMainScreenCubit>()
+        .recentNews
+        .clear();
   }
 
   Future<void> getUserNotificationNumber(BuildContext context) async {

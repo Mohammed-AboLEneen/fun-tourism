@@ -6,7 +6,8 @@ import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/cores/utils/routers.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
-import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_follower_item.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/profile_screen_follower_item.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/profile_screen_image_widget.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/profile_cubit/profile_cubit.dart';
 import 'package:go_router/go_router.dart';
@@ -14,6 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../../../constants.dart';
 import '../../../../../../../../cores/methods/show_image_dialog.dart';
+import '../../../../../../../../cores/utils/custom_container.dart';
 import '../../../../../view_model/profile_cubit/profile_states.dart';
 import '../../../custom_textbutton.dart';
 import '../../hot_travel/travel_item.dart';
@@ -41,124 +43,45 @@ class ProfileScreen extends StatelessWidget {
                     return Opacity(
                       opacity: value,
                       child: Scaffold(
+                        appBar: AppBar(
+                          backgroundColor: Colors.white.withLightness(.95),
+                        ),
                         backgroundColor: Colors.white.withLightness(.95),
                         body: SingleChildScrollView(
                           child: Column(
                             children: [
-                              SizedBox(
-                                height: context.height * .38,
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      width: context.width,
-                                      height: context.height * .32,
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.only(
-                                          bottomRight: Radius.circular(15),
-                                          bottomLeft: Radius.circular(15),
-                                        ),
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                            LocatorManager.locator<
-                                                        AppMainScreenCubit>()
-                                                    .userData
-                                                    ?.userInfoData
-                                                    .photoURL ??
-                                                '',
+                              Stack(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      showImageDialog(
+                                          context, profileScreenCubit.imageUrl);
+                                    },
+                                    child: ProfileScreenImageWidget(
+                                      imageUrl: profileScreenCubit.imageUrl,
+                                    ),
+                                  ),
+                                  if (id == uId)
+                                    Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      child: CircleAvatar(
+                                        radius: context.width * .06,
+                                        backgroundColor:
+                                            Colors.indigo.withLightness(.8),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            profileScreenCubit
+                                                .updateProfileImage();
+                                          },
+                                          child: FaIcon(
+                                            FontAwesomeIcons.camera,
+                                            size: 25.h,
                                           ),
-                                          fit: BoxFit.cover,
                                         ),
                                       ),
-                                    ),
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Stack(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              showImageDialog(context,
-                                                  profileScreenCubit.imageUrl);
-                                            },
-                                            child: Stack(
-                                              alignment: Alignment.center,
-                                              children: [
-                                                CircleAvatar(
-                                                  radius: context.width * .17,
-                                                  backgroundColor: Colors.white,
-                                                ),
-                                                CircleAvatar(
-                                                  radius: context.width * .16,
-                                                  backgroundImage:
-                                                      profileScreenCubit
-                                                              .imageUrl
-                                                              .isNotEmpty
-                                                          ? NetworkImage(
-                                                              profileScreenCubit
-                                                                  .imageUrl)
-                                                          : null,
-                                                  child: profileScreenCubit
-                                                          .imageUrl.isEmpty
-                                                      ? FaIcon(
-                                                          FontAwesomeIcons.user,
-                                                          size: 30.h,
-                                                        )
-                                                      : null,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Positioned(
-                                            bottom: 0,
-                                            right: 0,
-                                            child: CircleAvatar(
-                                              radius: context.width * .06,
-                                              backgroundColor: Colors.indigo
-                                                  .withLightness(.8),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  profileScreenCubit
-                                                      .updateProfileImage();
-                                                },
-                                                child: FaIcon(
-                                                  FontAwesomeIcons.camera,
-                                                  size: 25.h,
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    if (profileScreenCubit.isFollowU)
-                                      Align(
-                                        alignment: Alignment.bottomLeft,
-                                        child: Container(
-                                          margin: EdgeInsets.only(left: 7.w),
-                                          decoration: BoxDecoration(
-                                              color:
-                                                  Colors.cyan.withLightness(.4),
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                topLeft: Radius.circular(10),
-                                                bottomRight:
-                                                    Radius.circular(10),
-                                              )),
-                                          child: Padding(
-                                            padding: EdgeInsets.all(5.0.w),
-                                            child: Text(
-                                              'He Is Follow U',
-                                              style: GoogleFonts.aBeeZee()
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.white
-                                                          .withLightness(.2)),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                  ],
-                                ),
+                                    )
+                                ],
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
@@ -172,6 +95,18 @@ class ProfileScreen extends StatelessWidget {
                                     ),
                                     textAlign: TextAlign.center),
                               ),
+                              if (profileScreenCubit.isFollowU)
+                                Padding(
+                                  padding: EdgeInsets.only(top: 10.h),
+                                  child: CustomContainer(
+                                    text: 'He Follow U',
+                                    backgroundColor:
+                                        Colors.cyan.withLightness(.4),
+                                    topLeftRadius: const Radius.circular(10),
+                                    bottomRightRadius:
+                                        const Radius.circular(10),
+                                  ),
+                                ),
                               if (id != uId)
                                 Padding(
                                   padding: EdgeInsets.only(top: 20.h),
@@ -246,7 +181,9 @@ class ProfileScreen extends StatelessWidget {
                                 height: 10,
                               ),
                               SizedBox(
-                                height: context.height * .23,
+                                height: profileScreenCubit.followers.isEmpty
+                                    ? 20.h
+                                    : context.height * .23,
                                 child: ListView.builder(
                                   padding: EdgeInsets.zero,
                                   scrollDirection: Axis.horizontal,
@@ -338,7 +275,7 @@ class ProfileScreen extends StatelessWidget {
               return Scaffold(
                 body: Center(
                   child: Text(
-                    'There is a failure',
+                    'There Is An Error',
                     style: GoogleFonts.aBeeZee().copyWith(fontSize: 30.sp),
                   ),
                 ),

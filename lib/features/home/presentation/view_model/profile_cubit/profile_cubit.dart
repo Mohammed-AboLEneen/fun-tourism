@@ -11,6 +11,7 @@ import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/cores/utils/internet_connection.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_firestore_manager.dart';
+import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/profile_cubit/profile_states.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -53,20 +54,25 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   Future<void> getUserDisplayNameAndImageUrl(String id) async {
     DocumentSnapshot<Map<String, dynamic>> data =
-        await FireStoreServices.fireStore.collection('users').doc(id).get();
-    FirebaseStorage storage = FirebaseStorage.instance;
-    Reference ref = storage.ref().child("users/$uId/userImage");
+    await FireStoreServices.fireStore.collection('users').doc(id).get();
+
     userName = data.data()?['displayName'];
-    await ref.getDownloadURL().then((value) {
-      imageUrl = value;
-    }).catchError((error) {
-      print(error);
-    });
+
+    FirebaseStorage storage = FirebaseStorage.instance;
+
+    try {
+      Reference ref = storage.ref().child("users/$id/userImage");
+      imageUrl = await ref.getDownloadURL();
+    } catch (e) {
+      if (kDebugMode) {
+        print('this is error : ${e.toString()}');
+      }
+    }
   }
 
   Future<void> getProfileFollowers(String id) async {
     QuerySnapshot docs =
-        await ProfileScreenFireStore.getProfileFollowerFromFireStore(id);
+    await ProfileScreenFireStore.getProfileFollowerFromFireStore(id);
 
     for (var element in docs.docs) {
       followers.add(FollowerIconModel.fromJson(
@@ -78,7 +84,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   Future<void> initFollowButtonTextAndColor(String id) async {
     bool result =
-        await ProfileScreenFireStore.checkIfCurrentUserFollowThisProfile(id);
+    await ProfileScreenFireStore.checkIfCurrentUserFollowThisProfile(id);
 
     if (result) {
       followButtonText = 'unFollow';
@@ -92,9 +98,10 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
   }
 
   void chooseTheFollowButtonAction(String id) {
-    if (LocatorManager.locator<InternetConnectionState>()
-            .connectionStatus
-            .name !=
+    if (LocatorManager
+        .locator<InternetConnectionState>()
+        .connectionStatus
+        .name !=
         'none') {
       if (followButtonText == 'unFollow') {
         removeFollowDataFromFireStore(id);
@@ -162,7 +169,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   Future<void> checkIfThisProfileFollowCurrentUser(String id) async {
     isFollowU =
-        await ProfileScreenFireStore.checkIfThisProfileFollowCurrentUser(id);
+    await ProfileScreenFireStore.checkIfThisProfileFollowCurrentUser(id);
     emit(CheckIfThisProfileFollowCurrentUser());
   }
 
@@ -187,10 +194,17 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
     UploadTask uploadTask = ref.putFile(_image);
     await uploadTask.whenComplete(() async {
       imageUrl = await ref.getDownloadURL();
-      showToast(
-          msg: 'Successfully Updated Profile Image',
-          toastMessageType: ToastMessageType.successMessage);
-      emit(SuccessUpdateProfileImageState());
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(uId)
+          .update({'photoURL': imageUrl}).then((value) {
+        LocatorManager.locator<AppMainScreenCubit>()
+            .changePhotoURLValue(imageUrl);
+        showToast(
+            msg: 'Successfully Updated Profile Image',
+            toastMessageType: ToastMessageType.successMessage);
+        emit(SuccessUpdateProfileImageState());
+      });
     });
   }
 }

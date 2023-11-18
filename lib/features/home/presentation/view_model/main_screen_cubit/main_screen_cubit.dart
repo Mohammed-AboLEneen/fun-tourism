@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/cores/models/notification_model/notification_model.dart';
+import 'package:fun_adventure/cores/utils/locator_manger.dart';
 
 import '../../../../../cores/models/hot_travels_model/hot_travels_model.dart';
 import '../../../../../cores/models/recent_news_model/recent_news_model.dart';
@@ -56,5 +57,21 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
   void changeNavigationBar(index) {
     currentIndex = index;
     emit(ChangeNavigationBarState());
+  }
+
+  void changePhotoURLValue(String url) {
+    LocatorManager.locator<AppMainScreenCubit>()
+        .userData
+        ?.userInfoData
+        .photoURL = url;
+    emit(ChangePhotoURLState());
+  }
+
+  void changeUserNameValue(String name) {
+    LocatorManager.locator<AppMainScreenCubit>()
+        .userData
+        ?.userInfoData
+        .displayName = name;
+    emit(ChangeUserNameState());
   }
 }

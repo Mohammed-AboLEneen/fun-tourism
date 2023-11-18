@@ -8,30 +8,27 @@ import '../../../../../view_model/main_screen_cubit/main_screen_cubit.dart';
 
 class ProfileScreenFireStore {
   static CollectionReference reference =
-  FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection('users');
 
   static Future<void> sendFollowerToFireStore(String id) async {
     reference.doc(id).collection('followers').doc(uId).set({
-      'displayName': LocatorManager
-          .locator<AppMainScreenCubit>()
+      'displayName': LocatorManager.locator<AppMainScreenCubit>()
           .userData
           ?.userInfoData
           .displayName,
-      'imageUrl': LocatorManager
-          .locator<AppMainScreenCubit>()
+      'imageUrl': LocatorManager.locator<AppMainScreenCubit>()
           .userData
           ?.userInfoData
           .photoURL,
     });
   }
 
-  static Future<void> sendFollowingToFireStore(String id, String userName,
-      String imageUrl) async {
+  static Future<void> sendFollowingToFireStore(
+      String id, String userName, String imageUrl) async {
     await reference.doc(uId).collection('following').doc(id).set({
       'displayName': userName,
       'imageUrl': imageUrl,
     });
-
     print(id);
     AppFcmActions.sendFollowNotification(id, image: imageUrl);
   }

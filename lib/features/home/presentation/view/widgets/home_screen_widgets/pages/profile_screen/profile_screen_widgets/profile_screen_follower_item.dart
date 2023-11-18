@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FollowerItem extends StatelessWidget {
-
   final String? name;
   final String? imageUrl;
   final void Function()? ontap;
@@ -19,15 +19,18 @@ class FollowerItem extends StatelessWidget {
       child: GestureDetector(
         onTap: ontap,
         child: Column(
-          crossAxisAlignment:
-          CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CircleAvatar(
-              backgroundImage: NetworkImage(
-                imageUrl ??
-                    '',
-              ),
+              backgroundImage:
+                  imageUrl!.isNotEmpty ? NetworkImage(imageUrl!) : null,
               radius: context.width * .11,
+              child: imageUrl!.isEmpty
+                  ? FaIcon(
+                      FontAwesomeIcons.user,
+                      size: 20.h,
+                    )
+                  : null,
             ),
             SizedBox(
               height: 5.h,
@@ -35,15 +38,11 @@ class FollowerItem extends StatelessWidget {
             SizedBox(
               width: context.width * .23,
               child: Text(
-                name ??
-                    '',
+                name ?? '',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.abel()
-                    .copyWith(
-                    fontSize: 18.sp,
-                    fontWeight:
-                    FontWeight.w600),
+                    .copyWith(fontSize: 18.sp, fontWeight: FontWeight.w600),
                 textAlign: TextAlign.center,
               ),
             ),
