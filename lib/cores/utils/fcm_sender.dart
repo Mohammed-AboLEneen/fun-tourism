@@ -9,7 +9,8 @@ class FirebaseFcmSender {
   static int messageId = 1;
 
   static Future<void> sendFCMMessage(
-      String serverKey, String fcmToken, String title, String body) async {
+      String serverKey, String fcmToken, String title, String body,
+      {String? image}) async {
     final Dio dio = Dio();
     const String url = 'https://fcm.googleapis.com/fcm/send';
 
@@ -22,7 +23,7 @@ class FirebaseFcmSender {
       "type": "f",
       "contentId": uId,
       "time": formattedTime,
-      "imageUrl":
+      "imageUrl": image ??
           "https://th.bing.com/th/id/R.0b7bb2deb7735e7d9d55240d9d75afe8?rik=6dSZzezsXTVR2w&riu=http%3a%2f%2fs1.picswalls.com%2fwallpapers%2f2015%2f09%2f27%2fdragon-ball-z-hd-wallpaper_125243743_276.jpg&ehk=Otx7HLQDK%2bgr66sjRlJFESBG%2bGmu5yAOxInOoWq0Nvc%3d&risl=&pid=ImgRaw&r=0",
       'id': messageId,
       'status': 'done'

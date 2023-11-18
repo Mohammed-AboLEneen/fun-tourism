@@ -28,10 +28,6 @@ class AppMainScreenCubit extends Cubit<AppMainScreenStates> {
     const AddTravelScreen()
   ];
 
-  void listenInternetConnectionState() {
-    emit(InternetConnectionStateChangedState());
-  }
-
   List<IconData> bottomNavigationBarIcons = [
     FontAwesomeIcons.house,
     FontAwesomeIcons.rocketchat,

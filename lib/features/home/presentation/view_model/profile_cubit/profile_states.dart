@@ -23,3 +23,5 @@ class FailureRemoveFollowToFireStoreState extends ProfileScreenStates {}
 class InitFollowButtonTextAndColorState extends ProfileScreenStates {}
 
 class CheckIfThisProfileFollowCurrentUser extends ProfileScreenStates {}
+
+class SuccessUpdateProfileImageState extends ProfileScreenStates {}

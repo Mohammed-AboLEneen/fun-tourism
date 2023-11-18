@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/cores/utils/routers.dart';
@@ -71,17 +72,39 @@ class ProfileScreen extends StatelessWidget {
                                     Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Stack(
-                                        alignment: Alignment.center,
                                         children: [
-                                          CircleAvatar(
-                                            radius: context.width * .15,
-                                            backgroundColor: Colors.white,
+                                          Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              CircleAvatar(
+                                                radius: context.width * .17,
+                                                backgroundColor: Colors.white,
+                                              ),
+                                              CircleAvatar(
+                                                radius: context.width * .16,
+                                                backgroundImage: NetworkImage(
+                                                    profileScreenCubit
+                                                        .imageUrl),
+                                              ),
+                                            ],
                                           ),
-                                          CircleAvatar(
-                                            radius: context.width * .14,
-                                            backgroundImage: NetworkImage(
-                                                profileScreenCubit.imageUrl),
-                                          ),
+                                          Positioned(
+                                            bottom: 0,
+                                            right: 0,
+                                            child: CircleAvatar(
+                                              radius: context.width * .06,
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  profileScreenCubit
+                                                      .updateProfileImage();
+                                                },
+                                                child: FaIcon(
+                                                  FontAwesomeIcons.camera,
+                                                  size: 25.h,
+                                                ),
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ),

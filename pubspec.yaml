@@ -65,6 +65,8 @@ dependencies:
   dio: ^5.3.3
   envied: ^0.3.0+3
   intl: ^0.18.1
+  image_picker: ^1.0.4
+  firebase_storage: ^11.5.1
 
 
 
