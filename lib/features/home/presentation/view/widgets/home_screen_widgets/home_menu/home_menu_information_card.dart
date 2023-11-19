@@ -15,7 +15,6 @@ class MenuInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AppMainScreenCubit, AppMainScreenStates>(
       builder: (context, state) {
-        print('doodo');
         return Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: SizedBox(

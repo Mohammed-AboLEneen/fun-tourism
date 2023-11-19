@@ -20,6 +20,7 @@ class FollowerItem extends StatelessWidget {
         onTap: ontap,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
               backgroundImage:
@@ -28,7 +29,7 @@ class FollowerItem extends StatelessWidget {
               child: imageUrl!.isEmpty
                   ? FaIcon(
                       FontAwesomeIcons.user,
-                      size: 20.h,
+                      size: context.width * .11,
                     )
                   : null,
             ),

@@ -54,7 +54,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   Future<void> getUserDisplayNameAndImageUrl(String id) async {
     DocumentSnapshot<Map<String, dynamic>> data =
-    await FireStoreServices.fireStore.collection('users').doc(id).get();
+        await FireStoreServices.fireStore.collection('users').doc(id).get();
 
     userName = data.data()?['displayName'];
 
@@ -72,7 +72,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   Future<void> getProfileFollowers(String id) async {
     QuerySnapshot docs =
-    await ProfileScreenFireStore.getProfileFollowerFromFireStore(id);
+        await ProfileScreenFireStore.getProfileFollowerFromFireStore(id);
 
     for (var element in docs.docs) {
       followers.add(FollowerIconModel.fromJson(
@@ -84,7 +84,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   Future<void> initFollowButtonTextAndColor(String id) async {
     bool result =
-    await ProfileScreenFireStore.checkIfCurrentUserFollowThisProfile(id);
+        await ProfileScreenFireStore.checkIfCurrentUserFollowThisProfile(id);
 
     if (result) {
       followButtonText = 'unFollow';
@@ -98,10 +98,9 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
   }
 
   void chooseTheFollowButtonAction(String id) {
-    if (LocatorManager
-        .locator<InternetConnectionState>()
-        .connectionStatus
-        .name !=
+    if (LocatorManager.locator<InternetConnectionState>()
+            .connectionStatus
+            .name !=
         'none') {
       if (followButtonText == 'unFollow') {
         removeFollowDataFromFireStore(id);
@@ -169,36 +168,51 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   Future<void> checkIfThisProfileFollowCurrentUser(String id) async {
     isFollowU =
-    await ProfileScreenFireStore.checkIfThisProfileFollowCurrentUser(id);
+        await ProfileScreenFireStore.checkIfThisProfileFollowCurrentUser(id);
     emit(CheckIfThisProfileFollowCurrentUser());
   }
 
   late File _image;
   final picker = ImagePicker();
 
-  Future updateProfileImage() async {
+  Future updateProfileImage(BuildContext context) async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       _image = File(pickedFile.path);
-      uploadImageToFirebaseStorage();
+
+      if (!context.mounted) return;
+      uploadImageToFirebaseStorage(context);
     } else {
       showToast(
           msg: 'Canceled', toastMessageType: ToastMessageType.failureMessage);
     }
   }
 
-  Future uploadImageToFirebaseStorage() async {
+  int imageUploadProgress = 0;
+
+  Future uploadImageToFirebaseStorage(BuildContext context) async {
     FirebaseStorage storage = FirebaseStorage.instance;
     Reference ref = storage.ref().child("users/$uId/userImage");
     UploadTask uploadTask = ref.putFile(_image);
+
+    uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
+      double progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      imageUploadProgress = progress.round();
+      emit(UpdateImageUploadProgressValueState());
+      if (kDebugMode) {
+        print("Upload is $imageUploadProgress% complete");
+      }
+    });
+
     await uploadTask.whenComplete(() async {
       imageUrl = await ref.getDownloadURL();
+      imageUploadProgress = 0;
       FirebaseFirestore.instance
           .collection('users')
           .doc(uId)
           .update({'photoURL': imageUrl}).then((value) {
-        LocatorManager.locator<AppMainScreenCubit>()
+        BlocProvider.of<AppMainScreenCubit>(context)
             .changePhotoURLValue(imageUrl);
         showToast(
             msg: 'Successfully Updated Profile Image',

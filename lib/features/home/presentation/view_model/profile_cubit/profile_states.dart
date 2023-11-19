@@ -25,3 +25,5 @@ class InitFollowButtonTextAndColorState extends ProfileScreenStates {}
 class CheckIfThisProfileFollowCurrentUser extends ProfileScreenStates {}
 
 class SuccessUpdateProfileImageState extends ProfileScreenStates {}
+
+class UpdateImageUploadProgressValueState extends ProfileScreenStates {}

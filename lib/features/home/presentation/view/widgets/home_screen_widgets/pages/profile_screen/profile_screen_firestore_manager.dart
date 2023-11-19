@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../../../../../../constants.dart';
 import '../../../../../../../../cores/utils/app_fcm_actions.dart';
@@ -29,7 +30,10 @@ class ProfileScreenFireStore {
       'displayName': userName,
       'imageUrl': imageUrl,
     });
-    print(id);
+
+    if (kDebugMode) {
+      print(id);
+    }
     AppFcmActions.sendFollowNotification(id, image: imageUrl);
   }
 

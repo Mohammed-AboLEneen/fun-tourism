@@ -6,6 +6,7 @@ import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/cores/utils/routers.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/custom_animated_indicator_progress.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/profile_screen_follower_item.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/profile_screen_image_widget.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
@@ -72,7 +73,7 @@ class ProfileScreen extends StatelessWidget {
                                         child: GestureDetector(
                                           onTap: () {
                                             profileScreenCubit
-                                                .updateProfileImage();
+                                                .updateProfileImage(context);
                                           },
                                           child: FaIcon(
                                             FontAwesomeIcons.camera,
@@ -106,6 +107,47 @@ class ProfileScreen extends StatelessWidget {
                                     bottomRightRadius:
                                         const Radius.circular(10),
                                   ),
+                                ),
+                              if (id == uId)
+                                Stack(
+                                  children: [
+                                    AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 700),
+                                      height: profileScreenCubit
+                                                  .imageUploadProgress >
+                                              0
+                                          ? context.height * .055
+                                          : 0,
+                                      width: context.width,
+                                    ),
+                                    Visibility(
+                                      visible: profileScreenCubit
+                                              .imageUploadProgress >
+                                          0,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 30.w, right: 10.w, top: 10.h),
+                                        child: SizedBox(
+                                          height: context.height * .05,
+                                          child: Row(
+                                            children: [
+                                              CustomAnimatedIndicatorProgress(
+                                                  imageUploadProgress:
+                                                      profileScreenCubit
+                                                          .imageUploadProgress),
+                                              const Spacer(),
+                                              SizedBox(
+                                                width: context.width * .1,
+                                                child: Text(
+                                                    '${profileScreenCubit.imageUploadProgress} %'),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               if (id != uId)
                                 Padding(
@@ -149,14 +191,15 @@ class ProfileScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
+                              if (profileScreenCubit.imageUploadProgress == 0)
+                                SizedBox(
+                                  height: 15.h,
+                                ),
                               Row(
                                 children: [
                                   Expanded(
                                       child: Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
+                                    padding: EdgeInsets.only(left: 15.0.w),
                                     child: Row(
                                       children: [
                                         Text(
@@ -176,9 +219,6 @@ class ProfileScreen extends StatelessWidget {
                                     ),
                                   )),
                                 ],
-                              ),
-                              const SizedBox(
-                                height: 10,
                               ),
                               SizedBox(
                                 height: profileScreenCubit.followers.isEmpty
@@ -214,14 +254,12 @@ class ProfileScreen extends StatelessWidget {
                                   height: 1,
                                 ),
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
                               Row(
                                 children: [
                                   Expanded(
                                       child: Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
+                                    padding: EdgeInsets.only(
+                                        left: 15.0.w, top: 15.h),
                                     child: Row(
                                       children: [
                                         Text(
