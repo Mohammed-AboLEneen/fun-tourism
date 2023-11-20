@@ -163,8 +163,8 @@ class ProfileScreen extends StatelessWidget {
                                                 .followButtonText,
                                             buttonColor: profileScreenCubit
                                                 .followButtonColor,
-                                            topRight: const Radius.circular(20),
-                                            topLeft: const Radius.circular(20),
+                                            topRight: 20,
+                                            topLeft: 20,
                                             textSize: 17,
                                             onPressed: () {
                                               profileScreenCubit
@@ -181,8 +181,8 @@ class ProfileScreen extends StatelessWidget {
                                           child: CustomTextButton(
                                             text: 'Send Message',
                                             buttonColor: Colors.indigo,
-                                            topRight: const Radius.circular(20),
-                                            topLeft: const Radius.circular(20),
+                                            topRight: 20,
+                                            topLeft: 20,
                                             textSize: 17,
                                             onPressed: () {},
                                           ),

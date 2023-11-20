@@ -29,7 +29,6 @@ class MenuListView extends StatelessWidget {
               behavior: HitTestBehavior.translucent,
               onTap: () {
                 model.changeSelectedIndex(titles[index]);
-                print('doneeeee');
                 actions[index]!();
               },
               child: MenuItem(

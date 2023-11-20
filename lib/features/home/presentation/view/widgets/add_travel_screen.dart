@@ -21,7 +21,6 @@ class AddTravelScreen extends StatefulWidget {
 }
 
 class _AddTravelScreenState extends State<AddTravelScreen> {
-
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
 
@@ -73,7 +72,6 @@ class _AddTravelScreenState extends State<AddTravelScreen> {
                 toastMessageType: ToastMessageType.failureMessage);
           }
         },
-
         builder: (context, state) {
           return Scaffold(
               appBar: AppBar(
@@ -127,8 +125,8 @@ class _AddTravelScreenState extends State<AddTravelScreen> {
                                     height: 20.h,
                                   ),
                                   Padding(
-                                    padding:
-                                    EdgeInsets.symmetric(horizontal: 10.0.w),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10.0.w),
                                     child: Row(
                                       children: [
                                         SizedBox(
@@ -182,8 +180,8 @@ class _AddTravelScreenState extends State<AddTravelScreen> {
                                     height: 15.h,
                                   ),
                                   Padding(
-                                    padding:
-                                    EdgeInsets.symmetric(horizontal: 10.0.w),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10.0.w),
                                     child: Row(
                                       children: [
                                         SizedBox(
@@ -218,8 +216,8 @@ class _AddTravelScreenState extends State<AddTravelScreen> {
                                   ),
                                   CustomTextFieldRoundedBorder(
                                     hint: 'Description',
-                                    icon: const Icon(
-                                        Icons.description_outlined),
+                                    icon:
+                                        const Icon(Icons.description_outlined),
                                     textColor: Colors.black,
                                     borderColor: Colors.black,
                                     controller: descriptionController,
@@ -236,30 +234,32 @@ class _AddTravelScreenState extends State<AddTravelScreen> {
                                         text: 'Add Travel',
                                         textSize: 20.sp,
                                         buttonColor: Colors.indigo,
-                                        topLeft: const Radius.circular(15),
-                                        bottomLeft: const Radius.circular(15),
-                                        bottomRight: const Radius.circular(15),
-                                        topRight: const Radius.circular(5),
+                                        topLeft: 15,
+                                        bottomLeft: 15,
+                                        bottomRight: 15,
+                                        topRight: 5,
                                         onPressed: () {
                                           if (formKey.currentState
-                                              ?.validate() ??
+                                                  ?.validate() ??
                                               false) {
                                             BlocProvider.of<AddTravelCubit>(
-                                                context)
+                                                    context)
                                                 .addTravel(
-                                                travelName:
-                                                travelNameController.text,
-                                                location:
-                                                locationController.text,
-                                                fromDate:
-                                                fromDateController.text,
-                                                toDate: toDateController.text,
-                                                duration:
-                                                durationController.text,
-                                                price: priceController.text,
-                                                description:
-                                                descriptionController
-                                                    .text);
+                                                    travelName:
+                                                        travelNameController
+                                                            .text,
+                                                    location:
+                                                        locationController.text,
+                                                    fromDate:
+                                                        fromDateController.text,
+                                                    toDate:
+                                                        toDateController.text,
+                                                    duration:
+                                                        durationController.text,
+                                                    price: priceController.text,
+                                                    description:
+                                                        descriptionController
+                                                            .text);
                                           } else {
                                             setState(() {
                                               autoValidateMode =
@@ -277,10 +277,7 @@ class _AddTravelScreenState extends State<AddTravelScreen> {
                     ),
                     AnimatedContainer(
                       duration: const Duration(milliseconds: 400),
-                      height: MediaQuery
-                          .of(context)
-                          .viewInsets
-                          .bottom == 0
+                      height: MediaQuery.of(context).viewInsets.bottom == 0
                           ? context.height * .1
                           : 0,
                     )

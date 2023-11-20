@@ -195,8 +195,8 @@ class _HotTravelScreenState extends State<HotTravelScreen>
                 child: CustomTextButton(
                   text: 'Join Now',
                   buttonColor: Colors.indigo,
-                  topRight: const Radius.circular(20),
-                  topLeft: const Radius.circular(20),
+                  topRight: 20,
+                  topLeft: 20,
                   onPressed: () {},
                 ),
               ),

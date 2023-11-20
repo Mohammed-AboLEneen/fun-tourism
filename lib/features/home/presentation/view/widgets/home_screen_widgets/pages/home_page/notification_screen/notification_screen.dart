@@ -5,7 +5,7 @@ import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
-import 'package:fun_adventure/features/home/presentation/view_model/notification_screen_provider.dart';
+import 'package:fun_adventure/features/home/presentation/view_model/notification_screen_provider/notification_screen_provider.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/notifications_listener_provider/notification_listener_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';

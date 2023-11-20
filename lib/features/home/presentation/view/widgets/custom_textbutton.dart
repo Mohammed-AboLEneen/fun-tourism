@@ -8,11 +8,12 @@ class CustomTextButton extends StatelessWidget {
   final Color? textColor;
   final Color buttonColor;
   final VoidCallback onPressed;
-  final Radius? topRight;
-  final Radius? topLeft;
-  final Radius? bottomRight;
-  final Radius? bottomLeft;
+  final double? topRight;
+  final double? topLeft;
+  final double? bottomRight;
+  final double? bottomLeft;
   final double textSize;
+  final double? buttonColorLightness;
 
   const CustomTextButton(
       {super.key,
@@ -24,7 +25,8 @@ class CustomTextButton extends StatelessWidget {
       this.topLeft,
       this.bottomRight,
       this.bottomLeft,
-      this.textSize = 20});
+      this.textSize = 20,
+      this.buttonColorLightness});
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +36,15 @@ class CustomTextButton extends StatelessWidget {
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-              topLeft: topLeft ?? Radius.zero,
-              topRight: topRight ?? Radius.zero,
-              bottomRight: bottomRight ?? Radius.zero,
-              bottomLeft: bottomLeft ?? Radius.zero,
+              topLeft: Radius.circular(topLeft ?? 0),
+              topRight: Radius.circular(topRight ?? 0),
+              bottomRight: Radius.circular(bottomRight ?? 0),
+              bottomLeft: Radius.circular(bottomLeft ?? 0),
             ), // Change this value as needed
           ),
         ),
         backgroundColor: MaterialStateProperty.all<Color>(
-          buttonColor.withLightness(.55),
+          buttonColor.withLightness(buttonColorLightness ?? .8),
         ),
       ),
       child: Text(
