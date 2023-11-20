@@ -17,7 +17,7 @@ import 'package:provider/provider.dart';
 import '../../../../../constants.dart';
 import '../../../../../cores/utils/internet_connection.dart';
 import '../../../../../cores/utils/locator_manger.dart';
-import '../../view/widgets/home_page.dart';
+import '../../view/widgets/home_screen_widgets/pages/home_page/home_page.dart';
 import '../../view/widgets/home_screen_widgets/pages/profile_screen/profile_screen.dart';
 import '../notifications_listener_provider/notification_listener_provider.dart';
 import 'home_screen_states.dart';
@@ -32,6 +32,23 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
     ProfileScreen(
       id: uId ?? '',
     )
+  ];
+
+  List<String> categoriesTitles = [
+    'North Egypt',
+    'South Egypt',
+    'East Egypt',
+    'West Egypt',
+  ];
+
+  int sliderBannerCurrentIndex = 0;
+  double notification = 0;
+
+  List<String> categoriesImagesUrl = [
+    'https://th.bing.com/th/id/R.fce7404b15d00c3020f7eecdc5313836?rik=V8qh4TWh8NXp9w&pid=ImgRaw&r=0',
+    'https://th.bing.com/th/id/R.0d23e67eabbb6c0f6a9e5fa7ad950a31?rik=gqXlAoKzqQl78w&pid=ImgRaw&r=0',
+    'https://th.bing.com/th/id/OIP.RBRql-XKiGpHsGAMoCQ7-AHaCe?pid=ImgDet&rs=1',
+    'https://www.tripsavvy.com/thmb/Ue5Tz-4fTb9OTBbEzBxlqa8UT_s=/2143x1399/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-154260931-584169ec3df78c0230514c82.jpg',
   ];
 
   Future<void> blocOperations(String uId, BuildContext context) async {
@@ -49,14 +66,8 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
     // not request data again until user scroll up screen to refresh data
 
     getUserNotificationNumber(context);
-    if ((LocatorManager
-        .locator<AppMainScreenCubit>()
-        .recentNews
-        .isEmpty &&
-        LocatorManager
-            .locator<AppMainScreenCubit>()
-            .hotTravels
-            .isEmpty)) {
+    if ((LocatorManager.locator<AppMainScreenCubit>().recentNews.isEmpty &&
+        LocatorManager.locator<AppMainScreenCubit>().hotTravels.isEmpty)) {
       getUserData(uId);
       getHomeScreen();
     }
@@ -67,7 +78,7 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
 
     try {
       DocumentSnapshot<Object?> data =
-      await FireStoreServices.getUserData(uId: uId);
+          await FireStoreServices.getUserData(uId: uId);
 
       LocatorManager.locator<AppMainScreenCubit>().setUserData(
           UserAppData.fromJson(data.data() as Map<String, dynamic>));
@@ -95,16 +106,16 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       emit(GetHomeScreenDataLoadingState());
 
       DocumentSnapshot<Object?> data1 =
-      await FireStoreServices.getHomeScreenData('last travels');
+          await FireStoreServices.getHomeScreenData('last travels');
       DocumentSnapshot<Object?> data2 =
-      await FireStoreServices.getHomeScreenData('recent news');
+          await FireStoreServices.getHomeScreenData('recent news');
 
       Map<String, dynamic> dataList1 = data1.data() as Map<String, dynamic>;
       Map<String, dynamic> dataList2 = data2.data() as Map<String, dynamic>;
 
       for (Map<String, dynamic> element in dataList1.values.toList()) {
         element['brief']['image'] =
-        await downloadAndStoreImage(element['brief']['image']);
+            await downloadAndStoreImage(element['brief']['image']);
         hotTravels.add(HotTravelModel.fromJson(element));
       }
 
@@ -123,9 +134,7 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       showToast(
           msg: 'There Is An Network Error, Try Again',
           toastMessageType: ToastMessageType.failureMessage);
-      LocatorManager
-          .locator<InternetConnectionState>()
-          .connectionStatus;
+      LocatorManager.locator<InternetConnectionState>().connectionStatus;
       emit(GetHomeScreenDataFailureState('Failed To Connect To The Network'));
     } catch (e) {
       if (kDebugMode) {
@@ -137,13 +146,11 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
   }
 
   Future<void> getUserLocation() async {
-    if (LocatorManager
-        .locator<AppMainScreenCubit>()
+    if (LocatorManager.locator<AppMainScreenCubit>()
         .userLocation
         .locationName
         .isEmpty) {
-      await LocatorManager
-          .locator<AppMainScreenCubit>()
+      await LocatorManager.locator<AppMainScreenCubit>()
           .userLocation
           .getUserLocation();
       emit(GetTheUserLocationName());
@@ -151,14 +158,8 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
   }
 
   void clearHomeScreenData() {
-    LocatorManager
-        .locator<AppMainScreenCubit>()
-        .hotTravels
-        .clear();
-    LocatorManager
-        .locator<AppMainScreenCubit>()
-        .recentNews
-        .clear();
+    LocatorManager.locator<AppMainScreenCubit>().hotTravels.clear();
+    LocatorManager.locator<AppMainScreenCubit>().recentNews.clear();
   }
 
   Future<void> getUserNotificationNumber(BuildContext context) async {

@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'message_content_model.g.dart';
 
 @HiveType(typeId: 4)
-class MessageContentModel {
+class MessageContentModel extends HiveObject {
   @HiveField(0)
   String? time;
   @HiveField(1)

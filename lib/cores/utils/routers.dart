@@ -3,6 +3,7 @@ import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.d
 import 'package:fun_adventure/features/authentication/presentation/view/authentcation.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/verification_page.dart';
 import 'package:fun_adventure/features/home/presentation/view/main_screen.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/home_page/travels_screen.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/onboarding.dart';
 import 'package:fun_adventure/features/splash/presentation/view/splash.dart';
@@ -24,6 +25,9 @@ class RoutersClass {
   static const String hotTravelScreenPath = "hotTravelScreen";
   static const String fromMainScreenToHotTravelScreen =
       "$mainAppScreenPath/$hotTravelScreenPath";
+  static const String travelsScreen = 'travelsScreen';
+  static const String fromMainScreenToTravelsScreen =
+      '$mainAppScreenPath/$travelsScreen';
 
   static final GoRouter router = GoRouter(
     routes: <RouteBase>[
@@ -104,7 +108,29 @@ class RoutersClass {
                           child: child,
                         );
                       }),
-            )
+            ),
+            GoRoute(
+              path: 'travelsScreen',
+              pageBuilder: (BuildContext context, GoRouterState state) =>
+                  CustomTransitionPage(
+                      child: const TravelsScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        final tween = Tween<Offset>(
+                          begin: const Offset(-1, 0),
+                          end: Offset.zero,
+                        );
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: Curves.ease,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      }),
+            ),
           ]),
     ],
   );

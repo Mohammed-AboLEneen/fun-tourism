@@ -11,7 +11,7 @@ import 'package:fun_adventure/features/home/presentation/view/widgets/home_scree
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/home_menu/custom_menu_manger.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_states.dart';
 
-import '../../../view_model/main_screen_cubit/main_screen_cubit.dart';
+import '../../view_model/main_screen_cubit/main_screen_cubit.dart';
 
 class AppMainScreenWidget extends StatefulWidget {
   const AppMainScreenWidget({super.key});

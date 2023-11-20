@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_adventure/cores/models/message_content_model/message_content_model.dart';
 import 'package:fun_adventure/cores/utils/routers.dart';
 import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,6 +19,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await SharedPreferenceHelper.initSharedPreference();
   await Hive.initFlutter();
+  Hive.registerAdapter(MessageContentModelAdapter());
 
   runApp(const MyApp());
 }
