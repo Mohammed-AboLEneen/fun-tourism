@@ -197,6 +197,7 @@ class _HotTravelScreenState extends State<HotTravelScreen>
                   buttonColor: Colors.indigo,
                   topRight: 20,
                   topLeft: 20,
+                  buttonColorLightness: .5,
                   onPressed: () {},
                 ),
               ),

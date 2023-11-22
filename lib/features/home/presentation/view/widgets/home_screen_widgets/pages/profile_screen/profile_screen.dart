@@ -29,11 +29,13 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileScreenCubit()..profileCubitOperations(id),
+      create: (context) =>
+      ProfileScreenCubit()
+        ..profileCubitOperations(id),
       child: BlocConsumer<ProfileScreenCubit, ProfileScreenStates>(
           builder: (context, state) {
             ProfileScreenCubit profileScreenCubit =
-                ProfileScreenCubit.get(context);
+            ProfileScreenCubit.get(context);
 
             if (profileScreenCubit.userName.isNotEmpty ||
                 profileScreenCubit.imageUrl.isNotEmpty) {
@@ -69,15 +71,39 @@ class ProfileScreen extends StatelessWidget {
                                       child: CircleAvatar(
                                         radius: context.width * .06,
                                         backgroundColor:
-                                            Colors.indigo.withLightness(.8),
+                                        Colors.indigo.withLightness(.8),
                                         child: GestureDetector(
                                           onTap: () {
-                                            profileScreenCubit
-                                                .updateProfileImage(context);
+                                            if (profileScreenCubit
+                                                .startUploadImage ==
+                                                false) {
+                                              profileScreenCubit
+                                                  .updateProfileImage(context);
+                                            }
                                           },
-                                          child: FaIcon(
-                                            FontAwesomeIcons.camera,
-                                            size: 25.h,
+                                          child: Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              FaIcon(
+                                                FontAwesomeIcons.camera,
+                                                size: 25.h,
+                                              ),
+                                              if (profileScreenCubit
+                                                  .startUploadImage)
+                                                AnimatedContainer(
+
+                                                  width: context.width * .12,
+                                                  height: context.width * .12,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.grey
+                                                          .withOpacity(.7),
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                                  duration: const Duration(
+                                                      milliseconds: 700),
+                                                )
+                                            ],
                                           ),
                                         ),
                                       ),
@@ -102,53 +128,42 @@ class ProfileScreen extends StatelessWidget {
                                   child: CustomContainer(
                                     text: 'He Follow U',
                                     backgroundColor:
-                                        Colors.cyan.withLightness(.4),
+                                    Colors.cyan.withLightness(.4),
                                     topLeftRadius: const Radius.circular(10),
                                     bottomRightRadius:
-                                        const Radius.circular(10),
+                                    const Radius.circular(10),
                                   ),
                                 ),
                               if (id == uId)
-                                Stack(
-                                  children: [
-                                    AnimatedContainer(
-                                      duration:
-                                          const Duration(milliseconds: 700),
-                                      height: profileScreenCubit
-                                                  .imageUploadProgress >
-                                              0
-                                          ? context.height * .055
-                                          : 0,
-                                      width: context.width,
-                                    ),
-                                    Visibility(
-                                      visible: profileScreenCubit
-                                              .imageUploadProgress >
-                                          0,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 30.w, right: 10.w, top: 10.h),
-                                        child: SizedBox(
-                                          height: context.height * .05,
-                                          child: Row(
-                                            children: [
-                                              CustomAnimatedIndicatorProgress(
-                                                  imageUploadProgress:
-                                                      profileScreenCubit
-                                                          .imageUploadProgress),
-                                              const Spacer(),
-                                              SizedBox(
-                                                width: context.width * .1,
-                                                child: Text(
-                                                    '${profileScreenCubit.imageUploadProgress} %'),
-                                              )
-                                            ],
-                                          ),
+                                AnimatedCrossFade(
+                                    firstChild: const SizedBox(),
+                                    secondChild: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 30.w, right: 10.w, top: 10.h),
+                                      child: SizedBox(
+                                        height: context.height * .05,
+                                        child: Row(
+                                          children: [
+                                            CustomAnimatedIndicatorProgress(
+                                                imageUploadProgress:
+                                                profileScreenCubit
+                                                    .imageUploadProgress),
+                                            const Spacer(),
+                                            SizedBox(
+                                              width: context.width * .1,
+                                              child: Text(
+                                                  '${profileScreenCubit
+                                                      .imageUploadProgress} %'),
+                                            )
+                                          ],
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
+                                    ),
+                                    crossFadeState:
+                                    profileScreenCubit.startUploadImage
+                                        ? CrossFadeState.showSecond
+                                        : CrossFadeState.showFirst,
+                                    duration: const Duration(seconds: 1)),
                               if (id != uId)
                                 Padding(
                                   padding: EdgeInsets.only(top: 20.h),
@@ -169,7 +184,7 @@ class ProfileScreen extends StatelessWidget {
                                             onPressed: () {
                                               profileScreenCubit
                                                   .chooseTheFollowButtonAction(
-                                                      id);
+                                                  id);
                                             },
                                           ),
                                         ),
@@ -199,25 +214,27 @@ class ProfileScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                       child: Padding(
-                                    padding: EdgeInsets.only(left: 15.0.w),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          'Followers : ',
-                                          style: GoogleFonts.akayaKanadaka()
-                                              .copyWith(
+                                        padding: EdgeInsets.only(left: 15.0.w),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              'Followers : ',
+                                              style: GoogleFonts.akayaKanadaka()
+                                                  .copyWith(
                                                   fontSize: 22.sp,
                                                   fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              '${profileScreenCubit.followers
+                                                  .length}',
+                                              style: GoogleFonts.abel()
+                                                  .copyWith(
+                                                  fontSize: 17.sp,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          '${profileScreenCubit.followers.length}',
-                                          style: GoogleFonts.abel().copyWith(
-                                              fontSize: 17.sp,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
+                                      )),
                                 ],
                               ),
                               SizedBox(
@@ -227,25 +244,26 @@ class ProfileScreen extends StatelessWidget {
                                 child: ListView.builder(
                                   padding: EdgeInsets.zero,
                                   scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) => FollowerItem(
-                                    name: profileScreenCubit
-                                        .followers[index].name,
-                                    imageUrl: profileScreenCubit
-                                        .followers[index].imageUrl,
-                                    ontap: () {
-                                      if (profileScreenCubit
+                                  itemBuilder: (context, index) =>
+                                      FollowerItem(
+                                        name: profileScreenCubit
+                                            .followers[index].name,
+                                        imageUrl: profileScreenCubit
+                                            .followers[index].imageUrl,
+                                        ontap: () {
+                                          if (profileScreenCubit
                                               .followers[index].uId !=
-                                          uId) {
-                                        context.go(
-                                            RoutersClass
-                                                .fromMainAppScreenToProfileScreen,
-                                            extra: profileScreenCubit
-                                                .followers[index].uId);
-                                      }
-                                    },
-                                  ),
+                                              uId) {
+                                            context.go(
+                                                RoutersClass
+                                                    .fromMainAppScreenToProfileScreen,
+                                                extra: profileScreenCubit
+                                                    .followers[index].uId);
+                                          }
+                                        },
+                                      ),
                                   itemCount:
-                                      profileScreenCubit.followers.length,
+                                  profileScreenCubit.followers.length,
                                 ),
                               ),
                               const Padding(
@@ -258,26 +276,27 @@ class ProfileScreen extends StatelessWidget {
                                 children: [
                                   Expanded(
                                       child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 15.0.w, top: 15.h),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          'Travels : ',
-                                          style: GoogleFonts.akayaKanadaka()
-                                              .copyWith(
+                                        padding: EdgeInsets.only(
+                                            left: 15.0.w, top: 15.h),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              'Travels : ',
+                                              style: GoogleFonts.akayaKanadaka()
+                                                  .copyWith(
                                                   fontSize: 22.sp,
                                                   fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              '10',
+                                              style: GoogleFonts.abel()
+                                                  .copyWith(
+                                                  fontSize: 17.sp,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          '10',
-                                          style: GoogleFonts.abel().copyWith(
-                                              fontSize: 17.sp,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
+                                      )),
                                 ],
                               ),
                               const SizedBox(
@@ -290,8 +309,9 @@ class ProfileScreen extends StatelessWidget {
                                     return Padding(
                                       padding: const EdgeInsets.all(10),
                                       child: TravelItem(
-                                        hotTravelModel: LocatorManager.locator<
-                                                AppMainScreenCubit>()
+                                        hotTravelModel: LocatorManager
+                                            .locator<
+                                            AppMainScreenCubit>()
                                             .hotTravels[0],
                                       ),
                                     );
@@ -320,7 +340,9 @@ class ProfileScreen extends StatelessWidget {
               );
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.indigo,
+                ),
               );
             }
           },

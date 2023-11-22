@@ -17,6 +17,19 @@ class TravelsScreen extends StatefulWidget {
 
 class _TravelsScreenState extends State<TravelsScreen>
     with SingleTickerProviderStateMixin {
+  List<String> titles = [
+    'Luxor',
+    'Alex',
+    'Cairo',
+    'Aswan',
+    'Ghardaka',
+    'Marsa Matroh',
+    'Luxor',
+    'Fayom',
+    'El Alamen',
+    'Luxor'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -56,6 +69,7 @@ class _TravelsScreenState extends State<TravelsScreen>
                         isSelected: index == model.currentIndex ? true : false,
                         imageUrl: model.imagesUrl[index],
                         radius: model.radius,
+                        title: titles[index],
                       ),
                     ),
                   );

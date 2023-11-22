@@ -26,4 +26,8 @@ class CheckIfThisProfileFollowCurrentUser extends ProfileScreenStates {}
 
 class SuccessUpdateProfileImageState extends ProfileScreenStates {}
 
+class LoadingUpdateProfileImageState extends ProfileScreenStates {}
+
+class FailureUpdateProfileImageState extends ProfileScreenStates {}
+
 class UpdateImageUploadProgressValueState extends ProfileScreenStates {}

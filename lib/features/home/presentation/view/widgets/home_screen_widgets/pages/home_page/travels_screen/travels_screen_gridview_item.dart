@@ -13,12 +13,14 @@ class TravelsScreenGridViewItem extends StatefulWidget {
   final bool isSelected;
   final String imageUrl;
   final double radius;
+  final String title;
 
   const TravelsScreenGridViewItem(
       {super.key,
       required this.imageUrl,
       required this.radius,
-      required this.isSelected});
+      required this.isSelected,
+      required this.title});
 
   @override
   State<TravelsScreenGridViewItem> createState() =>
@@ -96,10 +98,10 @@ class _TravelsScreenGridViewItemState extends State<TravelsScreenGridViewItem>
                             borderRadius: customBorderRadius(5)),
                         padding: EdgeInsets.all(5.h),
                         child: Text(
-                          'Marsa Matroh',
+                          widget.title,
                           style: GoogleFonts.abel().copyWith(
                               color: Colors.white.withLightness(.9),
-                              fontSize: 18.sp),
+                              fontSize: 20.sp),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -110,44 +112,38 @@ class _TravelsScreenGridViewItemState extends State<TravelsScreenGridViewItem>
                 SizedBox(
                   height: 10.h,
                 ),
-                FutureBuilder(
-                    future: Future.delayed(const Duration(milliseconds: 800)),
-                    builder: (_, snap) {
-                      if (snap.connectionState == ConnectionState.waiting) {
-                        return Container();
-                      } else {
-                        return TweenAnimationBuilder(
-                          duration: const Duration(milliseconds: 400),
-                          tween: Tween<Offset>(
-                              begin: const Offset(0, -5),
-                              end: const Offset(0, 0)),
-                          builder: (BuildContext context, Offset value,
-                              Widget? child) {
-                            return Transform.translate(
-                              offset: value,
-                              child: AnimatedContainer(
-                                onEnd: () {},
-                                duration: const Duration(milliseconds: 400),
-                                height: context.height *
-                                    (((5 - (value.dy * -1)) / 5) * .045).h,
-                                child: CustomTextButton(
-                                  text: 'More Info',
-                                  buttonColor:
-                                      const Color(0xff313745).withOpacity(.8),
-                                  onPressed: () {},
-                                  topLeft: 10,
-                                  topRight: 10,
-                                  bottomRight: 10,
-                                  bottomLeft: 10,
-                                  textSize: 15.sp,
-                                  buttonColorLightness: .3,
-                                ),
-                              ),
-                            );
+                if (apperButtonContainer)
+                  TweenAnimationBuilder(
+                    duration: const Duration(milliseconds: 400),
+                    tween: Tween<Offset>(
+                        begin: const Offset(0, -5), end: const Offset(0, 0)),
+                    builder:
+                        (BuildContext context, Offset value, Widget? child) {
+                      return Transform.translate(
+                        offset: value,
+                        child: AnimatedContainer(
+                          onEnd: () {
+                            apperButtonContainer = false;
                           },
-                        );
-                      }
-                    })
+                          duration: const Duration(milliseconds: 400),
+                          height: context.height *
+                              (((5 - (value.dy * -1)) / 5) * .045).h,
+                          child: CustomTextButton(
+                            text: 'More Info',
+                            buttonColor:
+                                const Color(0xff313745).withOpacity(.8),
+                            onPressed: () {},
+                            topLeft: 10,
+                            topRight: 10,
+                            bottomRight: 10,
+                            bottomLeft: 10,
+                            textSize: 15.sp,
+                            buttonColorLightness: .3,
+                          ),
+                        ),
+                      );
+                    },
+                  )
               ],
             ),
           )

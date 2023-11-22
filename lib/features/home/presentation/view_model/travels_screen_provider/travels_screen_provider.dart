@@ -19,6 +19,7 @@ class TravelsScreenProvider extends ChangeNotifier {
   double radius = 0;
 
   void changeCurrentIndex(int index) {
+    if (currentIndex == index) return;
     currentIndex = index;
     gridCount = 3;
     radius = 0;

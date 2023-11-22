@@ -30,6 +30,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
   bool isFollowU = false;
   List<FollowerIconModel> followers = [];
   int followersProfilePathCount = 0;
+  bool startUploadImage = false;
 
   Future<void> profileCubitOperations(String id) async {
     await initFollowButtonTextAndColor(id);
@@ -192,6 +193,8 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
   int imageUploadProgress = 0;
 
   Future uploadImageToFirebaseStorage(BuildContext context) async {
+    startUploadImage = true;
+    emit(LoadingUpdateProfileImageState());
     FirebaseStorage storage = FirebaseStorage.instance;
     Reference ref = storage.ref().child("users/$uId/userImage");
     UploadTask uploadTask = ref.putFile(_image);
@@ -218,7 +221,11 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
             msg: 'Successfully Updated Profile Image',
             toastMessageType: ToastMessageType.successMessage);
         emit(SuccessUpdateProfileImageState());
+        startUploadImage = false;
       });
+    }).catchError((error) {
+      startUploadImage = false;
+      emit(FailureUpdateProfileImageState());
     });
   }
 }
