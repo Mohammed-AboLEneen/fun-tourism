@@ -28,7 +28,7 @@ class ChatMassage extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(10.h),
           child: Text(
-            'my name is Mohammed, and you?',
+            message,
             style: GoogleFonts.abel().copyWith(fontSize: 17.sp),
           ),
         ),

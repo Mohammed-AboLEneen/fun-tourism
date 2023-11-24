@@ -21,4 +21,6 @@ class MessageContentModel extends HiveObject {
     receiverId = json['receiverId'];
     senderId = json['senderId'];
   }
+
+
 }

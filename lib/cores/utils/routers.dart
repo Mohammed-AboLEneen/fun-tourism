@@ -3,6 +3,7 @@ import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.d
 import 'package:fun_adventure/features/authentication/presentation/view/authentcation.dart';
 import 'package:fun_adventure/features/authentication/presentation/view/widgets/verification_page.dart';
 import 'package:fun_adventure/features/home/presentation/view/main_screen.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/chats_screen_widgets/chat_content.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/home_page/travels_screen/travels_screen.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/onboarding.dart';
@@ -19,6 +20,9 @@ class RoutersClass {
   static const String fromAuthScreenToEmailVerificationScreen =
       "$authenticationScreenPath/$emailVerificationScreenPath";
   static const String mainAppScreenPath = "/mainAppScreen";
+  static const String chatContentScreen = "chatContentScreen";
+  static const String fromMainScreenToChatContentScreen =
+      "$mainAppScreenPath/$chatContentScreen";
   static const String profileScreenPath = "profileScreenPath";
   static const String fromMainAppScreenToProfileScreen =
       "$mainAppScreenPath/$profileScreenPath";
@@ -131,6 +135,28 @@ class RoutersClass {
                         );
                       }),
             ),
+            GoRoute(
+              path: 'chatContentScreen',
+              pageBuilder: (BuildContext context, GoRouterState state) =>
+                  CustomTransitionPage(
+                      child: ChatContent(id: state.extra as String),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        final tween = Tween<Offset>(
+                          begin: const Offset(-1, 0),
+                          end: Offset.zero,
+                        );
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: Curves.ease,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      }),
+            )
           ]),
     ],
   );

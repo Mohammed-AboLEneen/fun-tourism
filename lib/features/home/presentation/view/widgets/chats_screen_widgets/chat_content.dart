@@ -1,21 +1,49 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fun_adventure/cores/methods/toast.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/chats_screen_widgets/chat_message.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../../../constants.dart';
+
 class ChatContent extends StatefulWidget {
-  const ChatContent({super.key});
+  final String? id;
+
+  const ChatContent({super.key, this.id});
 
   @override
   State<ChatContent> createState() => _ChatContentState();
 }
 
 class _ChatContentState extends State<ChatContent> {
+  late Stream<QuerySnapshot> usersStream;
+  TextEditingController controller = TextEditingController();
+  final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
+  ScrollController scrollController = ScrollController();
+  List<String> messages = [];
+
+  void addItem() {
+    int newIndex = messages.length;
+    messages.add(controller.text);
+    listKey.currentState?.insertItem(newIndex - 1);
+  }
+
   @override
   void initState() {
     super.initState();
+
+    usersStream = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uId)
+        .collection('chats')
+        .doc(widget.id)
+        .collection('newMessages')
+        .orderBy('time')
+        .snapshots();
   }
 
   @override
@@ -32,7 +60,7 @@ class _ChatContentState extends State<ChatContent> {
                 children: [
                   IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        context.pop();
                       },
                       icon: Icon(
                         Icons.arrow_back_outlined,
@@ -62,20 +90,50 @@ class _ChatContentState extends State<ChatContent> {
               const SizedBox(
                 height: 20,
               ),
-              Expanded(
-                child: ListView.builder(
-                  itemBuilder: (c, i) {
-                    return const ChatMassage(
-                      message: 'lolo',
-                      bottomLeft: Radius.zero,
-                      bottomRight: Radius.circular(20),
-                    );
-                  },
-                  itemCount: 1,
-                ),
-              ),
+              StreamBuilder(
+                  stream: usersStream,
+                  builder: (context, snap) {
+                    if (snap.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.indigo,
+                        ),
+                      );
+                    } else {
+                      messages.clear();
+                      for (var doc in snap.data!.docs) {
+                        Map<String, dynamic> data =
+                        doc.data()! as Map<String, dynamic>;
+
+                        messages.add(data['message']);
+                      }
+
+                      print(messages.length);
+                      return Expanded(
+                        child: AnimatedList(
+                          controller: scrollController,
+                          key: listKey,
+                          initialItemCount: messages.length,
+                          itemBuilder: (context, index, animation) {
+                            return SizeTransition(
+                                sizeFactor: animation,
+                                child: Padding(
+                                  padding:
+                                  EdgeInsets.symmetric(vertical: 8.0.h),
+                                  child: ChatMassage(
+                                    message: messages[index],
+                                    bottomLeft: Radius.zero,
+                                    bottomRight: const Radius.circular(20),
+                                  ),
+                                ));
+                          },
+                        ),
+                      );
+                    }
+                  }),
               TextField(
                 cursorColor: Colors.blue,
+                controller: controller,
                 maxLines: 3,
                 minLines: 1,
                 decoration: InputDecoration(
@@ -84,7 +142,32 @@ class _ChatContentState extends State<ChatContent> {
                     suffixIcon: Padding(
                       padding: const EdgeInsets.only(right: 5.0),
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(uId)
+                              .collection('chats')
+                              .doc(widget.id)
+                              .collection('newMessages')
+                              .add({
+                            'message': controller.text,
+                            'time': DateTime.now(),
+                            'receiverId': widget.id,
+                            'senderId': uId
+                          }).then((value) {
+                            showToast(
+                                msg: 'Done',
+                                toastMessageType:
+                                ToastMessageType.successMessage);
+
+                            addItem();
+                            scrollController.animateTo(
+                              scrollController.position.maxScrollExtent,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeOut,
+                            );
+                          });
+                        },
                         icon: const FaIcon(FontAwesomeIcons.paperPlane),
                       ),
                     ),

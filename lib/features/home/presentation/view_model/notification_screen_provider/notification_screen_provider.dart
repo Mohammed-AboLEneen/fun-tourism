@@ -6,13 +6,19 @@ import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 
 class NotificationScreenProvider extends ChangeNotifier {
+
+  bool finishToRequestNotifications = true;
+
   Future<void> requestUserNotifications(BuildContext context) async {
-    if (LocatorManager.locator<AppMainScreenCubit>()
+    if (LocatorManager
+        .locator<AppMainScreenCubit>()
         .userNotifications
         .isEmpty) {
+      finishToRequestNotifications = false;
+      notifyListeners();
       try {
         QuerySnapshot querySnapshot =
-            await FireStoreServices.requestUserNotifications();
+        await FireStoreServices.requestUserNotifications();
         List<NotificationModel> notifications = [];
 
         for (var element in querySnapshot.docs) {
@@ -24,10 +30,12 @@ class NotificationScreenProvider extends ChangeNotifier {
               notData: data['data']));
         }
 
-        LocatorManager.locator<AppMainScreenCubit>()
+        LocatorManager
+            .locator<AppMainScreenCubit>()
             .userNotifications
             .addAll(notifications.reversed);
 
+        finishToRequestNotifications = true;
         notifyListeners();
       } catch (e) {
         print(e.toString());

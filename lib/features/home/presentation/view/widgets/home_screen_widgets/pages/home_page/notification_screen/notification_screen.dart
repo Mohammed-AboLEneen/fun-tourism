@@ -53,9 +53,7 @@ class NotificationScreen extends StatelessWidget {
                 ..requestUserNotifications(context),
               child: Consumer<NotificationScreenProvider>(
                 builder: (_, model, __) {
-                  if (LocatorManager.locator<AppMainScreenCubit>()
-                      .userNotifications
-                      .isNotEmpty) {
+                  if (model.finishToRequestNotifications) {
                     return Visibility(
                       visible: notificationsScreenUiManger
                           .notificationScreenBodyVisible,
@@ -103,8 +101,15 @@ class NotificationScreen extends StatelessWidget {
                       ),
                     );
                   } else {
-                    return const Center(
-                      child: LinearProgressIndicator(),
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 70.0.w),
+                        child: LinearProgressIndicator(
+                          color: Colors.indigo,
+                          borderRadius: BorderRadius.circular(20),
+                          backgroundColor: Colors.grey,
+                        ),
+                      ),
                     );
                   }
                 },
