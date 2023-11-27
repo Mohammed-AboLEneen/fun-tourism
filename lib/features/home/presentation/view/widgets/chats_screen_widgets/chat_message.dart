@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_adventure/cores/models/message_content_model/message_content_model.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ChatMassage extends StatelessWidget {
-  final String message;
+  final MessageContentModel message;
 
   final Radius? bottomLeft;
   final Radius? bottomRight;
@@ -28,7 +29,7 @@ class ChatMassage extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(10.h),
           child: Text(
-            message,
+            message.message ?? '',
             style: GoogleFonts.abel().copyWith(fontSize: 17.sp),
           ),
         ),

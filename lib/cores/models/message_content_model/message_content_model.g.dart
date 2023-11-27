@@ -17,24 +17,27 @@ class MessageContentModelAdapter extends TypeAdapter<MessageContentModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MessageContentModel()
-      ..time = fields[0] as String?
+      ..sendMessageTime = fields[0] as String?
       ..message = fields[1] as String?
       ..receiverId = fields[2] as String?
-      ..senderId = fields[3] as String?;
+      ..senderId = fields[3] as String?
+      ..isSend = fields[4] as bool?;
   }
 
   @override
   void write(BinaryWriter writer, MessageContentModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
-      ..write(obj.time)
+      ..write(obj.sendMessageTime)
       ..writeByte(1)
       ..write(obj.message)
       ..writeByte(2)
       ..write(obj.receiverId)
       ..writeByte(3)
-      ..write(obj.senderId);
+      ..write(obj.senderId)
+      ..writeByte(4)
+      ..write(obj.isSend);
   }
 
   @override
