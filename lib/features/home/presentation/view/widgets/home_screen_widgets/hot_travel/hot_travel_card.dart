@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/hot_travel/travel_item.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../../../../cores/utils/routers.dart';
 
@@ -16,8 +15,8 @@ class TravelsCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        context.go(RoutersClass.fromMainScreenToHotTravelScreen,
-            extra: hotTravelModel);
+        Navigator.pushNamed(context, RoutersClass.hotTravelScreen,
+            arguments: hotTravelModel);
       },
       child: Stack(
         children: [

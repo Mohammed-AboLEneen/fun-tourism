@@ -5,7 +5,6 @@ import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
 import 'package:fun_adventure/cores/utils/smooth_dots.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/widgets/custom_button.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/widgets/pageview_item.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../cores/methods/navigate_pageview.dart';
 import '../../../../cores/utils/routers.dart';
@@ -50,14 +49,8 @@ class _OnBoardingPageState extends State<OnBoardingPage>
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery
-        .of(context)
-        .size
-        .height;
-    double w = MediaQuery
-        .of(context)
-        .size
-        .width;
+    double h = MediaQuery.of(context).size.height;
+    double w = MediaQuery.of(context).size.width;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
@@ -148,7 +141,8 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                       SharedPreferenceHelper.setBool(
                           key: onBoardingKey, value: true);
 
-                      context.go(RoutersClass.authenticationScreenPath);
+                      Navigator.pushNamedAndRemoveUntil(context,
+                          RoutersClass.authenticationScreen, (route) => false);
                     }
                   },
                   color: Color.lerp(beginColor, endColor, progress),

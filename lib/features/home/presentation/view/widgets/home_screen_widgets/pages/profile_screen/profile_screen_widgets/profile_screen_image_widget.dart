@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 
 class ProfileScreenImageWidget extends StatelessWidget {
@@ -14,11 +15,11 @@ class ProfileScreenImageWidget extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         CircleAvatar(
-          radius: context.width * .17,
-          backgroundColor: Colors.white,
+          radius: context.width * .22,
+          backgroundColor: Colors.indigo.withLightness(.6),
         ),
         CircleAvatar(
-          radius: context.width * .16,
+          radius: context.width * .21,
           backgroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
           child: imageUrl.isEmpty
               ? FaIcon(

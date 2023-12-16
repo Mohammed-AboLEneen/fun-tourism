@@ -14,9 +14,9 @@ import '../../../custom_textbutton.dart';
 import 'hot_travel_screen_info.dart';
 
 class HotTravelScreen extends StatefulWidget {
-  final HotTravelModel hotTravelModel;
-
-  const HotTravelScreen({super.key, required this.hotTravelModel});
+  const HotTravelScreen({
+    super.key,
+  });
 
   @override
   State<HotTravelScreen> createState() => _HotTravelScreenState();
@@ -25,6 +25,7 @@ class HotTravelScreen extends StatefulWidget {
 class _HotTravelScreenState extends State<HotTravelScreen>
     with SingleTickerProviderStateMixin {
   bool isOpened = false;
+  late HotTravelModel hotTravelModel;
 
   late AnimationController _controller1;
   late Animation<Offset> _animation1;
@@ -35,6 +36,13 @@ class _HotTravelScreenState extends State<HotTravelScreen>
 
     initControllersAndAnimations();
     _controller1.forward();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    hotTravelModel =
+        ModalRoute.of(context)!.settings.arguments as HotTravelModel;
   }
 
   @override
@@ -63,7 +71,7 @@ class _HotTravelScreenState extends State<HotTravelScreen>
                             bottomRight: Radius.circular(20),
                           ),
                           child: Image.memory(
-                            widget.hotTravelModel.travelBriefModel?.image ??
+                            hotTravelModel.travelBriefModel?.image ??
                                 Uint8List(0),
                             height: context.height * .34,
                             width: context.width,
@@ -78,10 +86,10 @@ class _HotTravelScreenState extends State<HotTravelScreen>
                                 child: Align(
                                   alignment: Alignment.bottomCenter,
                                   child: HotTravelScreenInfo(
-                                    price: widget
-                                        .hotTravelModel.travelBriefModel?.price,
-                                    time: widget.hotTravelModel.time,
-                                    rate: widget.hotTravelModel.rating,
+                                    price:
+                                        hotTravelModel.travelBriefModel?.price,
+                                    time: hotTravelModel.time,
+                                    rate: hotTravelModel.rating,
                                   ),
                                 ),
                               );
@@ -116,10 +124,8 @@ class _HotTravelScreenState extends State<HotTravelScreen>
                             });
                           },
                           children: [
-                            expansionPanelItem(
-                                isOpened,
-                                widget.hotTravelModel.travelBriefModel
-                                    ?.description)
+                            expansionPanelItem(isOpened,
+                                hotTravelModel.travelBriefModel?.description)
                           ],
                         ),
                         const SizedBox(
@@ -143,7 +149,7 @@ class _HotTravelScreenState extends State<HotTravelScreen>
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              widget.hotTravelModel.travelBriefModel?.title ??
+                              hotTravelModel.travelBriefModel?.title ??
                                   '-------',
                               style: GoogleFonts.abel().copyWith(
                                 color: Colors.white,
@@ -171,7 +177,7 @@ class _HotTravelScreenState extends State<HotTravelScreen>
                           height: 10,
                         ),
                         HotTravelScreenCreatorPart(
-                            creator: widget.hotTravelModel.creator),
+                            creator: hotTravelModel.creator),
 
                         SizedBox(
                           height: context.height * .08,

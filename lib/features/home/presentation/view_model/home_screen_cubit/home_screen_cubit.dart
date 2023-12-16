@@ -27,12 +27,7 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
 
   static HomeScreenCubit get(context) => BlocProvider.of(context);
 
-  late List<Widget> homeMenuPages = [
-    const HomePage(),
-    ProfileScreen(
-      id: uId ?? '',
-    )
-  ];
+  late List<Widget> homeMenuPages = [const HomePage(), const ProfileScreen()];
 
   List<String> categoriesTitles = [
     'North Egypt',

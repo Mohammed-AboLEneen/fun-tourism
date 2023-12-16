@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fun_adventure/features/home/presentation/view/main_screen.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/onboarding.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../../constants.dart';
 import '../../../../../cores/utils/images.dart';
@@ -78,7 +77,8 @@ class _SplashViewBodyState extends State<SplashViewBody>
     Future.delayed(const Duration(seconds: 5), () {
       Widget beginWidget = beginWidgetApp();
 
-      context.go(theNextScreen);
+      Navigator.pushNamedAndRemoveUntil(
+          context, theNextScreen, (route) => false);
     });
   }
 
@@ -86,15 +86,15 @@ class _SplashViewBodyState extends State<SplashViewBody>
     bool? onBoarding = SharedPreferenceHelper.getBool(key: onBoardingKey);
 
     if (onBoarding == null) {
-      theNextScreen = RoutersClass.onBoardingPagePath;
+      theNextScreen = RoutersClass.onBoardingScreen;
       return const OnBoardingPage();
     } else {
       bool? login = SharedPreferenceHelper.getBool(key: loginKey);
       if (login == null) {
-        theNextScreen = RoutersClass.authenticationScreenPath;
+        theNextScreen = RoutersClass.authenticationScreen;
         return const AuthenticationScreen();
       } else {
-        theNextScreen = RoutersClass.mainAppScreenPath;
+        theNextScreen = RoutersClass.appMainScreen;
         return const AppMainScreen();
       }
     }

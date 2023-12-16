@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../../cores/methods/toast.dart';
 import '../../../../../cores/utils/custom_textformfield_underline.dart';
@@ -104,8 +103,12 @@ class _RegisterPageState extends State<RegisterPage> {
         if (state is RegisterSuccessState) {
           showToast(
               msg: 'verify your email',
+              textColor: Colors.black,
               toastMessageType: ToastMessageType.waitingMessage);
-          context.go(RoutersClass.fromAuthScreenToEmailVerificationScreen);
+          Navigator.pushNamed(
+            context,
+            RoutersClass.emailVerificationScreen,
+          );
         } else if (state is RegisterFailureState) {
           showToast(
               msg: state.message,

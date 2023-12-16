@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../cores/utils/images.dart';
-import '../../../../../../cores/utils/routers.dart';
 
 class ChatScreenItem extends StatelessWidget {
   const ChatScreenItem({super.key});
@@ -17,10 +15,7 @@ class ChatScreenItem extends StatelessWidget {
       child: SizedBox(
         height: context.height * .09,
         child: InkWell(
-          onTap: () {
-            context.go(RoutersClass.fromMainScreenToChatContentScreen,
-                extra: '08iLv9b16EXZTJGURmT4TRPzq7n1');
-          },
+          onTap: () {},
           child: Row(
             children: [
               SizedBox(

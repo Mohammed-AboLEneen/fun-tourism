@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
 import 'package:fun_adventure/cores/models/follower_icon_model/follower_icon_model.dart';
+import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/cores/utils/internet_connection.dart';
@@ -23,8 +24,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   static ProfileScreenCubit get(context) => BlocProvider.of(context);
 
-  String userName = '';
-  String imageUrl = '';
+  UserInfoData? userInfoData;
   String followButtonText = 'follow';
   Color followButtonColor = Colors.indigo;
   bool isFollowU = false;
@@ -43,31 +43,16 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
     emit(LoadingGetProfileScreenDataState());
 
     try {
-      await getUserDisplayNameAndImageUrl(id);
+      DocumentSnapshot<Map<String, dynamic>> data =
+      await FireStoreServices.fireStore.collection('users').doc(id).get();
+
+      userInfoData = UserInfoData.fromJson(data.data() as Map<String, dynamic>);
       emit(SuccessGetProfileScreenDataState());
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
       emit(FailureGetProfileScreenDataState());
-    }
-  }
-
-  Future<void> getUserDisplayNameAndImageUrl(String id) async {
-    DocumentSnapshot<Map<String, dynamic>> data =
-    await FireStoreServices.fireStore.collection('users').doc(id).get();
-
-    userName = data.data()?['displayName'];
-
-    FirebaseStorage storage = FirebaseStorage.instance;
-
-    try {
-      Reference ref = storage.ref().child("users/$id/userImage");
-      imageUrl = await ref.getDownloadURL();
-    } catch (e) {
-      if (kDebugMode) {
-        print('this is error : ${e.toString()}');
-      }
     }
   }
 
@@ -121,7 +106,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
     followButtonColor = Colors.cyan.withLightness(.7);
     emit(LoadingSendFollowToFireStoreState());
     ProfileScreenFireStore.sendFollowerToFireStore(id).then((value) {
-      ProfileScreenFireStore.sendFollowingToFireStore(id, userName, imageUrl);
+      ProfileScreenFireStore.sendFollowingToFireStore(id, userInfoData?.displayName ?? '',  userInfoData?.photoURL ?? '');
       followButtonText = 'unFollow';
       followButtonColor = Colors.grey;
 
@@ -211,14 +196,14 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
     });
 
     await uploadTask.whenComplete(() async {
-      imageUrl = await ref.getDownloadURL();
+      userInfoData?.photoURL = await ref.getDownloadURL();
       imageUploadProgress = 0;
       FirebaseFirestore.instance
           .collection('users')
           .doc(uId)
-          .update({'photoURL': imageUrl}).then((value) {
+          .update({'photoURL':  userInfoData?.photoURL}).then((value) {
         BlocProvider.of<AppMainScreenCubit>(context)
-            .changePhotoURLValue(imageUrl);
+            .changePhotoURLValue( userInfoData?.photoURL ?? '');
         showToast(
             msg: 'Successfully Updated Profile Image',
             toastMessageType: ToastMessageType.successMessage);

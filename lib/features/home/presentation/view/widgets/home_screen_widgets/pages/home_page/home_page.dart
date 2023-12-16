@@ -11,7 +11,6 @@ import 'package:fun_adventure/features/home/presentation/view/widgets/sliver_siz
 import 'package:fun_adventure/features/home/presentation/view_model/home_screen_cubit/home_screen_cubit.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/home_screen_cubit/home_screen_states.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -85,8 +84,10 @@ class _HomePageState extends State<HomePage> {
                               (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    context.go(RoutersClass
-                                        .fromMainScreenToTravelsScreen);
+                                    Navigator.pushNamed(
+                                      context,
+                                      RoutersClass.travelsScreen,
+                                    );
                                   },
                                   child: Card(
                                     // generate blues with random shades

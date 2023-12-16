@@ -8,7 +8,6 @@ import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
 import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
 import 'package:fun_adventure/cores/utils/routers.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../../constants.dart';
 import '../../../../../cores/utils/custom_textformfield_underline.dart';
@@ -216,13 +215,17 @@ class _LoginPageState extends State<LoginPage> {
               if (!context.mounted) return;
 
               if (isExist) {
-                context.go(RoutersClass.mainAppScreenPath);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, RoutersClass.appMainScreen, (route) => false);
               } else {
                 await addNewUserInFireStore(
                     userInfoData: state.user, context: context);
               }
             } else {
-              context.go(RoutersClass.fromAuthScreenToEmailVerificationScreen);
+              Navigator.pushNamed(
+                context,
+                RoutersClass.emailVerificationScreen,
+              );
             }
           }
         } else if (state is LoginFailureState) {
@@ -249,7 +252,8 @@ void checkIsThisNewUser({
     await SharedPreferenceHelper.setString(key: uIdKey, value: user.uid ?? '');
 
     if (!context.mounted) return;
-    context.go(RoutersClass.mainAppScreenPath);
+    Navigator.pushNamedAndRemoveUntil(
+        context, RoutersClass.appMainScreen, (route) => false);
   } else {
     showToast(
         msg: 'Something is wrong, try again.',

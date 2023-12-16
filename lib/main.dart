@@ -34,8 +34,9 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp.router(
-          routerConfig: RoutersClass.router,
+        return MaterialApp(
+          initialRoute: '/',
+          routes: RoutersClass.routers,
           title: 'Flutter Demo',
           theme: ThemeData(
             textTheme: GoogleFonts.abelTextTheme(ThemeData.light().textTheme),

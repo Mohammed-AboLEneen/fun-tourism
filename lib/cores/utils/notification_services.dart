@@ -3,15 +3,14 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fun_adventure/cores/utils/firebase_api.dart';
 import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/cores/utils/routers.dart';
-import 'package:go_router/go_router.dart';
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin notificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   static Future<void> initNotification(BuildContext context) async {
     AndroidInitializationSettings initializationSettingsAndroid =
-    const AndroidInitializationSettings('@mipmap/ic_launcher');
+        const AndroidInitializationSettings('@mipmap/ic_launcher');
 
     var initializationSettingsIOS = DarwinInitializationSettings(
         requestAlertPermission: true,
@@ -24,14 +23,13 @@ class NotificationService {
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     await notificationsPlugin.initialize(initializationSettings,
         onDidReceiveNotificationResponse: (NotificationResponse response) {
-          context.go(RoutersClass.fromMainAppScreenToProfileScreen,
-              extra: LocatorManager
-                  .locator<FirebaseApi>()
-                  .notification
-                  .value
-                  .notificationData
-                  .contentId);
-        });
+      Navigator.pushNamed(context, RoutersClass.profileScreen,
+          arguments: LocatorManager.locator<FirebaseApi>()
+              .notification
+              .value
+              .notificationData
+              .contentId);
+    });
   }
 
   static notificationDetails() {
