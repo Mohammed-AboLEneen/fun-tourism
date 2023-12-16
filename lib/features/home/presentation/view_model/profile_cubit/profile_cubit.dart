@@ -195,7 +195,8 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
   bool startUploadImage = false;
 
   Future uploadImageToFirebaseStorage(BuildContext context) async {
-
+    startUploadImage = true;
+    emit(LoadingUpdateProfileImageState());
     FirebaseStorage storage = FirebaseStorage.instance;
     Reference ref = storage.ref().child("users/$uId/userImage");
     UploadTask uploadTask = ref.putFile(_image);
