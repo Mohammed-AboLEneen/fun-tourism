@@ -28,9 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     id = ModalRoute.of(context)!.settings.arguments as String?;
-    print('l;dspsodsfs;cmmcx');
-    print(id);
-    if (id?.isEmpty ?? false) id = uId;
+    if (id == null || (id?.isEmpty ?? false)) id = uId;
   }
 
   @override

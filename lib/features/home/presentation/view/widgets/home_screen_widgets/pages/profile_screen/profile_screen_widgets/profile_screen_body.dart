@@ -85,7 +85,36 @@ class ProfileScreenBody extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 45.h,
+            height: 30.h,
+          ),
+          if (id == uId)
+            AnimatedCrossFade(
+                firstChild: const SizedBox(),
+                secondChild: Padding(
+                  padding: EdgeInsets.only(left: 30.w, right: 10.w, top: 10.h),
+                  child: SizedBox(
+                    height: context.height * .05,
+                    child: Row(
+                      children: [
+                        CustomAnimatedIndicatorProgress(
+                            imageUploadProgress:
+                                profileScreenCubit.imageUploadProgress),
+                        const Spacer(),
+                        SizedBox(
+                          width: context.width * .1,
+                          child: Text(
+                              '${profileScreenCubit.imageUploadProgress} %'),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                crossFadeState: profileScreenCubit.startUploadImage
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
+                duration: const Duration(seconds: 1)),
+          SizedBox(
+            height: 15.h,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0.w),
@@ -179,32 +208,6 @@ class ProfileScreenBody extends StatelessWidget {
                 bottomRightRadius: const Radius.circular(10),
               ),
             ),
-          if (id == uId)
-            AnimatedCrossFade(
-                firstChild: const SizedBox(),
-                secondChild: Padding(
-                  padding: EdgeInsets.only(left: 30.w, right: 10.w, top: 10.h),
-                  child: SizedBox(
-                    height: context.height * .05,
-                    child: Row(
-                      children: [
-                        CustomAnimatedIndicatorProgress(
-                            imageUploadProgress:
-                                profileScreenCubit.imageUploadProgress),
-                        const Spacer(),
-                        SizedBox(
-                          width: context.width * .1,
-                          child: Text(
-                              '${profileScreenCubit.imageUploadProgress} %'),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                crossFadeState: profileScreenCubit.startUploadImage
-                    ? CrossFadeState.showSecond
-                    : CrossFadeState.showFirst,
-                duration: const Duration(seconds: 1)),
           if (id != uId)
             ProfileFollowButton(
               id: id,

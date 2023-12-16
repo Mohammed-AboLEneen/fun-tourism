@@ -3,14 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/hot_travel/hot_travel_card.dart';
 
-class SliderBanner extends StatelessWidget {
+class HotTravelsSliderBanner extends StatelessWidget {
   final double height;
   final List<HotTravelModel> items;
   final Axis scrollDirection;
   final CarouselController? controller;
   final dynamic Function(int, CarouselPageChangedReason)? action;
 
-  const SliderBanner({
+  const HotTravelsSliderBanner({
     super.key,
     required this.height,
     required this.items,

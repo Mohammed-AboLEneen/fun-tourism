@@ -14,7 +14,7 @@ class HotTravelScreenInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: context.width * .9,
       height: (context.width * .5),
       child: Card(

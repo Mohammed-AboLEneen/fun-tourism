@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                             h: 15,
                           ),
                           SliverToBoxAdapter(
-                            child: SliderBanner(
+                            child: HotTravelsSliderBanner(
                               height: context.height * .33,
                               action: (index, __) {
                                 setState(() {

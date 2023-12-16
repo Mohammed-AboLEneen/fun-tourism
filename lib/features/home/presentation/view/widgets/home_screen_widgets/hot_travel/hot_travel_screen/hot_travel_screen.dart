@@ -27,15 +27,15 @@ class _HotTravelScreenState extends State<HotTravelScreen>
   bool isOpened = false;
   late HotTravelModel hotTravelModel;
 
-  late AnimationController _controller1;
-  late Animation<Offset> _animation1;
+  late AnimationController pageCardController;
+  late Animation<Offset> pageCardAnimation;
 
   @override
   void initState() {
     super.initState();
 
     initControllersAndAnimations();
-    _controller1.forward();
+    pageCardController.forward();
   }
 
   @override
@@ -47,13 +47,14 @@ class _HotTravelScreenState extends State<HotTravelScreen>
 
   @override
   void dispose() {
-    _controller1.dispose();
+    pageCardController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
           child: SizedBox(
         height: context.height,
@@ -66,23 +67,26 @@ class _HotTravelScreenState extends State<HotTravelScreen>
                     height: context.height * .4,
                     child: Stack(
                       children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            bottomRight: Radius.circular(20),
-                          ),
-                          child: Image.memory(
-                            hotTravelModel.travelBriefModel?.image ??
-                                Uint8List(0),
-                            height: context.height * .34,
-                            width: context.width,
-                            fit: BoxFit.cover,
+                        Hero(
+                          tag: hotTravelModel.travelBriefModel?.title ?? '5*4',
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              bottomRight: Radius.circular(20),
+                            ),
+                            child: Image.memory(
+                              hotTravelModel.travelBriefModel?.image ??
+                                  Uint8List(0),
+                              height: context.height * .34,
+                              width: context.width,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                         AnimatedBuilder(
-                            animation: _animation1,
+                            animation: pageCardAnimation,
                             builder: (_, __) {
                               return SlideTransition(
-                                position: _animation1,
+                                position: pageCardAnimation,
                                 child: Align(
                                   alignment: Alignment.bottomCenter,
                                   child: HotTravelScreenInfo(
@@ -215,14 +219,14 @@ class _HotTravelScreenState extends State<HotTravelScreen>
   }
 
   void initControllersAndAnimations() {
-    _controller1 = AnimationController(
+    pageCardController = AnimationController(
       duration: const Duration(seconds: 1),
       vsync: this,
     );
 
-    _animation1 = Tween<Offset>(
+    pageCardAnimation = Tween<Offset>(
       begin: const Offset(0, -.2),
       end: const Offset(0, 0),
-    ).animate(_controller1);
+    ).animate(pageCardController);
   }
 }
