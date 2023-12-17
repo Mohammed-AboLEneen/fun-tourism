@@ -8,6 +8,8 @@ import 'package:fun_adventure/features/home/presentation/view/widgets/home_scree
 import 'package:fun_adventure/features/onboarding/presentation/view/onboarding.dart';
 import 'package:fun_adventure/features/splash/presentation/view/splash.dart';
 
+import '../../features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/edit_screen.dart';
+
 class RoutersClass {
   static String onBoardingScreen = '/onBoardingScreen';
   static String authenticationScreen = '/AuthenticationScreen';
@@ -16,6 +18,7 @@ class RoutersClass {
   static String hotTravelScreen = '/HotTravelScreen';
   static String travelsScreen = '/TravelsScreen';
   static String profileScreen = '/ProfileScreen';
+  static String editProfileScreen = '/EditProfileScreen';
 
   static Map<String, Widget Function(BuildContext)> routers = {
     '/': (context) => const SplashPage(),
@@ -26,5 +29,6 @@ class RoutersClass {
     '/HotTravelScreen': (context) => const HotTravelScreen(),
     '/TravelsScreen': (context) => const TravelsScreen(),
     '/ProfileScreen': (context) => const ProfileScreen(),
+    '/EditProfileScreen': (context) => const EditProfileScreen(),
   };
 }

@@ -35,50 +35,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ProfileScreenCubit()..profileCubitOperations(id!),
-      child: BlocConsumer<ProfileScreenCubit, ProfileScreenStates>(
-          builder: (context, state) {
-            ProfileScreenCubit profileScreenCubit =
-                ProfileScreenCubit.get(context);
+      child: BlocBuilder<ProfileScreenCubit, ProfileScreenStates>(
+        builder: (context, state) {
+          ProfileScreenCubit profileScreenCubit =
+              ProfileScreenCubit.get(context);
 
-            if ((profileScreenCubit.userInfoData?.displayName?.isNotEmpty ??
-                    false) ||
-                (profileScreenCubit.userInfoData?.photoURL?.isNotEmpty ??
-                    false)) {
-              return TweenAnimationBuilder(
-                  tween: Tween<double>(begin: 0, end: 1),
-                  duration: const Duration(seconds: 1),
-                  builder: (_, value, __) {
-                    return Opacity(
-                      opacity: value,
-                      child: Scaffold(
-                        appBar: AppBar(
-                          backgroundColor: Colors.white.withLightness(.95),
-                        ),
+          if ((profileScreenCubit.userInfoData?.displayName?.isNotEmpty ??
+                  false) ||
+              (profileScreenCubit.userInfoData?.photoURL?.isNotEmpty ??
+                  false)) {
+            return TweenAnimationBuilder(
+                tween: Tween<double>(begin: 0, end: 1),
+                duration: const Duration(seconds: 1),
+                builder: (_, value, __) {
+                  return Opacity(
+                    opacity: value,
+                    child: Scaffold(
+                      appBar: AppBar(
                         backgroundColor: Colors.white.withLightness(.95),
-                        body: ProfileScreenBody(
-                          id: id!,
-                        ),
                       ),
-                    );
-                  });
-            } else if (state is FailureGetProfileScreenDataState) {
-              return Scaffold(
-                body: Center(
-                  child: Text(
-                    'There Is An Error',
-                    style: GoogleFonts.aBeeZee().copyWith(fontSize: 30.sp),
-                  ),
+                      backgroundColor: Colors.white.withLightness(.95),
+                      body: ProfileScreenBody(
+                        id: id!,
+                      ),
+                    ),
+                  );
+                });
+          } else if (state is FailureGetProfileScreenDataState) {
+            return Scaffold(
+              body: Center(
+                child: Text(
+                  'There Is An Error',
+                  style: GoogleFonts.aBeeZee().copyWith(fontSize: 30.sp),
                 ),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.indigo,
-                ),
-              );
-            }
-          },
-          listener: (context, state) {}),
+              ),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.indigo,
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/custom_textbutton.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/edit_screen.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/custom_animated_indicator_progress.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/profile_screen_image_widget.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
@@ -40,12 +41,15 @@ class ProfileScreenBody extends StatelessWidget {
                   showImageDialog(
                       context, profileScreenCubit.userInfoData?.photoURL ?? '');
                 },
-                child: ProfileScreenImageWidget(
-                  imageUrl: LocatorManager.locator<AppMainScreenCubit>()
-                          .userData!
-                          .userInfoData
-                          .photoURL ??
-                      '---',
+                child: Hero(
+                  tag: '${profileScreenCubit.userInfoData?.uid}',
+                  child: ProfileScreenImageWidget(
+                    imageUrl: LocatorManager.locator<AppMainScreenCubit>()
+                            .userData!
+                            .userInfoData
+                            .photoURL ??
+                        '---',
+                  ),
                 ),
               ),
               if (id == uId)
@@ -275,7 +279,16 @@ class ProfileScreenBody extends StatelessWidget {
                   topRight: 10,
                   bottomRight: 10,
                   bottomLeft: 10,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                            transitionDuration: const Duration(seconds: 1),
+                            settings: RouteSettings(
+                                arguments: profileScreenCubit.userInfoData),
+                            pageBuilder: (_, __, ___) =>
+                                const EditProfileScreen()));
+                  },
                 ),
               ),
             ),

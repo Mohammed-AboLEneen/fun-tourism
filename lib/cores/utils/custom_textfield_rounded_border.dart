@@ -13,6 +13,11 @@ class CustomTextFieldRoundedBorder extends StatelessWidget {
   final TextInputAction? textInputAction;
   final void Function(String)? onChanged;
   final TextEditingController? controller;
+  final Widget? suffixIcon;
+  final double? topRight;
+  final double? topLeft;
+  final double? bottomRight;
+  final double? bottomLeft;
 
   const CustomTextFieldRoundedBorder(
       {super.key,
@@ -26,7 +31,12 @@ class CustomTextFieldRoundedBorder extends StatelessWidget {
       this.onTap,
       this.maxLines,
       this.minLines,
-      this.textInputAction});
+      this.textInputAction,
+      this.suffixIcon,
+      this.topRight,
+      this.topLeft,
+      this.bottomRight,
+      this.bottomLeft});
 
   @override
   Widget build(BuildContext context) {
@@ -52,20 +62,21 @@ class CustomTextFieldRoundedBorder extends StatelessWidget {
         ),
         decoration: InputDecoration(
           hintText: hint,
+          suffix: suffixIcon,
           errorStyle:
               TextStyle(color: textColor ?? Colors.white.withOpacity(.7)),
           border: OutlineInputBorder(
               borderSide: BorderSide(
                 color: borderColor ?? Colors.white.withOpacity(.7),
               ),
-              borderRadius: BorderRadius.circular(10)),
+              borderRadius: borderRadius()),
           errorBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: borderColor ?? Colors.white.withOpacity(.7),
               ),
-              borderRadius: BorderRadius.circular(10)),
+              borderRadius: borderRadius()),
           focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: borderRadius(),
               borderSide: BorderSide(
                   color: borderColor ?? Colors.white.withOpacity(.5))),
           hintStyle: TextStyle(
@@ -74,5 +85,14 @@ class CustomTextFieldRoundedBorder extends StatelessWidget {
           suffixIcon: icon,
           contentPadding: padding,
         ));
+  }
+
+  BorderRadius borderRadius() {
+    return BorderRadius.only(
+      topLeft: Radius.circular(topLeft ?? 10),
+      topRight: Radius.circular(topRight ?? 10),
+      bottomLeft: Radius.circular(bottomLeft ?? 10),
+      bottomRight: Radius.circular(bottomRight ?? 10),
+    );
   }
 }
