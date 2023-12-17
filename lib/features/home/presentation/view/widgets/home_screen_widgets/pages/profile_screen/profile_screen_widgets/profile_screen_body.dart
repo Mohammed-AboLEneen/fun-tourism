@@ -42,7 +42,7 @@ class ProfileScreenBody extends StatelessWidget {
                       context, profileScreenCubit.userInfoData?.photoURL ?? '');
                 },
                 child: Hero(
-                  tag: '${profileScreenCubit.userInfoData?.uid}',
+                  tag: 'image',
                   child: ProfileScreenImageWidget(
                     imageUrl: LocatorManager.locator<AppMainScreenCubit>()
                             .userData!
@@ -279,8 +279,10 @@ class ProfileScreenBody extends StatelessWidget {
                   topRight: 10,
                   bottomRight: 10,
                   bottomLeft: 10,
-                  onPressed: () {
-                    Navigator.push(
+                  onPressed: () async {
+                    profileScreenCubit.userInfoData?.uid = id;
+
+                    await Navigator.push(
                         context,
                         PageRouteBuilder(
                             transitionDuration: const Duration(seconds: 1),
@@ -288,6 +290,7 @@ class ProfileScreenBody extends StatelessWidget {
                                 arguments: profileScreenCubit.userInfoData),
                             pageBuilder: (_, __, ___) =>
                                 const EditProfileScreen()));
+                    profileScreenCubit.getUserData(id);
                   },
                 ),
               ),

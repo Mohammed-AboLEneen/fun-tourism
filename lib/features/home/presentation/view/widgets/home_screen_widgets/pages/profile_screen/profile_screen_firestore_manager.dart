@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:fun_adventure/cores/methods/toast.dart';
 
 import '../../../../../../../../constants.dart';
 import '../../../../../../../../cores/utils/app_fcm_actions.dart';
@@ -78,5 +80,27 @@ class ProfileScreenFireStore {
         .get();
 
     return doc;
+  }
+
+  static Future<void> updateProfileData(
+      {required String name, required String phone, required String id}) async {
+    showToast(
+        msg: 'Waiting Please',
+        toastMessageType: ToastMessageType.waitingMessage,
+        textColor: Colors.black);
+
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(id).update({
+        'displayName': name,
+        'phoneNumber': phone,
+      });
+      showToast(
+          msg: 'Successfully Editing',
+          toastMessageType: ToastMessageType.successMessage);
+    } catch (e) {
+      showToast(
+          msg: 'Failed to Edit, Try Again',
+          toastMessageType: ToastMessageType.failureMessage);
+    }
   }
 }
