@@ -51,9 +51,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   return Opacity(
                     opacity: value,
                     child: Scaffold(
-                      appBar: AppBar(
-                        backgroundColor: Colors.white.withLightness(.95),
-                      ),
                       backgroundColor: Colors.white.withLightness(.95),
                       body: ProfileScreenBody(
                         id: id!,

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextFieldRoundedBorder extends StatelessWidget {
   final String? hint;
+  final double? hintTextSize;
   final void Function()? onTap;
   final EdgeInsetsGeometry? padding;
   final Icon? icon;
@@ -18,6 +19,7 @@ class CustomTextFieldRoundedBorder extends StatelessWidget {
   final double? topLeft;
   final double? bottomRight;
   final double? bottomLeft;
+  final TextInputType? keyboardType;
 
   const CustomTextFieldRoundedBorder(
       {super.key,
@@ -36,7 +38,9 @@ class CustomTextFieldRoundedBorder extends StatelessWidget {
       this.topRight,
       this.topLeft,
       this.bottomRight,
-      this.bottomLeft});
+      this.bottomLeft,
+      this.hintTextSize,
+      this.keyboardType});
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +48,7 @@ class CustomTextFieldRoundedBorder extends StatelessWidget {
     return TextFormField(
         textInputAction: textInputAction ?? TextInputAction.next,
         onTap: onTap,
+        keyboardType: keyboardType,
         controller: controller,
         maxLines: maxLines,
         minLines: minLines,
@@ -81,7 +86,7 @@ class CustomTextFieldRoundedBorder extends StatelessWidget {
                   color: borderColor ?? Colors.white.withOpacity(.5))),
           hintStyle: TextStyle(
               color: textColor ?? Colors.white.withOpacity(.1),
-              fontSize: 20.sp),
+              fontSize: hintTextSize ?? 20.sp),
           suffixIcon: icon,
           contentPadding: padding,
         ));
