@@ -17,13 +17,13 @@ class FireStoreServices {
     return documentSnapshot.exists;
   }
 
-  static Future<void> addUser({
-    required String? email,
-    required String? uId,
-    required String? phoneNumber,
-    required String? displayName,
-    required String? photoURL,
-  }) {
+  static Future<void> addUser(
+      {required String? email,
+      required String? uId,
+      required String? phoneNumber,
+      required String? displayName,
+      required String? photoURL,
+      required userNumber}) {
     // Call the user's CollectionReference to add a new user
 
     return fireStore
@@ -37,7 +37,8 @@ class FireStoreServices {
           'displayName': displayName,
           // Stokes and Sons
           'photoURL': '',
-          'userTopic': '/topics/user_$uId'
+          'userTopic': '/topics/user_$uId',
+          'countNumber': '$userNumber'
         })
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));

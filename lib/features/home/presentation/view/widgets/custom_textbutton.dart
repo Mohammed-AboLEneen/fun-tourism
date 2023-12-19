@@ -14,6 +14,7 @@ class CustomTextButton extends StatelessWidget {
   final double? bottomLeft;
   final double textSize;
   final double? buttonColorLightness;
+  final double? textColorLightness;
 
   const CustomTextButton(
       {super.key,
@@ -26,7 +27,8 @@ class CustomTextButton extends StatelessWidget {
       this.bottomRight,
       this.bottomLeft,
       this.textSize = 20,
-      this.buttonColorLightness});
+      this.buttonColorLightness,
+      this.textColorLightness});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,8 @@ class CustomTextButton extends StatelessWidget {
       child: Text(
         text,
         style: GoogleFonts.akayaKanadaka().copyWith(
-            color: textColor?.withLightness(.8), fontSize: textSize.sp),
+            color: textColor?.withLightness(textColorLightness ?? .8),
+            fontSize: textSize.sp),
       ),
     );
   }

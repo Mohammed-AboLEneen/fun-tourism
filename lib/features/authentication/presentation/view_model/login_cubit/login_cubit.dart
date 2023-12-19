@@ -30,13 +30,11 @@ class LoginCubit extends Cubit<LoginStates> {
       final credential = await googleAuth();
 
       final UserCredential authResult =
-      await FirebaseAuth.instance.signInWithCredential(credential);
-
+          await FirebaseAuth.instance.signInWithCredential(credential);
 
       FirebaseMessaging.instance
-          .subscribeToTopic('user_${authResult.user?.uid}').then((value) {
-        print('doneeeeeeeeeeeeeeeeee');
-      });
+          .subscribeToTopic('user_${authResult.user?.uid}')
+          .then((value) {});
 
       emit(LoginSuccessState(
           emailVerified: FirebaseAuth.instance.currentUser!.emailVerified,

@@ -67,7 +67,6 @@ class CustomTextFieldRoundedBorder extends StatelessWidget {
         ),
         decoration: InputDecoration(
           hintText: hint,
-          suffix: suffixIcon,
           errorStyle:
               TextStyle(color: textColor ?? Colors.white.withOpacity(.7)),
           border: OutlineInputBorder(
@@ -87,7 +86,7 @@ class CustomTextFieldRoundedBorder extends StatelessWidget {
           hintStyle: TextStyle(
               color: textColor ?? Colors.white.withOpacity(.1),
               fontSize: hintTextSize ?? 20.sp),
-          suffixIcon: icon,
+          suffixIcon: suffixIcon,
           contentPadding: padding,
         ));
   }

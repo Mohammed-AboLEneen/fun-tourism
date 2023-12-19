@@ -3,14 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
-import 'package:fun_adventure/cores/utils/custom_textfield_rounded_border.dart';
-import 'package:fun_adventure/cores/utils/locator_manger.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/custom_textbutton.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/edit_screen.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/custom_animated_indicator_progress.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/profile_screen_image_widget.dart';
-import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/profile_search_bar.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/profile_cubit/profile_cubit.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/profile_cubit/profile_states.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -50,109 +48,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody>
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.0.w),
-                child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 500),
-                    transitionBuilder:
-                        (Widget child, Animation<double> animation) {
-                      final offsetAnimation = Tween<Offset>(
-                        begin: const Offset(-1.0, 0.0),
-                        end: Offset.zero,
-                      ).animate(animation);
-                      return ClipRect(
-                        child: SlideTransition(
-                          position: offsetAnimation,
-                          child: child,
-                        ),
-                      );
-                    },
-                    child: SizedBox(
-                      height: 60.h,
-                      width: context.width,
-                      child: Row(
-                        children: [
-                          AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 500),
-                            transitionBuilder:
-                                (Widget child, Animation<double> animation) {
-                              final offsetAnimation = Tween<Offset>(
-                                begin: const Offset(-5.0, 0.0),
-                                end: Offset.zero,
-                              ).animate(animation);
-
-                              return AnimatedOpacity(
-                                opacity: animation.value == 1
-                                    ? 1
-                                    : (1 - animation.value),
-                                duration: const Duration(milliseconds: 100),
-                                child: SlideTransition(
-                                  position: offsetAnimation,
-                                  child: child,
-                                ),
-                              );
-                            },
-                            child: isVisible
-                                ? SizedBox(
-                                    width: context.width * .7,
-                                    child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 5.0.h),
-                                        child: CustomTextFieldRoundedBorder(
-                                          hint: 'Enter Account Number',
-                                          textColor: Colors.black,
-                                          keyboardType: TextInputType.number,
-                                          controller: searchController,
-                                          borderColor: Colors.indigo,
-                                          hintTextSize: 15.sp,
-                                          padding: EdgeInsets.all(7.h),
-                                        )),
-                                  )
-                                : Text(
-                                    'Search About Accounts',
-                                    style: GoogleFonts.aBeeZee()
-                                        .copyWith(fontSize: 15.sp),
-                                  ),
-                          ),
-                          const Spacer(),
-                          AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 500),
-                            transitionBuilder:
-                                (Widget child, Animation<double> animation) {
-                              final offsetAnimation = Tween<Offset>(
-                                begin: const Offset(0, -.5),
-                                end: Offset.zero,
-                              ).animate(animation);
-
-                              return AnimatedOpacity(
-                                opacity: animation.value == 1
-                                    ? 1
-                                    : (1 - animation.value),
-                                duration: const Duration(milliseconds: 100),
-                                child: SlideTransition(
-                                  position: offsetAnimation,
-                                  child: child,
-                                ),
-                              );
-                            },
-                            child: isVisible
-                                ? IconButton(
-                                    key: const ValueKey<int>(0),
-                                    onPressed: () {
-                                      isVisible = !isVisible;
-                                      setState(() {});
-                                    },
-                                    icon: const FaIcon(FontAwesomeIcons.xmark))
-                                : IconButton(
-                                    key: const ValueKey<int>(1),
-                                    onPressed: () {
-                                      isVisible = !isVisible;
-                                      setState(() {});
-                                    },
-                                    icon: const FaIcon(
-                                        FontAwesomeIcons.magnifyingGlass)),
-                          )
-                        ],
-                      ),
-                    )),
+                child: const ProfileScreenSearchBar(),
               ),
               SizedBox(
                 height: 20.h,
@@ -167,11 +63,8 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody>
                     child: Hero(
                       tag: 'image',
                       child: ProfileScreenImageWidget(
-                        imageUrl: LocatorManager.locator<AppMainScreenCubit>()
-                                .userData!
-                                .userInfoData
-                                .photoURL ??
-                            '---',
+                        imageUrl:
+                            profileScreenCubit.userInfoData?.photoURL ?? '---',
                       ),
                     ),
                   ),
@@ -211,9 +104,23 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody>
                     )
                 ],
               ),
-              SizedBox(
-                height: 15.h,
-              ),
+              if (profileScreenCubit.isFollowU)
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 5.h, right: 20.w),
+                    child: CustomContainer(
+                      text: 'He Follow U',
+                      backgroundColor: Colors.cyan.withLightness(.4),
+                      topLeftRadius: const Radius.circular(10),
+                      bottomRightRadius: const Radius.circular(10),
+                    ),
+                  ),
+                ),
+              if (widget.id != uId)
+                ProfileFollowButton(
+                  id: widget.id,
+                ),
               if (widget.id == uId)
                 AnimatedCrossFade(
                     firstChild: const SizedBox(),
@@ -326,21 +233,6 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody>
                   ),
                 ),
               ),
-              SizedBox(height: 1.h),
-              if (profileScreenCubit.isFollowU)
-                Padding(
-                  padding: EdgeInsets.only(top: 10.h),
-                  child: CustomContainer(
-                    text: 'He Follow U',
-                    backgroundColor: Colors.cyan.withLightness(.4),
-                    topLeftRadius: const Radius.circular(10),
-                    bottomRightRadius: const Radius.circular(10),
-                  ),
-                ),
-              if (widget.id != uId)
-                ProfileFollowButton(
-                  id: widget.id,
-                ),
               if (profileScreenCubit.imageUploadProgress == 0)
                 SizedBox(
                   height: 15.h,

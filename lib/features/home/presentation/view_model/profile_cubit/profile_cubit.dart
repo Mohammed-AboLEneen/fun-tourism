@@ -31,7 +31,6 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
   List<FollowerIconModel> followers = [];
   int followersProfilePathCount = 0;
 
-
   Future<void> profileCubitOperations(String id) async {
     await initFollowButtonTextAndColor(id);
     await checkIfThisProfileFollowCurrentUser(id);
@@ -44,9 +43,10 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
     try {
       DocumentSnapshot<Map<String, dynamic>> data =
-      await FireStoreServices.fireStore.collection('users').doc(id).get();
+          await FireStoreServices.fireStore.collection('users').doc(id).get();
 
       userInfoData = UserInfoData.fromJson(data.data() as Map<String, dynamic>);
+
       emit(SuccessGetProfileScreenDataState());
     } catch (e) {
       if (kDebugMode) {
@@ -58,7 +58,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   Future<void> getProfileFollowers(String id) async {
     QuerySnapshot docs =
-    await ProfileScreenFireStore.getProfileFollowerFromFireStore(id);
+        await ProfileScreenFireStore.getProfileFollowerFromFireStore(id);
 
     for (var element in docs.docs) {
       followers.add(FollowerIconModel.fromJson(
@@ -70,7 +70,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   Future<void> initFollowButtonTextAndColor(String id) async {
     bool result =
-    await ProfileScreenFireStore.checkIfCurrentUserFollowThisProfile(id);
+        await ProfileScreenFireStore.checkIfCurrentUserFollowThisProfile(id);
 
     if (result) {
       followButtonText = 'unFollow';
@@ -84,10 +84,9 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
   }
 
   void chooseTheFollowButtonAction(String id) {
-    if (LocatorManager
-        .locator<InternetConnectionState>()
-        .connectionStatus
-        .name !=
+    if (LocatorManager.locator<InternetConnectionState>()
+            .connectionStatus
+            .name !=
         'none') {
       if (followButtonText == 'unFollow') {
         removeFollowDataFromFireStore(id);
@@ -106,7 +105,8 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
     followButtonColor = Colors.cyan.withLightness(.7);
     emit(LoadingSendFollowToFireStoreState());
     ProfileScreenFireStore.sendFollowerToFireStore(id).then((value) {
-      ProfileScreenFireStore.sendFollowingToFireStore(id, userInfoData?.displayName ?? '',  userInfoData?.photoURL ?? '');
+      ProfileScreenFireStore.sendFollowingToFireStore(
+          id, userInfoData?.displayName ?? '', userInfoData?.photoURL ?? '');
       followButtonText = 'unFollow';
       followButtonColor = Colors.grey;
 
@@ -155,7 +155,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
   Future<void> checkIfThisProfileFollowCurrentUser(String id) async {
     isFollowU =
-    await ProfileScreenFireStore.checkIfThisProfileFollowCurrentUser(id);
+        await ProfileScreenFireStore.checkIfThisProfileFollowCurrentUser(id);
     emit(CheckIfThisProfileFollowCurrentUser());
   }
 
@@ -201,9 +201,9 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
       FirebaseFirestore.instance
           .collection('users')
           .doc(uId)
-          .update({'photoURL':  userInfoData?.photoURL}).then((value) {
+          .update({'photoURL': userInfoData?.photoURL}).then((value) {
         BlocProvider.of<AppMainScreenCubit>(context)
-            .changePhotoURLValue( userInfoData?.photoURL ?? '');
+            .changePhotoURLValue(userInfoData?.photoURL ?? '');
         showToast(
             msg: 'Successfully Updated Profile Image',
             toastMessageType: ToastMessageType.successMessage);
