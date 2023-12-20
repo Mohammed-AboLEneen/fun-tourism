@@ -18,27 +18,22 @@ class ProfileScreenImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
+      alignment: Alignment.center,
       children: [
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            CircleAvatar(
-              radius: whiteCircleRadius ?? context.width * .22,
-              backgroundColor: Colors.indigo.withLightness(.6),
-            ),
-            CircleAvatar(
-              radius: imageRadius ?? context.width * .21,
-              backgroundImage:
-                  imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
-              child: imageUrl.isEmpty
-                  ? FaIcon(
-                      FontAwesomeIcons.user,
-                      size: 30.h,
-                    )
-                  : null,
-            ),
-          ],
+        CircleAvatar(
+          radius: whiteCircleRadius ?? context.width * .22,
+          backgroundColor: Colors.indigo.withLightness(.6),
+        ),
+        CircleAvatar(
+          radius: imageRadius ?? context.width * .21,
+          backgroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
+          child: imageUrl.isEmpty
+              ? FaIcon(
+                  FontAwesomeIcons.user,
+                  size: 30.h,
+                )
+              : null,
         ),
       ],
     );

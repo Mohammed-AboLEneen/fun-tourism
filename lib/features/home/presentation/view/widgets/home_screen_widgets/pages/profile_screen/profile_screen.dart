@@ -11,10 +11,12 @@ import '../../../../../view_model/profile_cubit/profile_states.dart';
 
 class ProfileScreen extends StatefulWidget {
   final bool? isThisYourAccount;
+  final String? heroTag;
 
   const ProfileScreen({
     super.key,
     this.isThisYourAccount,
+    this.heroTag,
   });
 
   @override
@@ -55,6 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       backgroundColor: Colors.white.withLightness(.95),
                       body: ProfileScreenBody(
                         id: id!,
+                        heroAnimationProfileImageTag: widget.heroTag,
                       ),
                     ),
                   );
@@ -69,9 +72,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             );
           } else {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.indigo,
+            return Scaffold(
+              backgroundColor: Colors.white,
+              body: Center(
+                child: SizedBox(
+                  width: 70.w,
+                  child: const LinearProgressIndicator(
+                    color: Colors.indigo,
+                  ),
+                ),
               ),
             );
           }

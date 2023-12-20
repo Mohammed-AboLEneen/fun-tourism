@@ -19,9 +19,11 @@ import '../../../../../../../../../cores/utils/custom_container.dart';
 import 'follow_button.dart';
 
 class ProfileScreenBody extends StatefulWidget {
+  final String? heroAnimationProfileImageTag;
   final String id;
 
-  const ProfileScreenBody({super.key, required this.id});
+  const ProfileScreenBody(
+      {super.key, required this.id, this.heroAnimationProfileImageTag});
 
   @override
   State<ProfileScreenBody> createState() => _ProfileScreenBodyState();
@@ -38,6 +40,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody>
     return BlocBuilder<ProfileScreenCubit, ProfileScreenStates>(
         builder: (context, state) {
       ProfileScreenCubit profileScreenCubit = ProfileScreenCubit.get(context);
+
       return SafeArea(
         child: SingleChildScrollView(
             child: Padding(
@@ -60,13 +63,20 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody>
                       showImageDialog(context,
                           profileScreenCubit.userInfoData?.photoURL ?? '');
                     },
-                    child: Hero(
-                      tag: 'image',
-                      child: ProfileScreenImageWidget(
-                        imageUrl:
-                            profileScreenCubit.userInfoData?.photoURL ?? '---',
-                      ),
-                    ),
+                    child: widget.heroAnimationProfileImageTag != null
+                        ? Hero(
+                            tag: widget.heroAnimationProfileImageTag ?? '',
+                            child: ProfileScreenImageWidget(
+                              imageUrl:
+                                  profileScreenCubit.userInfoData?.photoURL ??
+                                      '---',
+                            ),
+                          )
+                        : ProfileScreenImageWidget(
+                            imageUrl:
+                                profileScreenCubit.userInfoData?.photoURL ??
+                                    '---',
+                          ),
                   ),
                   if (widget.id == uId)
                     Positioned(
@@ -166,7 +176,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody>
                           profileScreenCubit.userInfoData?.displayName ?? '',
                           maxLines: 5,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.aboreto().copyWith(
+                          style: GoogleFonts.aBeeZee().copyWith(
                               fontSize: 17.sp, fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -193,8 +203,10 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody>
                           profileScreenCubit.userInfoData?.email ?? '',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.aboreto().copyWith(
-                              fontSize: 17.sp, fontWeight: FontWeight.bold),
+                          style: GoogleFonts.aBeeZee().copyWith(
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       FaIcon(
@@ -226,7 +238,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody>
                       const Spacer(),
                       Text(
                         profileScreenCubit.userInfoData?.phoneNumber ?? '',
-                        style: GoogleFonts.aboreto().copyWith(
+                        style: GoogleFonts.aBeeZee().copyWith(
                             fontSize: 17.sp, fontWeight: FontWeight.bold),
                       )
                     ],
@@ -304,10 +316,14 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody>
                             context,
                             PageRouteBuilder(
                                 transitionDuration: const Duration(seconds: 1),
+                                reverseTransitionDuration:
+                                    const Duration(milliseconds: 700),
                                 settings: RouteSettings(
                                     arguments: profileScreenCubit.userInfoData),
-                                pageBuilder: (_, __, ___) =>
-                                    const EditProfileScreen()));
+                                pageBuilder: (_, __, ___) => EditProfileScreen(
+                                      heroTag:
+                                          widget.heroAnimationProfileImageTag,
+                                    )));
                         profileScreenCubit.getUserData(widget.id);
                       },
                     ),

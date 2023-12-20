@@ -7,6 +7,7 @@ import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/custom_textbutton.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../../../../../../constants.dart';
 import '../../../../../../../../../cores/methods/toast.dart';
 import '../profile_screen.dart';
 
@@ -81,39 +82,21 @@ class _ProfileScreenSearchBarState extends State<ProfileScreenSearchBar> {
                   ),
           ),
           const Spacer(),
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              final offsetAnimation = Tween<Offset>(
-                begin: const Offset(0, -.5),
-                end: Offset.zero,
-              ).animate(animation);
-
-              return AnimatedOpacity(
-                opacity: animation.value == 1 ? 1 : (1 - animation.value),
-                duration: const Duration(milliseconds: 100),
-                child: SlideTransition(
-                  position: offsetAnimation,
-                  child: child,
-                ),
-              );
-            },
-            child: isVisible
-                ? IconButton(
-                    key: const ValueKey<int>(0),
-                    onPressed: () {
-                      isVisible = !isVisible;
-                      setState(() {});
-                    },
-                    icon: const FaIcon(FontAwesomeIcons.xmark))
-                : IconButton(
-                    key: const ValueKey<int>(1),
-                    onPressed: () {
-                      isVisible = !isVisible;
-                      setState(() {});
-                    },
-                    icon: const FaIcon(FontAwesomeIcons.magnifyingGlass)),
-          )
+          isVisible
+              ? IconButton(
+                  key: const ValueKey<int>(0),
+                  onPressed: () {
+                    isVisible = !isVisible;
+                    setState(() {});
+                  },
+                  icon: const FaIcon(FontAwesomeIcons.xmark))
+              : IconButton(
+                  key: const ValueKey<int>(1),
+                  onPressed: () {
+                    isVisible = !isVisible;
+                    setState(() {});
+                  },
+                  icon: const FaIcon(FontAwesomeIcons.magnifyingGlass)),
         ],
       ),
     );
@@ -132,26 +115,36 @@ class _ProfileScreenSearchBarState extends State<ProfileScreenSearchBar> {
             msg: 'This Account Dosen\'t Exist',
             toastMessageType: ToastMessageType.failureMessage);
       } else {
-        if (!context.mounted) return;
+        if (data.docs.first.id == uId) {
+          showToast(
+              msg: 'This Is Your Account Number',
+              toastMessageType: ToastMessageType.successMessage);
+        } else {
+          if (!context.mounted) return;
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+                transitionDuration: const Duration(milliseconds: 500),
+                reverseTransitionDuration: const Duration(milliseconds: 500),
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const ProfileScreen(
+                      heroTag: 'image',
+                    ),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  var begin = const Offset(0.0, 1.0);
+                  var end = Offset.zero;
+                  var tween = Tween(begin: begin, end: end);
+                  var offsetAnimation = animation.drive(tween);
 
-        print('this is me : ${data.docs.first.id}');
-        Navigator.push(
-          context,
-          PageRouteBuilder(
-              pageBuilder: (context, animation1, animation2) {
-                return TweenAnimationBuilder(
-                    tween: Tween<double>(begin: 0, end: 1),
-                    duration: const Duration(milliseconds: 700),
-                    builder: (_, value, __) {
-                      return AnimatedOpacity(
-                        opacity: value,
-                        duration: const Duration(milliseconds: 700),
-                        child: const ProfileScreen(),
-                      );
-                    });
-              },
-              settings: RouteSettings(arguments: data.docs.first.id)),
-        );
+                  return SlideTransition(
+                    position: offsetAnimation,
+                    child: child,
+                  );
+                },
+                settings: RouteSettings(arguments: data.docs.first.id)),
+          );
+        }
       }
     } catch (e) {
       showToast(

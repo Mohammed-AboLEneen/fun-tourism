@@ -13,8 +13,11 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../../../cores/methods/show_image_dialog.dart';
 
 class EditProfileScreen extends StatefulWidget {
+  final String? heroTag;
+
   const EditProfileScreen({
     super.key,
+    this.heroTag,
   });
 
   @override
@@ -56,7 +59,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Hero(
-                        tag: 'image',
+                        tag: widget.heroTag ?? '',
                         child: GestureDetector(
                           onTap: () {
                             showImageDialog(
@@ -64,8 +67,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           },
                           child: ProfileScreenImageWidget(
                             imageUrl: userInfoData?.photoURL ?? '',
-                            whiteCircleRadius: context.width * .24,
-                            imageRadius: context.width * .230,
+                            whiteCircleRadius: context.width * .23,
+                            imageRadius: context.width * .22,
                           ),
                         ),
                       ),
@@ -112,9 +115,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   bottomRight: 10,
                   bottomLeft: 10,
                   textColor: Colors.black,
-                  suffixIcon: FaIcon(
-                    FontAwesomeIcons.file,
-                    size: 20.h,
+                  suffixIcon: Padding(
+                    padding: EdgeInsets.all(13.0.h),
+                    child: FaIcon(
+                      FontAwesomeIcons.file,
+                      size: 20.h,
+                    ),
                   ),
                   borderColor: Colors.black,
                   padding: EdgeInsets.all(13.h),
@@ -130,10 +136,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   topLeft: 10,
                   bottomRight: 10,
                   bottomLeft: 0,
+                  keyboardType: TextInputType.phone,
                   textColor: Colors.black,
-                  suffixIcon: FaIcon(
-                    FontAwesomeIcons.phoneFlip,
-                    size: 20.h,
+                  suffixIcon: Padding(
+                    padding: EdgeInsets.all(13.0.h),
+                    child: FaIcon(
+                      FontAwesomeIcons.phoneFlip,
+                      size: 20.h,
+                    ),
                   ),
                   borderColor: Colors.black,
                   padding: EdgeInsets.all(13.h),
@@ -147,15 +157,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   maxLines: 1,
                   textInputAction: TextInputAction.none,
                   textColor: Colors.black,
-                  suffixIcon: FaIcon(
-                    FontAwesomeIcons.google,
-                    size: 20.h,
+                  suffixIcon: Padding(
+                    padding: EdgeInsets.all(13.0.h),
+                    child: FaIcon(
+                      FontAwesomeIcons.google,
+                      size: 20.h,
+                    ),
                   ),
                   borderColor: Colors.black,
                   topRight: 0,
                   topLeft: 10,
                   bottomRight: 10,
                   bottomLeft: 10,
+                  keyboardType: TextInputType.emailAddress,
                   padding: EdgeInsets.all(13.h),
                 ),
                 SizedBox(
