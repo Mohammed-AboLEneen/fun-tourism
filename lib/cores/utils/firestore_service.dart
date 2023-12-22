@@ -58,10 +58,11 @@ class FireStoreServices {
     return query.count;
   }
 
-  static Future<void> saveNewNotification(Map<String, dynamic> data) async {
+  static Future<void> saveNewNotification(
+      Map<String, dynamic> data, String id) async {
     fireStore
         .collection('users')
-        .doc(uId)
+        .doc(id)
         .collection('notifications')
         .doc()
         .set(data);

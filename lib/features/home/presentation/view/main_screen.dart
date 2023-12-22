@@ -19,7 +19,8 @@ class AppMainScreen extends StatefulWidget {
 
 class _AppMainScreenState extends State<AppMainScreen> {
   @override
-  void didChangeDependencies() {
+  void initState() {
+    super.initState();
     super.didChangeDependencies();
     LocatorManager.locateFirebaseMessagingObject();
     NotificationService.initNotification(context);

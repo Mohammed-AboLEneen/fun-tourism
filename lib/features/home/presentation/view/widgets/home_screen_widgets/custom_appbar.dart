@@ -9,6 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../cores/utils/env/env.dart';
+import '../../../../../../cores/utils/locator_manger.dart';
+import '../../../view_model/main_screen_cubit/main_screen_cubit.dart';
 import '../../../view_model/notifications_listener_provider/notification_listener_provider.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -96,9 +98,14 @@ class CustomAppBar extends StatelessWidget {
                                   onTap: () {
                                     FirebaseFcmSender.sendFCMMessage(
                                         EnvClass.authorizationKey,
-                                        '/topics/user_RwWYcS7BZXXSMWXBIACts6nsnrk1',
-                                        'New c',
-                                        'Ahmed Follow U Now !');
+                                        'RwWYcS7BZXXSMWXBIACts6nsnrk1',
+                                        'New Follower',
+                                        LocatorManager.locator<
+                                                    AppMainScreenCubit>()
+                                                .userData
+                                                ?.userInfoData
+                                                .displayName ??
+                                            '');
                                   },
                                   child: FaIcon(
                                     FontAwesomeIcons.magnifyingGlass,

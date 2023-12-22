@@ -74,7 +74,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
   }
 
   void futureNavigate() {
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 4), () {
       Widget beginWidget = beginWidgetApp();
 
       Navigator.pushNamedAndRemoveUntil(

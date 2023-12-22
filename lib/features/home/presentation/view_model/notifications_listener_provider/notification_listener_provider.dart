@@ -8,19 +8,11 @@ class NotificationListenerProvider extends ChangeNotifier {
   int notificationsNumber = 0;
 
   void initNotificationsListener(context) {
-    LocatorManager
-        .locator<FirebaseApi>()
-        .notification
-        .addListener(() {
+    LocatorManager.locator<FirebaseApi>().notification.addListener(() {
       incrementNotificationsNumber();
-      LocatorManager
-          .locator<AppMainScreenCubit>()
+      LocatorManager.locator<AppMainScreenCubit>()
           .userNotifications
-          .insert(0, LocatorManager
-          .locator<FirebaseApi>()
-          .notification
-          .value);
-
+          .insert(0, LocatorManager.locator<FirebaseApi>().notification.value);
 
       notifyListeners();
     });

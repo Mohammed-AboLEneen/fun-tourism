@@ -34,7 +34,8 @@ class NotificationService {
 
   static notificationDetails() {
     return const NotificationDetails(
-        android: AndroidNotificationDetails('channelId', 'channelName',
+        android: AndroidNotificationDetails(
+            'high_importance_channel', 'channelName',
             importance: Importance.max,
             icon: '@mipmap/ic_launcher',
             color: Colors.red),

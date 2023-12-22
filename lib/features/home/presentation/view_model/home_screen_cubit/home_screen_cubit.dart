@@ -30,7 +30,7 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
   late List<Widget> homeMenuPages = [
     const HomePage(),
     const ProfileScreen(
-      heroTag: 'profileImage',
+      heroTag: 'editScreen',
     )
   ];
 
@@ -116,6 +116,7 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
       for (Map<String, dynamic> element in dataList1.values.toList()) {
         element['brief']['image'] =
             await downloadAndStoreImage(element['brief']['image']);
+
         hotTravels.add(HotTravelModel.fromJson(element));
       }
 

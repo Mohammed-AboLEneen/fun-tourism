@@ -1,30 +1,41 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:fun_adventure/main.dart';
 
+import '../../features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen.dart';
 import '../models/notification_model/notification_model.dart';
 import 'locator_manger.dart';
 import 'notification_services.dart';
 
-Future<void> handleBackgroundNotificaitions(RemoteMessage message) async {
-  print('this is Background notification');
-  LocatorManager.locator<FirebaseApi>().notification.value.title =
-      message.notification?.title ?? 'Nothing to';
-}
-
-Future<void> handleTerminateNotificaitions(RemoteMessage message) async {
-  print('this is Terminate notification');
-  LocatorManager.locator<FirebaseApi>().notification.value.title =
-      message.notification?.title ?? 'Nothing to';
-}
-
-Future<void> handleRealNotificaitions(RemoteMessage message) async {
-  print('this is real notification');
-
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  final messageNotification = message.notification;
+  print('this is packdoadjoad');
+  if (messageNotification == null) return;
   LocatorManager.locator<FirebaseApi>().notification.value =
       NotificationModel.fromNotification(
-          notificationBody: message.notification?.body ?? 'nothing',
-          notificationTitle: message.notification?.title ?? 'Nothing to',
+          notificationBody: messageNotification.body ?? 'nothing',
+          notificationTitle: messageNotification.title ?? 'Nothing to',
           notData: message.data);
+
+  Future.delayed(const Duration(seconds: 7), () {
+    navigatorKey.currentState?.push(PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 500),
+        reverseTransitionDuration: const Duration(milliseconds: 500),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const ProfileScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = const Offset(0.0, 1.0);
+          var end = Offset.zero;
+          var tween = Tween(begin: begin, end: end);
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
+        settings: RouteSettings(arguments: message.data['contentId'])));
+  });
 }
 
 class FirebaseApi {
@@ -38,22 +49,46 @@ class FirebaseApi {
 
   Future<void> initNotifications() async {
     await _firebaseMessaging.requestPermission();
-    String? token = await _firebaseMessaging.getToken();
-    if (kDebugMode) {
-      print('token : $token');
-    }
-
     await initPushNotifications();
     initIsFinished.value = true;
   }
 
   Future<void> initPushNotifications() async {
-    FirebaseMessaging.instance.getInitialMessage().then((value) =>
-        handleBackgroundNotificaitions); // when app opened form notification
-
     // when a user presses a notification message displayed
-    FirebaseMessaging.onMessageOpenedApp.listen(handleBackgroundNotificaitions);
-    FirebaseMessaging.onBackgroundMessage(handleBackgroundNotificaitions);
+
+    FirebaseMessaging.instance.getInitialMessage().then((value) =>
+        _firebaseMessagingBackgroundHandler); // when app opened form notification
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      final messageNotification = message.notification;
+      LocatorManager.locator<FirebaseApi>().notification.value =
+          NotificationModel.fromNotification(
+              notificationBody: messageNotification?.body ?? 'nothing',
+              notificationTitle: messageNotification?.title ?? 'Nothing to',
+              notData: message.data);
+
+      if (message.data['type'] == 'f') {
+        navigatorKey.currentState?.push(PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 500),
+            reverseTransitionDuration: const Duration(milliseconds: 500),
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const ProfileScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              var begin = const Offset(0.0, 1.0);
+              var end = Offset.zero;
+              var tween = Tween(begin: begin, end: end);
+              var offsetAnimation = animation.drive(tween);
+
+              return SlideTransition(
+                position: offsetAnimation,
+                child: child,
+              );
+            },
+            settings: RouteSettings(arguments: message.data['contentId'])));
+      }
+    });
+
     FirebaseMessaging.onMessage.listen((message) {
       final messageNotification = message.notification;
 

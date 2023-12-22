@@ -106,7 +106,18 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
     emit(LoadingSendFollowToFireStoreState());
     ProfileScreenFireStore.sendFollowerToFireStore(id).then((value) {
       ProfileScreenFireStore.sendFollowingToFireStore(
-          id, userInfoData?.displayName ?? '', userInfoData?.photoURL ?? '');
+        id,
+        LocatorManager.locator<AppMainScreenCubit>()
+                .userData
+                ?.userInfoData
+                .displayName ??
+            '',
+        LocatorManager.locator<AppMainScreenCubit>()
+                .userData
+                ?.userInfoData
+                .photoURL ??
+            '',
+      );
       followButtonText = 'unFollow';
       followButtonColor = Colors.grey;
 

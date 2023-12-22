@@ -3,6 +3,7 @@ import 'notification_data.dart';
 class NotificationModel {
   String body = '';
   String title = '';
+  int index = 0;
 
   late NotificationData notificationData;
 

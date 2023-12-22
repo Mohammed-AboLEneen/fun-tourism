@@ -26,6 +26,7 @@ class ProfileScreenFireStore {
     });
   }
 
+  // send fcm message to profile which just follow it
   static Future<void> sendFollowingToFireStore(
       String id, String userName, String imageUrl) async {
     await reference.doc(uId).collection('following').doc(id).set({
@@ -36,7 +37,8 @@ class ProfileScreenFireStore {
     if (kDebugMode) {
       print(id);
     }
-    AppFcmActions.sendFollowNotification(id, image: imageUrl);
+    AppFcmActions.sendFollowNotification(
+        image: imageUrl, receiverId: id, title: 'New Follower', body: userName);
   }
 
   static Future<void> removeFollowerFromOtherUserFireStore(String id) async {

@@ -12,6 +12,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'cores/utils/bloc_observer.dart';
 import 'firebase_options.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -20,7 +22,6 @@ void main() async {
   await SharedPreferenceHelper.initSharedPreference();
   await Hive.initFlutter();
   Hive.registerAdapter(MessageContentModelAdapter());
-
   runApp(const MyApp());
 }
 
@@ -29,6 +30,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // precacheImage(AssetImage(ImagesClass.homeWelcomeSvgImage), context);
+
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
@@ -37,6 +40,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           initialRoute: '/',
           routes: RoutersClass.routers,
+          navigatorKey: navigatorKey,
           title: 'Flutter Demo',
           theme: ThemeData(
             textTheme: GoogleFonts.abelTextTheme(ThemeData.light().textTheme),

@@ -9,10 +9,11 @@ class FirebaseFcmSender {
   static int messageId = 1;
 
   static Future<void> sendFCMMessage(
-      String serverKey, String fcmToken, String title, String body,
+      String serverKey, String receiverId, String title, String body,
       {String? image}) async {
     final Dio dio = Dio();
     const String url = 'https://fcm.googleapis.com/fcm/send';
+    String topic = '/topics/user_';
 
     DateTime now = DateTime.now();
     String formattedTime = DateFormat('HH:mm').format(now);
@@ -30,7 +31,7 @@ class FirebaseFcmSender {
     };
 
     final Map<String, dynamic> fcmMessage = {
-      'to': fcmToken,
+      'to': '$topic$receiverId',
       'notification': notification,
       'priority': 'high',
       'data': data
@@ -54,7 +55,7 @@ class FirebaseFcmSender {
     }
 
     try {
-      FireStoreServices.saveNewNotification(fcmMessage);
+      FireStoreServices.saveNewNotification(fcmMessage, receiverId);
     } catch (e) {
       if (kDebugMode) {
         print(e.toString());
