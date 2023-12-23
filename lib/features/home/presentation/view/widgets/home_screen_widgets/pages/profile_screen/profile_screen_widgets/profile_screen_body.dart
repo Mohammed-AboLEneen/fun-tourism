@@ -8,14 +8,15 @@ import 'package:fun_adventure/features/home/presentation/view/widgets/custom_tex
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/edit_screen.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/custom_animated_indicator_progress.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/profile_screen_image_widget.dart';
+import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/profile_screen_user_info.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/profile_search_bar.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/profile_cubit/profile_cubit.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/profile_cubit/profile_states.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../../../../constants.dart';
 import '../../../../../../../../../cores/methods/show_image_dialog.dart';
 import '../../../../../../../../../cores/utils/custom_container.dart';
+import '../profile_screen_followers.dart';
 import 'follow_button.dart';
 
 class ProfileScreenBody extends StatefulWidget {
@@ -161,89 +162,8 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody>
               SizedBox(
                 height: 30.h,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                child: Row(
-                  children: [
-                    FaIcon(
-                      FontAwesomeIcons.fileSignature,
-                      size: 17.h,
-                    ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          profileScreenCubit.userInfoData?.displayName ?? '',
-                          maxLines: 5,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.aBeeZee().copyWith(
-                              fontSize: 17.sp, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: context.width * .17, vertical: 10.h),
-                child: const Divider(
-                  height: 1,
-                  color: Colors.grey,
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          profileScreenCubit.userInfoData?.email ?? '',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.aBeeZee().copyWith(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      FaIcon(
-                        FontAwesomeIcons.google,
-                        size: 17.h,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: context.width * .17, vertical: 10.h),
-                child: const Divider(
-                  height: 1,
-                  color: Colors.grey,
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                  child: Row(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.phoneFlip,
-                        size: 17.h,
-                      ),
-                      const Spacer(),
-                      Text(
-                        profileScreenCubit.userInfoData?.phoneNumber ?? '',
-                        style: GoogleFonts.aBeeZee().copyWith(
-                            fontSize: 17.sp, fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                ),
+              ProfileScreenUserInformation(
+                userInfoData: profileScreenCubit.userInfoData,
               ),
               if (profileScreenCubit.imageUploadProgress == 0)
                 SizedBox(
@@ -261,7 +181,24 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody>
                       topLeft: 10,
                       topRight: 10,
                       bottomRight: 10,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        const ProfileScreenFollowers(),
+                                transitionsBuilder:
+                                    (context, animation1, animation2, child) {
+                                  return SlideTransition(
+                                    position: Tween<Offset>(
+                                            begin: Offset(-1, 0),
+                                            end: Offset.zero)
+                                        .animate(animation1),
+                                    child: ProfileScreenFollowers(),
+                                  );
+                                }));
+                      },
                     ),
                   )),
                   Expanded(
