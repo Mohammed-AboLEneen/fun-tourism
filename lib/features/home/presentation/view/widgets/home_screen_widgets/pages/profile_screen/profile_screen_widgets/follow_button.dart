@@ -9,8 +9,14 @@ import '../../../../custom_textbutton.dart';
 
 class ProfileFollowButton extends StatelessWidget {
   final String id;
+  final String userName;
+  final String imageUrl;
 
-  const ProfileFollowButton({super.key, required this.id});
+  const ProfileFollowButton(
+      {super.key,
+      required this.id,
+      required this.userName,
+      required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +37,8 @@ class ProfileFollowButton extends StatelessWidget {
                   topLeft: 20,
                   textSize: 19,
                   onPressed: () {
-                    profileScreenCubit.chooseTheFollowButtonAction(id);
+                    profileScreenCubit.chooseTheFollowButtonAction(
+                        id: id, userName: userName, imageUrl: imageUrl);
                   },
                 ),
               )));

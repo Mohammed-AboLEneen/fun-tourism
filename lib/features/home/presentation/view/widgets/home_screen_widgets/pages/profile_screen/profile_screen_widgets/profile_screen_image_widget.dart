@@ -8,12 +8,14 @@ class ProfileScreenImageWidget extends StatelessWidget {
   final double? whiteCircleRadius;
   final double? imageRadius;
   final String imageUrl;
+  final Color? backgroundColor;
 
   const ProfileScreenImageWidget({
     super.key,
     required this.imageUrl,
     this.whiteCircleRadius,
     this.imageRadius,
+    this.backgroundColor,
   });
 
   @override
@@ -23,7 +25,7 @@ class ProfileScreenImageWidget extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: whiteCircleRadius ?? context.width * .22,
-          backgroundColor: Colors.indigo.withLightness(.6),
+          backgroundColor: backgroundColor ?? Colors.indigo.withLightness(.6),
         ),
         CircleAvatar(
           radius: imageRadius ?? context.width * .21,

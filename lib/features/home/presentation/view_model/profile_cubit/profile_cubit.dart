@@ -29,7 +29,6 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
   Color followButtonColor = Colors.indigo;
   bool isFollowU = false;
   List<FollowerIconModel> followers = [];
-  int followersProfilePathCount = 0;
 
   Future<void> profileCubitOperations(String id) async {
     await initFollowButtonTextAndColor(id);
@@ -83,7 +82,10 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
     emit(InitFollowButtonTextAndColorState());
   }
 
-  void chooseTheFollowButtonAction(String id) {
+  void chooseTheFollowButtonAction(
+      {required String id,
+      required String userName,
+      required String imageUrl}) {
     if (LocatorManager.locator<InternetConnectionState>()
             .connectionStatus
             .name !=
@@ -91,7 +93,8 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
       if (followButtonText == 'unFollow') {
         removeFollowDataFromFireStore(id);
       } else {
-        sendFollowDataToFireStore(id);
+        sendFollowDataToFireStore(
+            id: id, userName: userName, imageUrl: imageUrl);
       }
     } else {
       showToast(
@@ -100,23 +103,26 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
     }
   }
 
-  Future<void> sendFollowDataToFireStore(String id) async {
+  Future<void> sendFollowDataToFireStore(
+      {required String id,
+      required String userName,
+      required String imageUrl}) async {
     followButtonText = '. . .';
     followButtonColor = Colors.cyan.withLightness(.7);
     emit(LoadingSendFollowToFireStoreState());
-    ProfileScreenFireStore.sendFollowerToFireStore(id).then((value) {
+    int travelsNumber = await ProfileScreenFireStore.getCurrentUserDataNumber(
+        id: id, collectionName: 'travels');
+    int followersNumber = await ProfileScreenFireStore.getCurrentUserDataNumber(
+        id: id, collectionName: 'followers');
+    ProfileScreenFireStore.sendFollowerToFireStore(
+            id: id,
+            travelsNumber: travelsNumber,
+            followersNumber: followersNumber)
+        .then((value) async {
       ProfileScreenFireStore.sendFollowingToFireStore(
-        id,
-        LocatorManager.locator<AppMainScreenCubit>()
-                .userData
-                ?.userInfoData
-                .displayName ??
-            '',
-        LocatorManager.locator<AppMainScreenCubit>()
-                .userData
-                ?.userInfoData
-                .photoURL ??
-            '',
+        id: id,
+        userName: userName,
+        imageUrl: imageUrl,
       );
       followButtonText = 'unFollow';
       followButtonColor = Colors.grey;

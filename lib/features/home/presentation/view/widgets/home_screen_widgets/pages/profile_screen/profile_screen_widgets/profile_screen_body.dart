@@ -131,6 +131,8 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody>
               if (widget.id != uId)
                 ProfileFollowButton(
                   id: widget.id,
+                  userName: profileScreenCubit.userInfoData?.displayName ?? '',
+                  imageUrl: profileScreenCubit.userInfoData?.photoURL ?? '',
                 ),
               if (widget.id == uId)
                 AnimatedCrossFade(
@@ -187,15 +189,19 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody>
                             PageRouteBuilder(
                                 pageBuilder:
                                     (context, animation1, animation2) =>
-                                        const ProfileScreenFollowers(),
+                                        ProfileScreenFollowers(
+                                          id: widget.id,
+                                        ),
                                 transitionsBuilder:
                                     (context, animation1, animation2, child) {
                                   return SlideTransition(
                                     position: Tween<Offset>(
-                                            begin: Offset(-1, 0),
+                                            begin: const Offset(-1, 0),
                                             end: Offset.zero)
                                         .animate(animation1),
-                                    child: ProfileScreenFollowers(),
+                                    child: ProfileScreenFollowers(
+                                      id: widget.id,
+                                    ),
                                   );
                                 }));
                       },

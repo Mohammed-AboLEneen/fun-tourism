@@ -13,7 +13,10 @@ class ProfileScreenFireStore {
   static CollectionReference reference =
       FirebaseFirestore.instance.collection('users');
 
-  static Future<void> sendFollowerToFireStore(String id) async {
+  static Future<void> sendFollowerToFireStore(
+      {required String id,
+      required int travelsNumber,
+      required int followersNumber}) async {
     reference.doc(id).collection('followers').doc(uId).set({
       'displayName': LocatorManager.locator<AppMainScreenCubit>()
           .userData
@@ -23,14 +26,19 @@ class ProfileScreenFireStore {
           .userData
           ?.userInfoData
           .photoURL,
+      'travelsNumber': travelsNumber,
+      'followersNumber': followersNumber
     });
   }
 
   // send fcm message to profile which just follow it
-  static Future<void> sendFollowingToFireStore(
-      String id, String userName, String imageUrl) async {
+  static Future<void> sendFollowingToFireStore({
+    required String id,
+    required String userName,
+    required String imageUrl,
+  }) async {
     await reference.doc(uId).collection('following').doc(id).set({
-      'displayName': userName,
+      'followerName': userName,
       'imageUrl': imageUrl,
     });
 
@@ -71,6 +79,17 @@ class ProfileScreenFireStore {
         .get();
 
     return doc.exists;
+  }
+
+  static Future<int> getCurrentUserDataNumber(
+      {required String id, required String collectionName}) async {
+    AggregateQuerySnapshot data = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(id)
+        .collection(collectionName)
+        .count()
+        .get();
+    return data.count;
   }
 
   static Future<QuerySnapshot> getProfileFollowerFromFireStore(
