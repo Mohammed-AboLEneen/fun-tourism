@@ -22,7 +22,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
         transitionDuration: const Duration(milliseconds: 500),
         reverseTransitionDuration: const Duration(milliseconds: 500),
         pageBuilder: (context, animation, secondaryAnimation) =>
-            const ProfileScreen(),
+            const ProfileScreen(
+              showLoadingIndicator: true,
+            ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           var begin = const Offset(0.0, 1.0);
           var end = Offset.zero;
@@ -72,7 +74,9 @@ class FirebaseApi {
             transitionDuration: const Duration(milliseconds: 500),
             reverseTransitionDuration: const Duration(milliseconds: 500),
             pageBuilder: (context, animation, secondaryAnimation) =>
-                const ProfileScreen(),
+                const ProfileScreen(
+                  showLoadingIndicator: true,
+                ),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               var begin = const Offset(0.0, 1.0);

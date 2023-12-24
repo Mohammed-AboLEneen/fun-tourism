@@ -12,103 +12,93 @@ class ProfileScreenUserInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (userInfoData?.displayName?.isNotEmpty ?? false) &&
-            (userInfoData?.email?.isNotEmpty ?? false)
-        ? Column(
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+          child: Row(
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                child: Row(
-                  children: [
-                    FaIcon(
-                      FontAwesomeIcons.fileSignature,
-                      size: 17.h,
-                    ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          userInfoData?.displayName ?? '',
-                          maxLines: 5,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.aBeeZee().copyWith(
-                              fontSize: 17.sp, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              FaIcon(
+                FontAwesomeIcons.fileSignature,
+                size: 17.h,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: context.width * .17, vertical: 10.h),
-                child: const Divider(
-                  height: 1,
-                  color: Colors.grey,
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          userInfoData?.email ?? '',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.aBeeZee().copyWith(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      FaIcon(
-                        FontAwesomeIcons.google,
-                        size: 17.h,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: context.width * .17, vertical: 10.h),
-                child: const Divider(
-                  height: 1,
-                  color: Colors.grey,
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                  child: Row(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.phoneFlip,
-                        size: 17.h,
-                      ),
-                      const Spacer(),
-                      Text(
-                        userInfoData?.phoneNumber ?? '',
-                        style: GoogleFonts.aBeeZee().copyWith(
-                            fontSize: 17.sp, fontWeight: FontWeight.bold),
-                      )
-                    ],
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    userInfoData?.displayName ?? '<No Name Received>',
+                    maxLines: 5,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.aBeeZee()
+                        .copyWith(fontSize: 17.sp, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
             ],
-          )
-        : Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 30.h),
-              child: const LinearProgressIndicator(
-                color: Colors.indigo,
-              ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: context.width * .17, vertical: 10.h),
+          child: const Divider(
+            height: 1,
+            color: Colors.grey,
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    userInfoData?.email ?? '<No Email Received>',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.aBeeZee().copyWith(
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                FaIcon(
+                  FontAwesomeIcons.google,
+                  size: 17.h,
+                ),
+              ],
             ),
-          );
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: context.width * .17, vertical: 10.h),
+          child: const Divider(
+            height: 1,
+            color: Colors.grey,
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+            child: Row(
+              children: [
+                FaIcon(
+                  FontAwesomeIcons.phoneFlip,
+                  size: 17.h,
+                ),
+                const Spacer(),
+                Text(
+                  userInfoData?.phoneNumber ?? '<No Phone Received>',
+                  style: GoogleFonts.aBeeZee()
+                      .copyWith(fontSize: 17.sp, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

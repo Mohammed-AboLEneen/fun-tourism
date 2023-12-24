@@ -27,6 +27,7 @@ class NotificationScreenItem extends StatelessWidget {
               pageBuilder: (context, animation, secondaryAnimation) =>
                   ProfileScreen(
                 heroTag: 'notification$index',
+                showLoadingIndicator: false,
               ),
               settings: RouteSettings(
                   arguments: notificationModel.notificationData.contentId),

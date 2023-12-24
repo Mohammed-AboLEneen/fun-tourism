@@ -23,6 +23,10 @@ class ProfileFollowButton extends StatelessWidget {
     return BlocBuilder<ProfileScreenCubit, ProfileScreenStates>(
         builder: (context, state) {
       ProfileScreenCubit profileScreenCubit = ProfileScreenCubit.get(context);
+
+      print(userName);
+      print(imageUrl);
+      print(id);
       return Padding(
           padding: EdgeInsets.only(top: 20.h),
           child: Padding(

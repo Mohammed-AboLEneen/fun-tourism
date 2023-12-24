@@ -62,11 +62,11 @@ class _ProfileScreenFollowersState extends State<ProfileScreenFollowers> {
             );
           } else if (cubit.finishGetFollowers == false &&
               cubit.followers.isEmpty) {
-            return Scaffold(
+            return const Scaffold(
               body: Center(
                   child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: const LinearProgressIndicator(
+                padding: EdgeInsets.all(20.0),
+                child: LinearProgressIndicator(
                   color: Colors.indigo,
                 ),
               )),

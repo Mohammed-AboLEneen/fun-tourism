@@ -1,6 +1,7 @@
 class FollowerModel {
   String? followerName;
   String? imageUrl;
+  String? uId;
   int? travelsNumber;
   int? followersNumber;
 
@@ -11,5 +12,6 @@ class FollowerModel {
     imageUrl = json['imageUrl'];
     travelsNumber = json['travelsNumber'];
     followersNumber = json['followersNumber'];
+    uId = json['uId'];
   }
 }

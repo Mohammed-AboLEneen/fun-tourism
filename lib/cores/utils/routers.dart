@@ -28,7 +28,9 @@ class RoutersClass {
     '/AppMainScreen': (context) => const AppMainScreen(),
     '/HotTravelScreen': (context) => const HotTravelScreen(),
     '/TravelsScreen': (context) => const TravelsScreen(),
-    '/ProfileScreen': (context) => const ProfileScreen(),
+    '/ProfileScreen': (context) => const ProfileScreen(
+          showLoadingIndicator: true,
+        ),
     '/EditProfileScreen': (context) => const EditProfileScreen(),
   };
 }

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
@@ -29,9 +28,7 @@ class ProfileScreenImageWidget extends StatelessWidget {
         ),
         CircleAvatar(
           radius: imageRadius ?? context.width * .21,
-          backgroundImage: CachedNetworkImageProvider(
-            imageUrl,
-          ),
+          backgroundImage: NetworkImage(imageUrl),
           child: imageUrl.isEmpty ? const FaIcon(FontAwesomeIcons.user) : null,
         ),
       ],

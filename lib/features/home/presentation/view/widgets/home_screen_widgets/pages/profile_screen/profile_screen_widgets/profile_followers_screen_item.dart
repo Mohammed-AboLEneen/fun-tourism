@@ -9,6 +9,7 @@ import 'package:fun_adventure/features/home/presentation/view/widgets/home_scree
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../custom_textbutton.dart';
+import '../profile_screen.dart';
 
 class ProfileFollowersScreenItem extends StatelessWidget {
   final void Function()? action;
@@ -119,7 +120,24 @@ class ProfileFollowersScreenItem extends StatelessWidget {
                                 topLeft: 20,
                                 bottomLeft: 20,
                                 bottomRight: 20,
-                                onPressed: () {}),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                        transitionDuration:
+                                            const Duration(milliseconds: 500),
+                                        reverseTransitionDuration:
+                                            const Duration(milliseconds: 500),
+                                        pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                            ProfileScreen(
+                                              heroTag: followerModel.uId,
+                                              showLoadingIndicator: false,
+                                            ),
+                                        settings: RouteSettings(
+                                            arguments: followerModel.uId)),
+                                  );
+                                }),
                           ),
                         ),
                       ),

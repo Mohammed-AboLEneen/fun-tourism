@@ -27,7 +27,8 @@ class ProfileScreenFireStore {
           ?.userInfoData
           .photoURL,
       'travelsNumber': travelsNumber,
-      'followersNumber': followersNumber
+      'followersNumber': followersNumber,
+      'uId': uId
     });
   }
 
@@ -46,7 +47,17 @@ class ProfileScreenFireStore {
       print(id);
     }
     AppFcmActions.sendFollowNotification(
-        image: imageUrl, receiverId: id, title: 'New Follower', body: userName);
+        image: LocatorManager.locator<AppMainScreenCubit>()
+            .userData
+            ?.userInfoData
+            .photoURL,
+        receiverId: id,
+        title: 'New Follower',
+        body: LocatorManager.locator<AppMainScreenCubit>()
+                .userData
+                ?.userInfoData
+                .displayName ??
+            '');
   }
 
   static Future<void> removeFollowerFromOtherUserFireStore(String id) async {

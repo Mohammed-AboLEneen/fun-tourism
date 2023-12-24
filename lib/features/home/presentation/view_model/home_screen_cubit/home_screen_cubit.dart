@@ -30,7 +30,8 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
   late List<Widget> homeMenuPages = [
     const HomePage(),
     const ProfileScreen(
-      heroTag: 'editScreen',
+      heroTag: 'edit screen',
+      showLoadingIndicator: true,
     )
   ];
 

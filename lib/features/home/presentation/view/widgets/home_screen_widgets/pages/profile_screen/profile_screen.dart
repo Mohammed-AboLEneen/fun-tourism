@@ -10,12 +10,12 @@ import '../../../../../../../../constants.dart';
 import '../../../../../view_model/profile_cubit/profile_states.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final bool? isThisYourAccount;
+  final bool showLoadingIndicator;
   final String? heroTag;
 
   const ProfileScreen({
     super.key,
-    this.isThisYourAccount,
+    required this.showLoadingIndicator,
     this.heroTag,
   });
 
@@ -30,7 +30,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     id = ModalRoute.of(context)!.settings.arguments as String?;
-
     if (id == null || (id?.isEmpty ?? false)) id = uId;
   }
 
@@ -43,7 +42,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ProfileScreenCubit profileScreenCubit =
               ProfileScreenCubit.get(context);
 
-          if (widget.heroTag != null) {
+          if (((profileScreenCubit.userInfoData?.displayName?.isNotEmpty ??
+                      false) ||
+                  (profileScreenCubit.userInfoData?.photoURL?.isNotEmpty ??
+                      false)) ||
+              widget.showLoadingIndicator == false) {
             return TweenAnimationBuilder(
                 tween: Tween<double>(begin: 0, end: 1),
                 duration: const Duration(seconds: 1),
@@ -59,47 +62,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   );
                 });
+          } else if (state is FailureGetProfileScreenDataState) {
+            return Scaffold(
+              body: Center(
+                child: Text(
+                  'There Is An Error',
+                  style: GoogleFonts.aBeeZee().copyWith(fontSize: 30.sp),
+                ),
+              ),
+            );
           } else {
-            if ((profileScreenCubit.userInfoData?.displayName?.isNotEmpty ??
-                    false) ||
-                (profileScreenCubit.userInfoData?.photoURL?.isNotEmpty ??
-                    false)) {
-              return TweenAnimationBuilder(
-                  tween: Tween<double>(begin: 0, end: 1),
-                  duration: const Duration(seconds: 1),
-                  builder: (_, value, __) {
-                    return Opacity(
-                      opacity: value,
-                      child: Scaffold(
-                        backgroundColor: Colors.white.withLightness(.95),
-                        body: ProfileScreenBody(
-                          id: id!,
-                        ),
-                      ),
-                    );
-                  });
-            } else if (state is FailureGetProfileScreenDataState) {
-              return Scaffold(
-                body: Center(
-                  child: Text(
-                    'There Is An Error',
-                    style: GoogleFonts.aBeeZee().copyWith(fontSize: 30.sp),
+            return Scaffold(
+              backgroundColor: Colors.white,
+              body: Center(
+                child: SizedBox(
+                  width: 70.w,
+                  child: const LinearProgressIndicator(
+                    color: Colors.indigo,
                   ),
                 ),
-              );
-            } else {
-              return Scaffold(
-                backgroundColor: Colors.white,
-                body: Center(
-                  child: SizedBox(
-                    width: 70.w,
-                    child: const LinearProgressIndicator(
-                      color: Colors.indigo,
-                    ),
-                  ),
-                ),
-              );
-            }
+              ),
+            );
           }
         },
       ),
