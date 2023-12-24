@@ -57,22 +57,21 @@ class _AddTravelScreenState extends State<AddTravelScreen> {
             showToast(
                 msg: 'There Is No An Internet',
                 toastMessageType: ToastMessageType.failureMessage);
-          } else if (state is LoadingAddTravelState) {
+          }
+          if (state is LoadingAddTravelState) {
             showToast(
                 msg: 'Waiting Please To Add Travel',
                 toastMessageType: ToastMessageType.waitingMessage,
                 textColor: Colors.black);
-          } else if (state is SuccessAddTravelState) {
+          }
+          if (state is SuccessAddTravelState) {
             showToast(
                 msg: 'Successfully Add New Travel',
                 toastMessageType: ToastMessageType.successMessage);
-          } else {
-            showToast(
-                msg: 'Fail To Add New Travel',
-                toastMessageType: ToastMessageType.failureMessage);
           }
         },
         builder: (context, state) {
+          var cubit = AddTravelCubit.get(context);
           return Scaffold(
               appBar: AppBar(
                 title: Text(
@@ -96,6 +95,37 @@ class _AddTravelScreenState extends State<AddTravelScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        cubit.selectTravelImage();
+                                      },
+                                      child: Container(
+                                        height: 150.h,
+                                        width: context.width * .7,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          color: Colors.grey,
+                                        ),
+                                        margin: EdgeInsets.only(bottom: 10.h),
+                                        child: cubit.image == null
+                                            ? Icon(
+                                                Icons.image_search_outlined,
+                                                size: 45.h,
+                                              )
+                                            : ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                child: Image.file(
+                                                  cubit.image!,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                      ),
+                                    ),
+                                  ),
                                   Text(
                                     'Fill This Fields :',
                                     style: GoogleFonts.aBeeZee()
@@ -234,6 +264,7 @@ class _AddTravelScreenState extends State<AddTravelScreen> {
                                         text: 'Add Travel',
                                         textSize: 20.sp,
                                         buttonColor: Colors.indigo,
+                                        buttonColorLightness: .5,
                                         topLeft: 15,
                                         bottomLeft: 15,
                                         bottomRight: 15,

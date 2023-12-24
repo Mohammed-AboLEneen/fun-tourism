@@ -9,7 +9,7 @@ import '../../../../../../constants.dart';
 import '../../../../../../cores/utils/locator_manger.dart';
 import '../../../view_model/home_screen_cubit/home_screen_cubit.dart';
 import '../../../view_model/home_screen_cubit/home_screen_states.dart';
-import '../wating_screen.dart';
+import '../../wating_screen.dart';
 
 class HomeScreenWidget extends StatefulWidget {
   const HomeScreenWidget({super.key});

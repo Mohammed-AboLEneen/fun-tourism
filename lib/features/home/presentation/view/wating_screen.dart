@@ -5,7 +5,7 @@ import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_states.dart';
 
-import '../../../../../cores/utils/locator_manger.dart';
+import '../../../../cores/utils/locator_manger.dart';
 
 class WaitingScreen extends StatelessWidget {
   final void Function()? action;

@@ -8,8 +8,8 @@ import '../../../../../cores/models/hot_travels_model/hot_travels_model.dart';
 import '../../../../../cores/models/recent_news_model/recent_news_model.dart';
 import '../../../../../cores/models/user_app_data/user_app_data.dart';
 import '../../../../../cores/utils/get_location.dart';
+import '../../view/add_travel_screen.dart';
 import '../../view/home_screen.dart';
-import '../../view/widgets/add_travel_screen.dart';
 import '../../view/widgets/chats_screen_widgets/chat_screen_widget.dart';
 import 'main_screen_states.dart';
 

@@ -9,3 +9,7 @@ class SuccessAddTravelState extends AddTravelStates {}
 class FailureAddTravelState extends AddTravelStates {}
 
 class ThereIsNoAnInternetState extends AddTravelStates {}
+
+class SuccessSelectedTravelImageState extends AddTravelStates {}
+
+class FailureSelectedTravelImageState extends AddTravelStates {}
