@@ -26,6 +26,12 @@ class GetLocalAppDataSuccessState extends HomeScreenStates {}
 
 class GetLocalAppDataFailureState extends HomeScreenStates {}
 
+class SuccessGetUserNotificationsState extends HomeScreenStates {}
+
+class LoadingGetUserNotificationsState extends HomeScreenStates {}
+
+class FailureGetUserNotificationsState extends HomeScreenStates {}
+
 class GetTheUserLocationName extends HomeScreenStates {}
 
 class OpenNotificationsScreenState extends HomeScreenStates {}

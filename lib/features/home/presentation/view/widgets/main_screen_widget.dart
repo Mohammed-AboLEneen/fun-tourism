@@ -25,10 +25,10 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
 
   @override
   void didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
 
     uId = SharedPreferenceHelper.getString(key: uIdKey);
+
     LocatorManager.locateAppMainScreenCubit();
   }
 
@@ -52,8 +52,9 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5),
                       child: Container(
-                        height: context.height * .07,
                         width: context.width * .6,
+                        constraints:
+                            BoxConstraints(maxHeight: context.height * .07),
                         decoration: BoxDecoration(
                             color: const Color(0xff313745).withOpacity(.8),
                             borderRadius:
@@ -72,7 +73,7 @@ class _AppMainScreenState extends State<AppMainScreenWidget> {
                                         .changeNavigationBar(index);
                                   },
                                 ),
-                            itemCount: 4),
+                            itemCount: 3),
                       ),
                     ),
                   ),

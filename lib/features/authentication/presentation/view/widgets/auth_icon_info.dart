@@ -1,3 +1,5 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class AuthIconInfo {
   static double getAuthIconBottomHeight(
       {required double h, required double pageValue}) {
@@ -9,9 +11,9 @@ class AuthIconInfo {
       }
     } else {
       if (pageValue <= 1) {
-        return (h * .03) + (pageValue * h * .25);
+        return (h * .03) + (pageValue * h * .23);
       } else {
-        return ((h * .03) + h * .25) - ((pageValue - 1) * (h * .23));
+        return ((h * .03) + h * .23) - ((pageValue - 1) * (h * .23));
       }
     }
   }
@@ -30,7 +32,7 @@ class AuthIconInfo {
     if (pageView <= 1) {
       return w * .35 - pageView * 50;
     } else {
-      return w * .35 - 50;
+      return w * .35 - 50.w;
     }
   }
 

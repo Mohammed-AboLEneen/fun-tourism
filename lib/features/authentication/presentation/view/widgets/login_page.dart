@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,9 +6,10 @@ import 'package:fun_adventure/cores/methods/google_sign_out.dart';
 import 'package:fun_adventure/cores/methods/navigate_pageview.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
 import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
-import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
 import 'package:fun_adventure/cores/utils/routers.dart';
+import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
+import 'package:fun_adventure/features/home/presentation/view/main_screen.dart';
 
 import '../../../../../constants.dart';
 import '../../../../../cores/utils/custom_textformfield_underline.dart';
@@ -59,31 +61,37 @@ class _LoginPageState extends State<LoginPage> {
                               fontWeight: FontWeight.bold,
                               color: Colors.white.withOpacity(1)),
                         ),
-                        CustomTextFieldUnderline(
-                          hint: 'Email',
-                          onChanged: (value) {
-                            loginCubit.putEmailAddress = value;
-                          },
-                          padding: const EdgeInsets.only(left: 10, top: 10),
-                          icon: Icon(Icons.alternate_email,
-                              color: Colors.white.withOpacity(.9)),
+                        SizedBox(
+                          height: context.height * .09,
+                          child: CustomTextFieldUnderline(
+                            hint: 'Email',
+                            onChanged: (value) {
+                              loginCubit.putEmailAddress = value;
+                            },
+                            padding: const EdgeInsets.only(left: 10, top: 10),
+                            icon: Icon(Icons.alternate_email,
+                                color: Colors.white.withOpacity(.9)),
+                          ),
                         ),
-                        const SizedBox(
-                          height: 30,
+                        SizedBox(
+                          height: 20.h,
                         ),
-                        CustomTextFieldUnderline(
-                          hint: 'Password',
-                          onChanged: (value) {
-                            print(value);
-                            loginCubit.putPassword = value;
-                          },
-                          padding: const EdgeInsets.only(left: 10, top: 10),
-                          icon: Icon(Icons.lock,
-                              color: Colors.white.withOpacity(.9)),
+                        SizedBox(
+                          height: context.height * .09,
+                          child: CustomTextFieldUnderline(
+                            hint: 'Password',
+                            onChanged: (value) {
+                              print(value);
+                              loginCubit.putPassword = value;
+                            },
+                            padding: const EdgeInsets.only(left: 10, top: 10),
+                            icon: Icon(Icons.lock,
+                                color: Colors.white.withOpacity(.9)),
+                          ),
                         ),
                         const Spacer(),
                         SizedBox(
-                          width: MediaQuery.of(context).size.width * .5,
+                          width: MediaQuery.of(context).size.width * .45,
                           height: MediaQuery.of(context).size.height * .06,
                           child: TextButton(
                               onPressed: () async {
@@ -111,18 +119,14 @@ class _LoginPageState extends State<LoginPage> {
                                     ImagesClass.googleLogoPngImage,
                                     fit: BoxFit.cover,
                                     width:
-                                        MediaQuery.of(context).size.width * .1,
+                                        MediaQuery.of(context).size.width * .12,
                                   ),
                                   const Spacer(),
                                   Padding(
                                     padding: const EdgeInsets.only(right: 8.0),
                                     child: Text(
                                       'Sign in with google',
-                                      style: TextStyle(
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              .042),
+                                      style: TextStyle(fontSize: 15.sp),
                                     ),
                                   ),
                                 ],
@@ -209,8 +213,7 @@ class _LoginPageState extends State<LoginPage> {
             // if user just verified his email, so he don't have any data in fireStore yet.
             // we will add it by checking if he has data in FireStore or not.
             if (state.emailVerified) {
-              bool isExist =
-                  await FireStoreServices.checkIfDocumentExists(uId!);
+              bool isExist = await checkIfDocumentExists(uId!);
 
               if (!context.mounted) return;
 
@@ -252,11 +255,22 @@ void checkIsThisNewUser({
     await SharedPreferenceHelper.setString(key: uIdKey, value: user.uid ?? '');
 
     if (!context.mounted) return;
-    Navigator.pushNamedAndRemoveUntil(
-        context, RoutersClass.appMainScreen, (route) => false);
+    Navigator.pushAndRemoveUntil(context,
+        PageRouteBuilder(pageBuilder: (context, a1, a2) {
+      return const AppMainScreen();
+    }), (route) => false);
   } else {
     showToast(
         msg: 'Something is wrong, try again.',
         toastMessageType: ToastMessageType.failureMessage);
   }
+}
+
+Future<bool> checkIfDocumentExists(String uId) async {
+  final DocumentReference documentRef =
+      FirebaseFirestore.instance.collection('users').doc(uId);
+
+  final DocumentSnapshot documentSnapshot = await documentRef.get();
+
+  return documentSnapshot.exists;
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/internet_connection.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
@@ -7,15 +8,19 @@ import 'package:fun_adventure/features/home/presentation/view_model/main_screen_
 
 import '../../../../cores/utils/locator_manger.dart';
 
-class WaitingScreen extends StatelessWidget {
+class WaitingScreen extends StatefulWidget {
   final void Function()? action;
 
   const WaitingScreen({super.key, this.action});
 
-  final Color color = Colors.white;
+  @override
+  State<WaitingScreen> createState() => _WaitingScreenState();
+}
 
+class _WaitingScreenState extends State<WaitingScreen> {
   @override
   Widget build(BuildContext context) {
+    final Color color = Colors.indigo.withLightness(.7);
     return BlocConsumer<AppMainScreenCubit, AppMainScreenStates>(
         builder: (context, state) {
           return Padding(
@@ -89,7 +94,7 @@ class WaitingScreen extends StatelessWidget {
                                     height: 10,
                                   ),
                                   TextButton(
-                                      onPressed: action,
+                                      onPressed: widget.action,
                                       child: const Text(
                                         'Retry',
                                         style: TextStyle(color: Colors.black),

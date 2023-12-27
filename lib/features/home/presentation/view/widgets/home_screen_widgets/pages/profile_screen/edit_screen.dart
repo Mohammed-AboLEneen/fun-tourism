@@ -92,7 +92,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             Align(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                '2023-12-15',
+                                userInfoData?.createdIn ?? '2023',
                                 style: GoogleFonts.abhayaLibre()
                                     .copyWith(fontSize: 20.sp),
                               ),

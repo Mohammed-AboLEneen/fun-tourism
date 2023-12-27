@@ -2,16 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/constants.dart';
-import 'package:fun_adventure/cores/utils/fcm_sender.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/menu_logic_provider/menu_logic_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../../cores/utils/env/env.dart';
-import '../../../../../../cores/utils/locator_manger.dart';
-import '../../../view_model/main_screen_cubit/main_screen_cubit.dart';
-import '../../../view_model/notifications_listener_provider/notification_listener_provider.dart';
 
 class CustomAppBar extends StatelessWidget {
   final Future<void> Function()? locationAction;
@@ -63,14 +57,12 @@ class CustomAppBar extends StatelessWidget {
                       SizedBox(
                         width: context.width * .09,
                       ),
-                      SizedBox(
-                        width: context.width * .53,
+                      Expanded(
                         child: TextButton(
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.symmetric(horizontal: 4.w),
                             ),
                             onPressed: () {
-                              print('Press');
                               locationAction!();
                             },
                             child: locationName.isEmpty
@@ -88,74 +80,17 @@ class CustomAppBar extends StatelessWidget {
                                         fontSize: 20.sp, color: Colors.white),
                                   )),
                       ),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CircleAvatar(
-                                backgroundColor: Colors.white.withOpacity(.4),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    FirebaseFcmSender.sendFCMMessage(
-                                        EnvClass.authorizationKey,
-                                        'RwWYcS7BZXXSMWXBIACts6nsnrk1',
-                                        'New Follower',
-                                        LocatorManager.locator<
-                                                    AppMainScreenCubit>()
-                                                .userData
-                                                ?.userInfoData
-                                                .displayName ??
-                                            '');
-                                  },
-                                  child: FaIcon(
-                                    FontAwesomeIcons.magnifyingGlass,
-                                    color: Colors.white.withOpacity(.9),
-                                    size: 20.h,
-                                  ),
-                                )),
-                            GestureDetector(
-                              onTap: notificationAction,
-                              child: Stack(
-                                children: [
-                                  CircleAvatar(
-                                      backgroundColor:
-                                          Colors.white.withOpacity(.4),
-                                      child: Stack(
-                                        children: [
-                                          FaIcon(
-                                            FontAwesomeIcons.bell,
-                                            color: Colors.white.withOpacity(.9),
-                                          ),
-                                        ],
-                                      )),
-                                  Positioned(
-                                    top: 0,
-                                    child: SizedBox(
-                                      height: 16.h,
-                                      width: 16.w,
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.red,
-                                        child: Consumer<
-                                            NotificationListenerProvider>(
-                                          builder: (_, model, __) {
-                                            return Text(
-                                              '${model.notificationsNumber}',
-                                              style: TextStyle(
-                                                  fontSize: 10.sp,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      )
+                      CircleAvatar(
+                          backgroundColor: Colors.white.withOpacity(.4),
+                          radius: context.width * .1,
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: FaIcon(
+                              FontAwesomeIcons.magnifyingGlass,
+                              color: Colors.white.withOpacity(.9),
+                              size: 20.h,
+                            ),
+                          ))
                     ],
                   ),
                 ),

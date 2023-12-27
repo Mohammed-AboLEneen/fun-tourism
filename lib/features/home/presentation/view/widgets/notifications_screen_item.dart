@@ -6,7 +6,7 @@ import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../../../../cores/models/notification_model/notification_model.dart';
-import '../../profile_screen/profile_screen.dart';
+import 'home_screen_widgets/pages/profile_screen/profile_screen.dart';
 
 class NotificationScreenItem extends StatelessWidget {
   final NotificationModel notificationModel;

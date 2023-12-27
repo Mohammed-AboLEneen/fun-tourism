@@ -12,6 +12,8 @@ class RegisterCubit extends Cubit<RegisterStates> {
   String emailAddress = '';
   String accountPassword = '';
 
+  List<String> hints = ['Name', 'Phone', 'Email', 'Password'];
+
   static RegisterCubit get(context) => BlocProvider.of(context);
 
   set setName(String value) {

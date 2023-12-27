@@ -31,7 +31,7 @@ class _ProfileScreenFollowersState extends State<ProfileScreenFollowers> {
             return Scaffold(
               appBar: AppBar(
                 title: Text(
-                  'Followers : 10',
+                  'Followers : ${cubit.followers.length}',
                   style: GoogleFonts.aBeeZee(fontSize: 20.sp),
                 ),
               ),
@@ -62,14 +62,15 @@ class _ProfileScreenFollowersState extends State<ProfileScreenFollowers> {
             );
           } else if (cubit.finishGetFollowers == false &&
               cubit.followers.isEmpty) {
-            return const Scaffold(
+            return Scaffold(
               body: Center(
-                  child: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: LinearProgressIndicator(
-                  color: Colors.indigo,
+                child: SizedBox(
+                  width: 70.w,
+                  child: const LinearProgressIndicator(
+                    color: Colors.indigo,
+                  ),
                 ),
-              )),
+              ),
             );
           } else {
             return Scaffold(

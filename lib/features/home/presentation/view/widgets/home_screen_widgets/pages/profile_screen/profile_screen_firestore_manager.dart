@@ -5,7 +5,6 @@ import 'package:fun_adventure/cores/methods/toast.dart';
 
 import '../../../../../../../../constants.dart';
 import '../../../../../../../../cores/utils/app_fcm_actions.dart';
-import '../../../../../../../../cores/utils/firestore_service.dart';
 import '../../../../../../../../cores/utils/locator_manger.dart';
 import '../../../../../view_model/main_screen_cubit/main_screen_cubit.dart';
 
@@ -70,7 +69,7 @@ class ProfileScreenFireStore {
 
   static Future<bool> checkIfCurrentUserFollowThisProfile(
       String profileUId) async {
-    var doc = await FireStoreServices.fireStore
+    var doc = await FirebaseFirestore.instance
         .collection('users')
         .doc(uId)
         .collection('following')
@@ -82,7 +81,7 @@ class ProfileScreenFireStore {
 
   static Future<bool> checkIfThisProfileFollowCurrentUser(
       String profileUId) async {
-    var doc = await FireStoreServices.fireStore
+    var doc = await FirebaseFirestore.instance
         .collection('users')
         .doc(profileUId)
         .collection('following')
@@ -105,7 +104,7 @@ class ProfileScreenFireStore {
 
   static Future<QuerySnapshot> getProfileFollowerFromFireStore(
       String profileUId) async {
-    QuerySnapshot doc = await FireStoreServices.fireStore
+    QuerySnapshot doc = await FirebaseFirestore.instance
         .collection('users')
         .doc(profileUId)
         .collection('followers')

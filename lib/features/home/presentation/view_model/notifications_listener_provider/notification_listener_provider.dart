@@ -4,6 +4,7 @@ import 'package:fun_adventure/features/home/presentation/view_model/main_screen_
 
 import '../../../../../cores/utils/firebase_api.dart';
 
+// this provider responsible for listen and add fcm notifications to userNotifications list in AppMainScreenCubit
 class NotificationListenerProvider extends ChangeNotifier {
   int notificationsNumber = 0;
 
@@ -12,7 +13,7 @@ class NotificationListenerProvider extends ChangeNotifier {
       incrementNotificationsNumber();
       LocatorManager.locator<AppMainScreenCubit>()
           .userNotifications
-          .insert(0, LocatorManager.locator<FirebaseApi>().notification.value);
+          ?.insert(0, LocatorManager.locator<FirebaseApi>().notification.value);
 
       notifyListeners();
     });

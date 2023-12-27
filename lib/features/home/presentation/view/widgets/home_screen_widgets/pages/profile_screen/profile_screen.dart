@@ -42,11 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ProfileScreenCubit profileScreenCubit =
               ProfileScreenCubit.get(context);
 
-          if (((profileScreenCubit.userInfoData?.displayName?.isNotEmpty ??
-                      false) ||
-                  (profileScreenCubit.userInfoData?.photoURL?.isNotEmpty ??
-                      false)) ||
-              widget.showLoadingIndicator == false) {
+          if (profileScreenCubit.userInfoData != null) {
             return TweenAnimationBuilder(
                 tween: Tween<double>(begin: 0, end: 1),
                 duration: const Duration(seconds: 1),

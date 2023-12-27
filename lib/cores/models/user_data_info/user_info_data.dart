@@ -7,6 +7,7 @@ class UserInfoData {
   String? phoneNumber;
   String? uid;
   String? userTopic;
+  String? createdIn;
 
   UserInfoData();
 
@@ -25,5 +26,6 @@ class UserInfoData {
     phoneNumber = json['phoneNumber'];
     displayName = json['displayName'];
     photoURL = json['photoURL'] ?? '';
+    createdIn = json['created in'] ?? '';
   }
 }

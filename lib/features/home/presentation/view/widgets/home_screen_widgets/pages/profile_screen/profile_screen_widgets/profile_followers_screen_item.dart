@@ -132,7 +132,7 @@ class ProfileFollowersScreenItem extends StatelessWidget {
                                                 secondaryAnimation) =>
                                             ProfileScreen(
                                               heroTag: followerModel.uId,
-                                              showLoadingIndicator: false,
+                                              showLoadingIndicator: true,
                                             ),
                                         settings: RouteSettings(
                                             arguments: followerModel.uId)),

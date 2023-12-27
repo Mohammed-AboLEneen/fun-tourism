@@ -44,7 +44,7 @@ class LoginCubit extends Cubit<LoginStates> {
           isNewUser: authResult.additionalUserInfo?.isNewUser,
           isGoogleAuth: true));
     } catch (e) {
-      emit(LoginFailureState(e.toString()));
+      emit(LoginFailureState('There is An Error, try Again'));
     }
   }
 
@@ -56,9 +56,11 @@ class LoginCubit extends Cubit<LoginStates> {
         password: accountPassword,
       );
 
+      print('this is your Email : ${credential.user?.email}');
       emit(LoginSuccessState(
           emailVerified: credential.user!.emailVerified,
-          user: UserInfoData.getAnonymousUserData(user: credential.user),
+          user: UserInfoData.getAnonymousUserData(
+              user: credential.user, userEmail: credential.user?.email),
           isNewUser: credential.additionalUserInfo?.isNewUser,
           isGoogleAuth: false));
     } on FirebaseAuthException catch (e) {

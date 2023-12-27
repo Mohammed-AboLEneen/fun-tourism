@@ -6,7 +6,6 @@ import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.d
 import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/hot_travel/hot_travel_screen/hot_travel_screen_creator_part.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../../../cores/methods/expension_panel.dart';
@@ -102,7 +101,7 @@ class _HotTravelScreenState extends State<HotTravelScreen>
                             alignment: Alignment.topLeft,
                             child: IconButton(
                                 onPressed: () {
-                                  context.pop();
+                                  Navigator.pop(context);
                                 },
                                 splashColor: Colors.indigo,
                                 icon: Icon(

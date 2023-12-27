@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fun_adventure/cores/utils/color_degree.dart';
+import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../cores/methods/toast.dart';
 import '../../../../../cores/utils/custom_textformfield_underline.dart';
@@ -20,6 +23,8 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  bool isVisiable = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RegisterCubit, RegisterStates>(
@@ -40,38 +45,18 @@ class _RegisterPageState extends State<RegisterPage> {
                         if (state is RegisterLoadingState)
                           const LinearProgressIndicator(),
                         Text(
-                          'Sign Up',
+                          'Create Account',
                           style: TextStyle(
                               fontSize: 30.sp,
                               fontWeight: FontWeight.bold,
                               color: Colors.white.withOpacity(1)),
                         ),
-                        CustomTextFieldUnderline(
-                          hint: 'Last Mame',
-                          onChanged: (value) {
-                            registerCubit.name = value;
-                          },
-                          padding: const EdgeInsets.only(left: 10, top: 10),
-                          icon: Icon(Icons.person,
-                              color: Colors.white.withOpacity(.9)),
-                        ),
-                        const SizedBox(
-                          height: 20,
+                        SizedBox(
+                          height: context.height * .035,
                         ),
                         CustomTextFieldUnderline(
-                          hint: 'Phone',
-                          onChanged: (value) {
-                            registerCubit.phone = value;
-                          },
-                          padding: const EdgeInsets.only(left: 10, top: 10),
-                          icon: Icon(Icons.phone_android,
-                              color: Colors.white.withOpacity(.9)),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        CustomTextFieldUnderline(
-                          hint: 'Email',
+                          hint: 'Your Email Address',
+                          keyboardType: TextInputType.emailAddress,
                           onChanged: (value) {
                             registerCubit.emailAddress = value;
                           },
@@ -83,17 +68,46 @@ class _RegisterPageState extends State<RegisterPage> {
                           height: 20,
                         ),
                         CustomTextFieldUnderline(
-                          hint: 'Password',
+                          hint: 'New Password',
+                          obscureText: isVisiable,
                           onChanged: (value) {
                             registerCubit.accountPassword = value;
                           },
                           padding: const EdgeInsets.only(left: 10, top: 10),
-                          icon: Icon(Icons.alternate_email,
-                              color: Colors.white.withOpacity(.9)),
+                          icon: GestureDetector(
+                            onTap: () {
+                              isVisiable = !isVisiable;
+                              setState(() {});
+                            },
+                            child: Icon(
+                                isVisiable
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: Colors.white.withOpacity(.9)),
+                          ),
                         ),
-                        const Spacer(),
+                        Container(
+                          height: context.height * .2,
+                          margin: const EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              color: Colors.blue.withOpacity(.3),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Text(
+                            'Don\'t Forget Verify Your Email After Done This Process',
+                            style: GoogleFonts.aBeeZee(
+                                fontSize: 20.sp,
+                                color: Colors.white.withLightness(.85)),
+                          ),
+                        )
                       ],
                     ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 700),
+                    height: 100,
                   ),
                 )
               ],

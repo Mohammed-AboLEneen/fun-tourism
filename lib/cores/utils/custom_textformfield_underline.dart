@@ -4,13 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomTextFieldUnderline extends StatelessWidget {
   final String? hint;
   final EdgeInsetsGeometry? padding;
-  final Icon? icon;
+  final Widget? icon;
   final Color? textColor;
   final Color? borderColor;
   final void Function(String)? onChanged;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final void Function()? onTap;
+  final bool? obscureText;
 
   const CustomTextFieldUnderline(
       {super.key,
@@ -22,7 +23,8 @@ class CustomTextFieldUnderline extends StatelessWidget {
       this.borderColor,
       this.controller,
       this.onTap,
-      this.keyboardType});
+      this.keyboardType,
+      this.obscureText});
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class CustomTextFieldUnderline extends StatelessWidget {
         textAlignVertical: TextAlignVertical.top,
         cursorColor: Colors.grey,
         onChanged: onChanged,
+        obscureText: obscureText ?? false,
         validator: (value) {
           if (value!.isEmpty) {
             return 'This Field Is Required';

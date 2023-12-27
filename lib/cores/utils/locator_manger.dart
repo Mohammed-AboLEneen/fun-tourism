@@ -8,16 +8,22 @@ class LocatorManager {
   static final GetIt locator = GetIt.instance;
 
   static void locateInternetConnectionStatus() {
-    locator.registerLazySingleton<InternetConnectionState>(
-        () => InternetConnectionState());
+    if (locator.isRegistered<InternetConnectionState>() == false) {
+      locator.registerLazySingleton<InternetConnectionState>(
+          () => InternetConnectionState());
+    }
   }
 
   static void locateAppMainScreenCubit() {
-    locator
-        .registerLazySingleton<AppMainScreenCubit>(() => AppMainScreenCubit());
+    if (locator.isRegistered<AppMainScreenCubit>() == false) {
+      locator.registerLazySingleton<AppMainScreenCubit>(
+          () => AppMainScreenCubit());
+    }
   }
 
   static void locateFirebaseMessagingObject() {
-    locator.registerLazySingleton<FirebaseApi>(() => FirebaseApi());
+    if (locator.isRegistered<FirebaseApi>() == false) {
+      locator.registerLazySingleton<FirebaseApi>(() => FirebaseApi());
+    }
   }
 }

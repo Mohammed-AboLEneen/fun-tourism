@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 import '../../constants.dart';
-import 'firestore_service.dart';
 
 class FirebaseFcmSender {
   static int messageId = 1;
@@ -55,7 +55,12 @@ class FirebaseFcmSender {
     }
 
     try {
-      FireStoreServices.saveNewNotification(fcmMessage, receiverId);
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(receiverId)
+          .collection('notifications')
+          .doc()
+          .set(fcmMessage);
     } catch (e) {
       if (kDebugMode) {
         print(e.toString());

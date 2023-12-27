@@ -10,7 +10,6 @@ import 'package:fun_adventure/cores/methods/toast.dart';
 import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
 import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.dart';
 import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
-import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 import 'package:provider/provider.dart';
 
@@ -67,6 +66,10 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
     // not request data again until user scroll up screen to refresh data
 
     getUserNotificationNumber(context);
+
+    BlocProvider.of<AppMainScreenCubit>(context)
+        .requestUserNotifications(context);
+
     if ((LocatorManager.locator<AppMainScreenCubit>().recentNews.isEmpty &&
         LocatorManager.locator<AppMainScreenCubit>().hotTravels.isEmpty)) {
       getUserData(uId);
@@ -78,8 +81,8 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
     emit(GetUserDataLoadingState());
 
     try {
-      DocumentSnapshot<Object?> data =
-          await FireStoreServices.getUserData(uId: uId);
+      DocumentSnapshot<Map<String, dynamic>> data =
+          await FirebaseFirestore.instance.collection('users').doc(uId).get();
 
       LocatorManager.locator<AppMainScreenCubit>().setUserData(
           UserAppData.fromJson(data.data() as Map<String, dynamic>));
@@ -106,10 +109,16 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
 
       emit(GetHomeScreenDataLoadingState());
 
-      DocumentSnapshot<Object?> data1 =
-          await FireStoreServices.getHomeScreenData('last travels');
-      DocumentSnapshot<Object?> data2 =
-          await FireStoreServices.getHomeScreenData('recent news');
+      DocumentSnapshot<Map<String, dynamic>> data1 = await FirebaseFirestore
+          .instance
+          .collection('appData')
+          .doc('last travels')
+          .get();
+      DocumentSnapshot<Map<String, dynamic>> data2 = await FirebaseFirestore
+          .instance
+          .collection('appData')
+          .doc('recent news')
+          .get();
 
       Map<String, dynamic> dataList1 = data1.data() as Map<String, dynamic>;
       Map<String, dynamic> dataList2 = data2.data() as Map<String, dynamic>;
@@ -186,6 +195,7 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
 
   int currentPage = 0;
 
+  // home screen has multi pages like profile and other pages we can change it using home menu.
   void changeTheCurrentHomeScreenPage(int index) {
     if (currentPage == index) return;
 

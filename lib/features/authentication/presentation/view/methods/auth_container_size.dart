@@ -9,7 +9,7 @@ double getPageViewContainerSize({required double h, required double pageView}) {
     if (h < 600) {
       return ((h * .46) + (h * .32)) + ((pageView - 1) * h * .08);
     } else {
-      return ((h * .4) + ((h * .24))) + (pageView - 1) * h * .08;
+      return ((h * .4) + ((h * .24))) + (pageView - 1) * h * .09;
     }
   }
 }

@@ -9,7 +9,6 @@ import 'package:fun_adventure/cores/methods/toast.dart';
 import 'package:fun_adventure/cores/models/follower_icon_model/follower_icon_model.dart';
 import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
-import 'package:fun_adventure/cores/utils/firestore_service.dart';
 import 'package:fun_adventure/cores/utils/internet_connection.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_firestore_manager.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
@@ -42,7 +41,7 @@ class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
 
     try {
       DocumentSnapshot<Map<String, dynamic>> data =
-          await FireStoreServices.fireStore.collection('users').doc(id).get();
+          await FirebaseFirestore.instance.collection('users').doc(id).get();
 
       userInfoData = UserInfoData.fromJson(data.data() as Map<String, dynamic>);
 

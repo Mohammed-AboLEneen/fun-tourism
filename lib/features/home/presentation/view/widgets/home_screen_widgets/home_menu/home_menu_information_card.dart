@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fun_adventure/constants.dart';
+import 'package:fun_adventure/cores/methods/google_sign_out.dart';
+import 'package:fun_adventure/cores/methods/toast.dart';
+import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
+import 'package:fun_adventure/features/authentication/presentation/view/authentcation.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_states.dart';
 
+import '../../../../../../../cores/methods/show_alert.dart';
+import '../../../../../../../cores/methods/sign_out_firebase.dart';
 import '../../../../../../../cores/utils/locator_manger.dart';
 
 class MenuInfoCard extends StatelessWidget {
@@ -70,7 +77,39 @@ class MenuInfoCard extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      customShowAlert(
+                          title: 'Sign Out',
+                          content: 'Do you Leave Now ?',
+                          noAction: () {},
+                          yesAction: () async {
+                            try {
+                              await signOutUser();
+                              await googleSignOut();
+                              await SharedPreferenceHelper.prefs.clear();
+                              await LocatorManager.locator.reset();
+                              await SharedPreferenceHelper.setBool(
+                                  key: onBoardingKey, value: true);
+
+                              if (!context.mounted) return;
+                              Navigator.pushAndRemoveUntil(context,
+                                  PageRouteBuilder(pageBuilder:
+                                      (context, animation1, animation2) {
+                                return const AuthenticationScreen();
+                              }), (route) => false);
+                              showToast(
+                                  msg: 'Process Success',
+                                  toastMessageType:
+                                      ToastMessageType.successMessage);
+                            } catch (e) {
+                              showToast(
+                                  msg: 'Process Failed, Try Again',
+                                  toastMessageType:
+                                      ToastMessageType.failureMessage);
+                            }
+                          },
+                          context: context);
+                    },
                     icon: const FaIcon(FontAwesomeIcons.arrowRightFromBracket))
               ],
             ),

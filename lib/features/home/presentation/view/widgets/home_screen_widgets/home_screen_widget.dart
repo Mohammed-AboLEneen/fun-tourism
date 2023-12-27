@@ -37,21 +37,21 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
                   create: (BuildContext context) =>
                       MenuLogicProvider()..customMenuAppManger.initMenuValue(),
                   child: Consumer<MenuLogicProvider>(
-                    builder: (_, model, __) {
+                    builder: (_, homeMenu, __) {
                       return GestureDetector(
                         onPanUpdate: (tapInfo) {
-                          model.realTimeUpdatingValues(context, tapInfo);
+                          homeMenu.realTimeUpdatingValues(context, tapInfo);
                         },
                         onPanEnd: (de) {
-                          model.leaveScreenWhenMenuMoving(context);
+                          homeMenu.leaveScreenWhenMenuMoving(context);
                         },
                         child: Stack(
                           children: [
                             TweenAnimationBuilder(
                                 tween: Tween<double>(
-                                    begin: model
+                                    begin: homeMenu
                                         .customMenuAppManger.tweenBeginScale,
-                                    end: model
+                                    end: homeMenu
                                         .customMenuAppManger.tweenEndScale),
                                 duration: const Duration(milliseconds: 150),
                                 builder: (_, value, ___) {
@@ -63,21 +63,23 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget>
                                           homeScreenCubit.getData(
                                               uId!, context);
                                         },
+                                        color: Colors.indigo,
                                         child: homeScreenCubit.homeMenuPages[
                                             homeScreenCubit.currentPage],
                                       ));
                                 }),
                             HomeScreenMenuStructure(
                               tBeginColor:
-                                  model.customMenuAppManger.tweenBeginColor,
+                                  homeMenu.customMenuAppManger.tweenBeginColor,
                               tEndColor:
-                                  model.customMenuAppManger.tweenEndColor,
-                              normalizedXPosition:
-                                  model.customMenuAppManger.normalizedXPosition,
-                              xPosition: model.customMenuAppManger.xPosition,
+                                  homeMenu.customMenuAppManger.tweenEndColor,
+                              normalizedXPosition: homeMenu
+                                  .customMenuAppManger.normalizedXPosition,
+                              xPosition: homeMenu.customMenuAppManger.xPosition,
                               onTapBlackBackGround: () {
                                 setState(() {
-                                  model.customMenuAppManger.closeMenu(context);
+                                  homeMenu.customMenuAppManger
+                                      .closeMenu(context);
                                 });
                               },
                             ),
