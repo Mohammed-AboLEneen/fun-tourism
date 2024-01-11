@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
-import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
 import 'package:hive/hive.dart';
 
 import '../../constants.dart';
-import '../models/recent_news_model/recent_news_model.dart';
+import '../../features/home/data/models/hot_travels_model/hot_travels_model.dart';
+import '../../features/home/data/models/recent_news_model/recent_news_model.dart';
 
 Future<void> saveHomeScreenData(
     {required List<HotTravelModel> hotTravels,

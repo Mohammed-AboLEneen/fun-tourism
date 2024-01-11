@@ -5,7 +5,7 @@ import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../../constants.dart';
-import '../../../../../../../cores/models/hot_travels_model/hot_travels_model.dart';
+import '../../../../../data/models/hot_travels_model/hot_travels_model.dart';
 import 'hot_travel_card_button_custom_clipper.dart';
 
 class TravelItem extends StatelessWidget {

@@ -17,4 +17,10 @@ class NotificationModel {
     title = notificationTitle;
     notificationData = NotificationData.fromJson(notData);
   }
+
+  NotificationModel.fromJson(Map<String, dynamic> json) {
+    title = json['notification']['title'];
+    body = json['notification']['body'];
+    notificationData = NotificationData.fromJson(json['data']);
+  }
 }

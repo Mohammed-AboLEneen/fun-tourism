@@ -6,8 +6,8 @@ import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../cores/methods/toast.dart';
-import '../../../../../cores/utils/custom_textformfield_underline.dart';
 import '../../../../../cores/utils/routers.dart';
+import '../../../../../cores/widgets/custom_textformfield_underline.dart';
 import '../../view_model/register_cubit/register_cubit.dart';
 import '../../view_model/register_cubit/register_states.dart';
 

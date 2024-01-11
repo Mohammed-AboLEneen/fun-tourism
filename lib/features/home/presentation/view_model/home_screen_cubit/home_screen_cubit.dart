@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fun_adventure/cores/methods/download_image.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
-import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
-import 'package:fun_adventure/cores/models/recent_news_model/recent_news_model.dart';
+
 import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +15,8 @@ import 'package:provider/provider.dart';
 import '../../../../../constants.dart';
 import '../../../../../cores/utils/internet_connection.dart';
 import '../../../../../cores/utils/locator_manger.dart';
+import '../../../data/models/hot_travels_model/hot_travels_model.dart';
+import '../../../data/models/recent_news_model/recent_news_model.dart';
 import '../../view/widgets/home_screen_widgets/pages/home_page/home_page.dart';
 import '../../view/widgets/home_screen_widgets/pages/profile_screen/profile_screen.dart';
 import '../notifications_listener_provider/notification_listener_provider.dart';

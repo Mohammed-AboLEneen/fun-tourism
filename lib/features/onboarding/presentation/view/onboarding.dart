@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fun_adventure/constants.dart';
 import 'package:fun_adventure/cores/utils/images.dart';
 import 'package:fun_adventure/cores/utils/sheard_preferance_helper.dart';
-import 'package:fun_adventure/cores/utils/smooth_dots.dart';
+import 'package:fun_adventure/cores/widgets/smooth_dots.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/widgets/custom_button.dart';
 import 'package:fun_adventure/features/onboarding/presentation/view/widgets/pageview_item.dart';
 

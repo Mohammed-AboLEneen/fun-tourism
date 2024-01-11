@@ -2,13 +2,13 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/hot_travel/hot_travel_screen/hot_travel_screen_creator_part.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../../../cores/methods/expension_panel.dart';
+import '../../../../../../data/models/hot_travels_model/hot_travels_model.dart';
 import '../../../custom_textbutton.dart';
 import 'hot_travel_screen_info.dart';
 

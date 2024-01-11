@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../cores/models/follower_model/follower_model.dart';
+import '../../../data/models/follower_model/follower_model.dart';
 import 'follower_screen_states.dart';
 
 class FollowerScreenCubit extends Cubit<FollowerScreenStates> {

@@ -15,7 +15,7 @@ import 'package:fun_adventure/features/home/presentation/view_model/profile_cubi
 
 import '../../../../../../../../../constants.dart';
 import '../../../../../../../../../cores/methods/show_image_dialog.dart';
-import '../../../../../../../../../cores/utils/custom_container.dart';
+import '../../../../../../../../../cores/widgets/custom_container.dart';
 import '../profile_screen_followers.dart';
 import 'follow_button.dart';
 

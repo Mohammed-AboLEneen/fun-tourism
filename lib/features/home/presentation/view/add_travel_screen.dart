@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fun_adventure/cores/utils/custom_textfield_rounded_border.dart';
-import 'package:fun_adventure/cores/utils/custom_textformfield_underline.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
+import 'package:fun_adventure/cores/widgets/custom_textfield_rounded_border.dart';
+import 'package:fun_adventure/cores/widgets/custom_textformfield_underline.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/custom_textbutton.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/add_travel_cubit/add_travel_cubit.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/add_travel_cubit/add_travel_states.dart';

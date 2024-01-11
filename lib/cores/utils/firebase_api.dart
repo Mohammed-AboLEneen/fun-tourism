@@ -2,14 +2,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fun_adventure/main.dart';
 
+import '../../features/home/data/models/notification_model/notification_model.dart';
 import '../../features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen.dart';
-import '../models/notification_model/notification_model.dart';
 import 'locator_manger.dart';
 import 'notification_services.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   final messageNotification = message.notification;
-  print('this is packdoadjoad');
   if (messageNotification == null) return;
   LocatorManager.locator<FirebaseApi>().notification.value =
       NotificationModel.fromNotification(

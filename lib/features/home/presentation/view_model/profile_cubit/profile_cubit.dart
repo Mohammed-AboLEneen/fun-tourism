@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
-import 'package:fun_adventure/cores/models/follower_icon_model/follower_icon_model.dart';
 import 'package:fun_adventure/cores/models/user_data_info/user_info_data.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/internet_connection.dart';
@@ -17,6 +16,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../../constants.dart';
 import '../../../../../cores/utils/locator_manger.dart';
+import '../../../data/models/follower_icon_model/follower_icon_model.dart';
 
 class ProfileScreenCubit extends Cubit<ProfileScreenStates> {
   ProfileScreenCubit() : super(InitProfileScreenState());

@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../../../../../../cores/models/notification_model/notification_model.dart';
+import '../../../data/models/notification_model/notification_model.dart';
 import 'home_screen_widgets/pages/profile_screen/profile_screen.dart';
 
 class NotificationScreenItem extends StatelessWidget {
@@ -43,9 +44,24 @@ class NotificationScreenItem extends StatelessWidget {
               child: Hero(
                 tag: 'notification$index',
                 child: CircleAvatar(
-                  backgroundImage: CachedNetworkImageProvider(
-                      notificationModel.notificationData.imageUrl ?? '',
-                      errorListener: (error) {}),
+                  backgroundImage:
+                      (notificationModel.notificationData.imageUrl == null ||
+                              (notificationModel
+                                      .notificationData.imageUrl?.isEmpty ??
+                                  false))
+                          ? null
+                          : CachedNetworkImageProvider(
+                              notificationModel.notificationData.imageUrl ?? '',
+                            ),
+                  child: (notificationModel.notificationData.imageUrl == null ||
+                          (notificationModel
+                                  .notificationData.imageUrl?.isEmpty ??
+                              false))
+                      ? FaIcon(
+                          FontAwesomeIcons.user,
+                          size: 20.h,
+                        )
+                      : null,
                 ),
               ),
             ),

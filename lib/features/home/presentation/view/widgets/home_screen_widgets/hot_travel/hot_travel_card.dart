@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fun_adventure/cores/models/hot_travels_model/hot_travels_model.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/hot_travel/hot_travel_screen/hot_travel_screen.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/hot_travel/travel_item.dart';
+
+import '../../../../../data/models/hot_travels_model/hot_travels_model.dart';
 
 class TravelsCard extends StatefulWidget {
   final HotTravelModel hotTravelModel;

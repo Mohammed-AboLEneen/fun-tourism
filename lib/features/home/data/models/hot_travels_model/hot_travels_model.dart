@@ -1,4 +1,4 @@
-import 'package:fun_adventure/cores/models/hot_travels_model/travel_brief_model.dart';
+import 'package:fun_adventure/features/home/data/models/hot_travels_model/travel_brief_model.dart';
 
 class HotTravelModel {
   TravelBriefModel? travelBriefModel;

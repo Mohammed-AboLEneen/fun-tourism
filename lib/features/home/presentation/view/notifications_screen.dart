@@ -40,6 +40,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 ),
                 Consumer<NotificationListenerProvider>(
                   builder: (_, model, __) {
+                    print(
+                        'this iss  s ${LocatorManager.locator<AppMainScreenCubit>().userNotifications?.length}');
                     return Expanded(
                       child: ListView.separated(
                         itemBuilder: (context, index) {

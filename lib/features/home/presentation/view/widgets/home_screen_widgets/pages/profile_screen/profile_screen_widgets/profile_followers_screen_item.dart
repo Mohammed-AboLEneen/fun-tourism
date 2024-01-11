@@ -2,12 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fun_adventure/cores/models/follower_model/follower_model.dart';
 import 'package:fun_adventure/cores/utils/color_degree.dart';
 import 'package:fun_adventure/cores/utils/screen_dimentions.dart';
 import 'package:fun_adventure/features/home/presentation/view/widgets/home_screen_widgets/pages/profile_screen/profile_screen_widgets/profile_screen_image_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../../../../data/models/follower_model/follower_model.dart';
 import '../../../../custom_textbutton.dart';
 import '../profile_screen.dart';
 
