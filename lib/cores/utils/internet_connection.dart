@@ -15,7 +15,7 @@ class InternetConnectionState {
   Future<void> initConnectivity() async {
     connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
 
-    late ConnectivityResult result;
+    late List<ConnectivityResult> result;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       result = await connectivity.checkConnectivity();
@@ -29,11 +29,13 @@ class InternetConnectionState {
     _updateConnectionStatus(result);
   }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
     String temp = connectionStatus.name;
-    LocatorManager.locator<InternetConnectionState>().connectionStatus = result;
+    LocatorManager.locator<InternetConnectionState>().connectionStatus =
+        result.first;
 
-    if (temp == 'none' && (result.name == 'wifi' || result.name == 'mobile')) {
+    if (temp == 'none' &&
+        (result.first.name == 'wifi' || result.first.name == 'mobile')) {
       showToast(
         msg: 'Refresh ...',
         toastMessageType: ToastMessageType.successMessage,

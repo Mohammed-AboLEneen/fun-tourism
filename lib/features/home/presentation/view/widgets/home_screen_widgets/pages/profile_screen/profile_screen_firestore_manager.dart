@@ -91,7 +91,7 @@ class ProfileScreenFireStore {
     return doc.exists;
   }
 
-  static Future<int> getCurrentUserDataNumber(
+  static Future<int?> getCurrentUserDataNumber(
       {required String id, required String collectionName}) async {
     AggregateQuerySnapshot data = await FirebaseFirestore.instance
         .collection('users')

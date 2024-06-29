@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fun_adventure/cores/methods/download_image.dart';
 import 'package:fun_adventure/cores/methods/toast.dart';
-
 import 'package:fun_adventure/cores/models/user_app_data/user_app_data.dart';
 import 'package:fun_adventure/features/home/presentation/view_model/main_screen_cubit/main_screen_cubit.dart';
 import 'package:provider/provider.dart';
@@ -183,10 +182,10 @@ class HomeScreenCubit extends Cubit<HomeScreenStates> {
           .count()
           .get();
 
-      int notificationsNumber = query.count;
+      int? notificationsNumber = query.count;
       if (!context.mounted) return;
       Provider.of<NotificationListenerProvider>(context, listen: false)
-          .setNotificationsNumber(notificationsNumber);
+          .setNotificationsNumber(notificationsNumber!);
     } catch (e) {
       if (kDebugMode) {
         print(e);

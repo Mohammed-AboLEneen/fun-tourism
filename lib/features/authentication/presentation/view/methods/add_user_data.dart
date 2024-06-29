@@ -12,7 +12,7 @@ Future<void> addNewUserInFireStore(
   try {
     AggregateQuerySnapshot data =
         await FirebaseFirestore.instance.collection('users').count().get();
-    int numberOfUsers = data.count;
+    int? numberOfUsers = data.count;
     final now = DateTime.now();
     final formatter = DateFormat('yyyy-MM-dd');
     final formattedDate = formatter.format(now);
@@ -28,7 +28,7 @@ Future<void> addNewUserInFireStore(
       // Stokes and Sons
       'photoURL': '',
       'userTopic': '/topics/user_$uId',
-      'countNumber': '${numberOfUsers + 1}',
+      'countNumber': '${numberOfUsers! + 1}',
       'created in': formattedDate
     });
 

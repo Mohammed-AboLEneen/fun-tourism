@@ -20,7 +20,7 @@ class WaitingScreen extends StatefulWidget {
 class _WaitingScreenState extends State<WaitingScreen> {
   @override
   Widget build(BuildContext context) {
-    final Color color = Colors.indigo.withLightness(.7);
+    final Color color = Colors.white.withLightness(.7);
     return BlocConsumer<AppMainScreenCubit, AppMainScreenStates>(
         builder: (context, state) {
           return Padding(

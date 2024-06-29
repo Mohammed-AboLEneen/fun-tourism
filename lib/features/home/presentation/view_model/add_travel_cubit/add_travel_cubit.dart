@@ -74,7 +74,7 @@ class AddTravelCubit extends Cubit<AddTravelStates> {
     required String price,
     required String description,
   }) async {
-    int travelsCount = await countTravelsNumberInFireStore();
+    int? travelsCount = await countTravelsNumberInFireStore();
 
     FirebaseStorage storage = FirebaseStorage.instance;
     Reference ref = storage.ref().child("travels/$travelsCount}");
@@ -121,7 +121,7 @@ class AddTravelCubit extends Cubit<AddTravelStates> {
     required String description,
   }) async {
     try {
-      int travelsCount = await countTravelsNumberInFireStore();
+      int? travelsCount = await countTravelsNumberInFireStore();
 
       FirebaseStorage storage = FirebaseStorage.instance;
 
@@ -146,7 +146,7 @@ class AddTravelCubit extends Cubit<AddTravelStates> {
     }
   }
 
-  Future<int> countTravelsNumberInFireStore() async {
+  Future<int?> countTravelsNumberInFireStore() async {
     var data =
         await FirebaseFirestore.instance.collection('travels').count().get();
     return data.count;
